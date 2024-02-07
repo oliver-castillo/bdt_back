@@ -23,19 +23,19 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name = "feedbacktalento")
-public class FeedbackTalento implements Serializable {
+@Table(name = "BT_TD_ARCHIVOS")
+public class Archivo implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feedbacktalento_sequence")
-    @SequenceGenerator(name = "feedbacktalento_sequence", sequenceName = "feedbacktalento_sequence", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "archivo_sequence")
+    @SequenceGenerator(name = "archivo_sequence", sequenceName = "archivo_sequence", allocationSize = 100)
     private Long id;
+
+    private String nomArchivo;
+    private String tipoArchivo;
+    private byte[] archivoBytes;
 
     @ManyToOne
     @JoinColumn(name = "idTalento")
     private Talento talento;
-
-    private Integer nroEstrellas;
-
-    private String descripcion;
 
 }

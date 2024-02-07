@@ -28,12 +28,20 @@ public class Master implements Serializable {
     @SequenceGenerator(name = "master_sequence", sequenceName = "master_sequence", allocationSize = 100)
     private Long id;
 
+    private Integer idMaster;
+
     private String descripcion;
 
-    private String uno;
+    private String strUno;
 
-    private String dos;
+    private String strDos;
 
-    private String tres;
+    private String strTres;
+
+    private Integer intUno;
+
+    private Integer intDos;
+
+    private Integer intTres;
 
 }

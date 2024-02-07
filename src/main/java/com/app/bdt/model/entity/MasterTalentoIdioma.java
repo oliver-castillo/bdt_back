@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,15 +23,20 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name = "listausuariodetalle")
-public class ListaUsuarioDetalle implements Serializable {
+@Table(name = "mastertalentoidioma")
+public class MasterTalentoIdioma implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "listausuariodetalle_sequence")
-    @SequenceGenerator(name = "listausuariodetalle_sequence", sequenceName = "listausuariodetalle_sequence", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mastertalentoidioma_sequence")
+    @SequenceGenerator(name = "mastertalentoidioma_sequence", sequenceName = "mastertalentoidioma_sequence", allocationSize = 100)
     private Long id;
 
-    private ListaUsuario noListaUsuario;
-
+    @ManyToOne
+    @JoinColumn(name = "idTalento")
     private Talento talento;
 
+    private Integer idiomaId;
+
+    private Integer nivelId;
+
+    private Integer nroEstrellas;
 }

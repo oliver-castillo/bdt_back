@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -29,7 +31,7 @@ public class ExperienciaEducativa implements Serializable {
     @SequenceGenerator(name = "experienciaeducativa_sequence", sequenceName = "experienciaeducativa_sequence", allocationSize = 100)
     private Long id;
 
-    private String noInstitucionEducativa;
+    private String institucionEducativa;
 
     private String carrera;
 
@@ -39,6 +41,8 @@ public class ExperienciaEducativa implements Serializable {
 
     private LocalDate fechaFin;
 
+    @ManyToOne
+    @JoinColumn(name = "idTalento")
     private Talento talento;
 
 }

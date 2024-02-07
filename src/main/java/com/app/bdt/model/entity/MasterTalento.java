@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -28,7 +30,9 @@ public class MasterTalento implements Serializable {
     @SequenceGenerator(name = "mastertalento_sequence", sequenceName = "mastertalento_sequence", allocationSize = 100)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "idTalento")
     private Talento talento;
 
-    private Master master;
+    private Integer idMT;
 }

@@ -1,13 +1,15 @@
 package com.app.bdt.model.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -34,13 +36,15 @@ public class ListaUsuario implements Serializable {
     @SequenceGenerator(name = "listausuario_sequence", sequenceName = "listausuario_sequence", allocationSize = 100)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
     private Usuario usuario;
 
-    private String noListaUsuario;
+    private String nomListaUsuario;
 
     @Column(name = "date", updatable = false, columnDefinition = "TIMESTAMP")
     @CreationTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDateTime fechaCreacion;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate fechaCreacion;
 
 }

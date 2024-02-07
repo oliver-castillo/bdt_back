@@ -23,19 +23,19 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name = "feedbacktalento")
-public class FeedbackTalento implements Serializable {
+@Table(name = "listausuariodetalle")
+public class ListaUsuarioTalento implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feedbacktalento_sequence")
-    @SequenceGenerator(name = "feedbacktalento_sequence", sequenceName = "feedbacktalento_sequence", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "listausuariodetalle_sequence")
+    @SequenceGenerator(name = "listausuariodetalle_sequence", sequenceName = "listausuariodetalle_sequence", allocationSize = 100)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "idListaUsuario")
+    private ListaUsuario listaUsuario;
 
     @ManyToOne
     @JoinColumn(name = "idTalento")
     private Talento talento;
-
-    private Integer nroEstrellas;
-
-    private String descripcion;
 
 }

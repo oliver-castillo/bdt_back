@@ -34,7 +34,7 @@ public class Usuario implements Serializable {
 
     private String apellidoMaterno;
 
-    private String imagen;
+    private byte[] imagen;
 
     private String username;
 

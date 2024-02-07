@@ -1,7 +1,7 @@
 package com.app.bdt.model.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,7 +40,7 @@ public class Talento implements Serializable {
 
     private String apellidoMaterno;
 
-    private String imagen;
+    private byte[] imagen;
 
     private String descripcion;
 
@@ -50,15 +50,13 @@ public class Talento implements Serializable {
 
     private String nroCelular;
 
-    private String linkedin;
+    private String linkLinkedin;
 
-    private String github;
-
-    private String cv;
+    private String linkGithub;
 
     @Column(name = "date", updatable = false, columnDefinition = "TIMESTAMP")
     @CreationTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDateTime fechaCreacion;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate fechaCreacion;
 
 }

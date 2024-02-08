@@ -2,6 +2,7 @@ package com.app.bdt.model.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,16 +24,19 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name = "mastertalento")
+@Table(name = "BT_TX_MASTER_TALENTO")
 public class MasterTalento implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mastertalento_sequence")
     @SequenceGenerator(name = "mastertalento_sequence", sequenceName = "mastertalento_sequence", allocationSize = 100)
-    private Long id;
+    @Column(name = "ID_MASTER_TALENTO")
+    private Long idMasterTalento;
 
     @ManyToOne
-    @JoinColumn(name = "idTalento")
+    @JoinColumn(name = "ID_TALENTO")
     private Talento talento;
 
-    private Integer idMT;
+    @Column(name = "ID")
+    private Integer id;
 }

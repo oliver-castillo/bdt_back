@@ -29,20 +29,23 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name = "listausuario")
+@Table(name = "BT_TM_LISTA_USUARIO")
 public class ListaUsuario implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "listausuario_sequence")
     @SequenceGenerator(name = "listausuario_sequence", sequenceName = "listausuario_sequence", allocationSize = 100)
+    @Column(name = "ID_LISTA_USUARIO")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "idUsuario")
+    @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
 
+    @Column(name = "NO_LISTA_USUARIO")
     private String nomListaUsuario;
 
-    @Column(name = "date", updatable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "FE_CREACION", updatable = false, columnDefinition = "TIMESTAMP")
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate fechaCreacion;

@@ -3,6 +3,7 @@ package com.app.bdt.model.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,25 +25,32 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name = "experienciaeducativa")
+@Table(name = "BT_TD_EXPERIENCIA_EDUCATIVA")
 public class ExperienciaEducativa implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "experienciaeducativa_sequence")
     @SequenceGenerator(name = "experienciaeducativa_sequence", sequenceName = "experienciaeducativa_sequence", allocationSize = 100)
+    @Column(name = "ID_EXPERIENCIA_EDUCATIVA")
     private Long id;
 
+    @Column(name = "NO_INSTITUCION_EDUCATIVA")
     private String institucionEducativa;
 
+    @Column(name = "NO_CARRERA")
     private String carrera;
 
+    @Column(name = "NO_GRADO")
     private String grado;
 
+    @Column(name = "FE_INICIO")
     private LocalDate fechaInicio;
 
+    @Column(name = "FE_FIN")
     private LocalDate fechaFin;
 
     @ManyToOne
-    @JoinColumn(name = "idTalento")
+    @JoinColumn(name = "ID_TALENTO")
     private Talento talento;
 
 }

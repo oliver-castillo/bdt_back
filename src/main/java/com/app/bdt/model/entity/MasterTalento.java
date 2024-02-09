@@ -31,12 +31,12 @@ public class MasterTalento implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mastertalento_sequence")
     @SequenceGenerator(name = "mastertalento_sequence", sequenceName = "mastertalento_sequence", allocationSize = 100)
     @Column(name = "ID_MASTER_TALENTO")
-    private Long idMasterTalento;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "ID_TALENTO")
     private Talento talento;
 
     @Column(name = "ID")
-    private Integer id;
+    private Integer id2;
 }

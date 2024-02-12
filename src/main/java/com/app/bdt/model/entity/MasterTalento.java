@@ -37,6 +37,9 @@ public class MasterTalento implements Serializable {
     @JoinColumn(name = "ID_TALENTO")
     private Talento talento;
 
+    @Column(name = "ID_MASTER")
+    private Integer idMaster;
+
     @Column(name = "ID")
     private Integer id2;
 }

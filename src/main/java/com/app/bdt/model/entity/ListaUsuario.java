@@ -45,7 +45,7 @@ public class ListaUsuario implements Serializable {
     @Column(name = "NO_LISTA_USUARIO")
     private String nomListaUsuario;
 
-    @Column(name = "FE_CREACION", updatable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "FE_CREACION", updatable = false)
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate fechaCreacion;

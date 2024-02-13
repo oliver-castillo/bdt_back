@@ -27,9 +27,6 @@ public interface IMasterRepository extends JpaRepository<Master, Long> {
      * +
      * "WHERE PAISES.DE_DESCRIPCION = 'PAIS'")
      * List<Pais> getPaisesConCiudades();
-     *
-     * @Procedure(name = "SP_OBTENER_PAISES", outputParameterName = "C_RESULTADO")
-     * List<Object> obtenerPaisesSP();
      */
 
 }

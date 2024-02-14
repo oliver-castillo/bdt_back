@@ -31,7 +31,7 @@ public class StoredProceduresService implements IStoredProceduresService {
               .registerStoredProcedureParameter(1, Object.class, ParameterMode.REF_CURSOR);
       storedProcedure.execute();
       objetos = storedProcedure.getResultList();
-      return storedProcedure.getResultList();
+      return objetos;
     } catch (Exception e) {
       log.warning(e.getMessage());
       return null;

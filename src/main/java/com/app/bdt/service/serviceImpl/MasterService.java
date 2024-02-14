@@ -9,6 +9,7 @@ import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 
+import com.app.bdt.service.IStoredProceduresService;
 import org.springframework.stereotype.Service;
 
 import com.app.bdt.model.response.CiudadResp;
@@ -30,68 +31,18 @@ public class MasterService implements IMasterService {
   private final IMasterRepository masterRepository;
   private final EntityManager entityManager;
 
-  public MasterService(IMasterRepository masterRepository, EntityManager entityManager) {
+  private final IStoredProceduresService storedProceduresService;
+
+  public MasterService(IMasterRepository masterRepository, EntityManager entityManager, IStoredProceduresService storedProceduresService) {
     this.masterRepository = masterRepository;
     this.entityManager = entityManager;
-  }
-
-  @Override
-  public List<Object[]> obtenerObjetos(String nombreStoredProcedure) {
-    try {
-      List<Object[]> objetos = new ArrayList<>();
-      StoredProcedureQuery storedProcedure = entityManager
-              .createStoredProcedureQuery(
-                      nombreStoredProcedure)
-              .registerStoredProcedureParameter(1, Object.class, ParameterMode.REF_CURSOR);
-      storedProcedure.execute();
-      objetos = storedProcedure.getResultList();
-      return objetos;
-    } catch (Exception e) {
-      log.warning(e.getMessage());
-      return null;
-    }
-  }
-
-  @Override
-  public List<PaisResp> obtenerPaises() {
-    try {
-      List<Object[]> objetos = obtenerObjetos("SP_OBTENER_PAISES");
-      List<PaisResp> paises = new ArrayList<>();
-      for (Object[] objeto : objetos) {
-        int id = Integer.parseInt(objeto[0].toString());
-        String pais = (String) objeto[1];
-        String abreviatura = (String) objeto[2];
-        paises.add(new PaisResp(id, pais, abreviatura, obtenerCiudadesPorPais(id)));
-      }
-      return paises;
-    } catch (Exception e) {
-      log.warning(e.getMessage());
-      return null;
-    }
-  }
-
-  @Override
-  public List<CiudadResp> obtenerCiudades() {
-    try {
-      List<Object[]> objetos = obtenerObjetos("SP_OBTENER_CIUDADES");
-      List<CiudadResp> ciudades = new ArrayList<>();
-      for (Object[] objeto : objetos) {
-        int id = Integer.parseInt(objeto[0].toString());
-        String ciudad = (String) objeto[1];
-        int paisId = Integer.parseInt(objeto[2].toString());
-        ciudades.add(new CiudadResp(id, ciudad, paisId));
-      }
-      return ciudades;
-    } catch (Exception e) {
-      log.warning(e.getMessage());
-      return null;
-    }
+    this.storedProceduresService = storedProceduresService;
   }
 
   @Override
   public List<RolResp> obtenerRoles() {
     try {
-      List<Object[]> objetos = obtenerObjetos("SP_OBTENER_ROLES");
+      List<Object[]> objetos = storedProceduresService.obtenerObjetos("SP_OBTENER_ROLES");
       List<RolResp> roles = new ArrayList<>();
       for (Object[] objeto : objetos) {
         int id = Integer.parseInt(objeto[0].toString());
@@ -109,7 +60,7 @@ public class MasterService implements IMasterService {
   @Override
   public List<MonedaResp> obtenerMonedas() {
     try {
-      List<Object[]> objetos = obtenerObjetos("SP_OBTENER_MONEDAS");
+      List<Object[]> objetos = storedProceduresService.obtenerObjetos("SP_OBTENER_MONEDAS");
       List<MonedaResp> monedas = new ArrayList<>();
       for (Object[] objeto : objetos) {
         int id = Integer.parseInt(objeto[0].toString());
@@ -127,7 +78,7 @@ public class MasterService implements IMasterService {
   @Override
   public List<PerfilResp> obtenerPerfiles() {
     try {
-      List<Object[]> objetos = obtenerObjetos("SP_OBTENER_PERFILES");
+      List<Object[]> objetos = storedProceduresService.obtenerObjetos("SP_OBTENER_PERFILES");
       List<PerfilResp> perfiles = new ArrayList<>();
       for (Object[] objeto : objetos) {
         int id = Integer.parseInt(objeto[0].toString());
@@ -145,7 +96,7 @@ public class MasterService implements IMasterService {
   @Override
   public List<IdiomaResp> obtenerIdiomas() {
     try {
-      List<Object[]> objetos = obtenerObjetos("SP_OBTENER_IDIOMAS");
+      List<Object[]> objetos = storedProceduresService.obtenerObjetos("SP_OBTENER_IDIOMAS");
       List<IdiomaResp> idiomas = new ArrayList<>();
       for (Object[] objeto : objetos) {
         int id = Integer.parseInt(objeto[0].toString());
@@ -163,7 +114,7 @@ public class MasterService implements IMasterService {
   @Override
   public List<NivelResp> obtenerNiveles() {
     try {
-      List<Object[]> objetos = obtenerObjetos("SP_OBTENER_NIVELES");
+      List<Object[]> objetos = storedProceduresService.obtenerObjetos("SP_OBTENER_NIVELES");
       List<NivelResp> niveles = new ArrayList<>();
       for (Object[] objeto : objetos) {
         int id = Integer.parseInt(objeto[0].toString());
@@ -175,30 +126,6 @@ public class MasterService implements IMasterService {
       log.warning(e.getMessage());
       return null;
     }
-  }
-
-  public List<CiudadResp> obtenerCiudadesPorPais(int paisId) {
-    List<CiudadResp> ciudades = obtenerCiudades();
-    List<CiudadResp> ciudadesPorPais = new ArrayList<>();
-    for (CiudadResp ciudad : ciudades) {
-      if (paisId == ciudad.getPaisId()) {
-        ciudadesPorPais.add(ciudad);
-      }
-    }
-    return ciudadesPorPais;
-  }
-
-  @Override
-  public PaisResp obtenerPaisPorId(int id) {
-    PaisResp pais = new PaisResp();
-    List<PaisResp> paises = obtenerPaises();
-    System.out.println(paises);
-    for (PaisResp p : paises) {
-      if (p.getId() == id) {
-        pais = p;
-      }
-    }
-    return pais;
   }
 
 }

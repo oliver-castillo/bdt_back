@@ -17,6 +17,4 @@ public class PaisResp {
 
     private String abreviatura;
 
-    private List<CiudadResp> ciudades;
-
 }

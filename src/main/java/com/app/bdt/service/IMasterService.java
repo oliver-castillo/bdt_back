@@ -12,12 +12,6 @@ import com.app.bdt.model.response.RolResp;
 
 public interface IMasterService {
 
-    List<Object[]> obtenerObjetos(String nombreStoredProcedure);
-
-    List<PaisResp> obtenerPaises();
-
-    List<CiudadResp> obtenerCiudades();
-
     List<RolResp> obtenerRoles();
 
     List<MonedaResp> obtenerMonedas();
@@ -27,7 +21,5 @@ public interface IMasterService {
     List<IdiomaResp> obtenerIdiomas();
 
     List<NivelResp> obtenerNiveles();
-
-    PaisResp obtenerPaisPorId(int id);
 
 }

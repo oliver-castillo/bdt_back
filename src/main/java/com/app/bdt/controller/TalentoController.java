@@ -1,11 +1,24 @@
 package com.app.bdt.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.app.bdt.model.entity.Talento;
+import com.app.bdt.service.serviceImpl.TalentoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/talento")
+@CrossOrigin(origins = "http://localhost:4200")
 public class TalentoController {
+
+    @Autowired
+    private TalentoService talentoService;
+
+    @PostMapping("/create")
+    public ResponseEntity<Talento> createTalento(@RequestBody Talento talento) {
+        Talento createdTalento = talentoService.createTalento(talento);
+        return ResponseEntity.ok(createdTalento);
+    }
 
     /*
      * @GetMapping

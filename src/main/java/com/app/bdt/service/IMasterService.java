@@ -28,4 +28,6 @@ public interface IMasterService {
 
     List<NivelResp> obtenerNiveles();
 
+    PaisResp obtenerPaisPorId(int id);
+
 }

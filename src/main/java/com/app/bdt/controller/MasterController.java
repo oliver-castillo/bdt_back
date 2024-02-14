@@ -5,15 +5,13 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.app.bdt.service.IMasterService;
 
 @RestController
 @RequestMapping("")
+@CrossOrigin(origins = "http://localhost:4200")
 public class MasterController {
 
     private final IMasterService masterService;
@@ -51,6 +49,11 @@ public class MasterController {
                 break;
         }
         return new ResponseEntity<>(resultado, HttpStatus.OK);
+    }
+
+    @GetMapping("/paises/{id}")
+    public ResponseEntity<Object> obtenerPaisPorId(@PathVariable int id){
+        return new ResponseEntity<>(masterService.obtenerPaisPorId(id), HttpStatus.OK);
     }
 
 }

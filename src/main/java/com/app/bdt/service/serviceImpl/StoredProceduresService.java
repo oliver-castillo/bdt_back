@@ -1,5 +1,6 @@
 package com.app.bdt.service.serviceImpl;
 
+import com.app.bdt.exceptions.InternalServerError;
 import com.app.bdt.service.IStoredProceduresService;
 import org.springframework.stereotype.Service;
 
@@ -24,17 +25,15 @@ public class StoredProceduresService implements IStoredProceduresService {
   @Override
   public List<Object[]> obtenerObjetos(String nombreStoredProcedure) {
     try {
-      List<Object[]> objetos = new ArrayList<>();
       StoredProcedureQuery storedProcedure = entityManager
               .createStoredProcedureQuery(
                       nombreStoredProcedure)
               .registerStoredProcedureParameter(1, Object.class, ParameterMode.REF_CURSOR);
       storedProcedure.execute();
-      objetos = storedProcedure.getResultList();
+      List<Object[]> objetos = storedProcedure.getResultList();
       return objetos;
     } catch (Exception e) {
-      log.warning(e.getMessage());
-      return null;
+      throw new InternalServerError("Error en el servidor: "+ e.getMessage());
     }
   }
 }

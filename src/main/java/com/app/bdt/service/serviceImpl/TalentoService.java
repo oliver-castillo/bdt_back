@@ -44,10 +44,9 @@ public class TalentoService implements ITalentoService{
 
     @Override
     public synchronized Talento createTalento(Talento talento) {
-        talento.setId(nextId++);
+        //talento.setId(nextId++);
         try {
             StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("INSERT_TALENTO")
-                    .registerStoredProcedureParameter("p_ID_TALENTO", Long.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_NO_NOMBRE", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_AP_APELLIDO_PATERNO", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_AP_APELLIDO_MATERNO", String.class, ParameterMode.IN)
@@ -58,7 +57,7 @@ public class TalentoService implements ITalentoService{
                     .registerStoredProcedureParameter("p_NU_CELULAR", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_DI_LINKDN", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_DI_GITHUB", String.class, ParameterMode.IN)
-                    .setParameter("p_ID_TALENTO", talento.getId())
+                    .registerStoredProcedureParameter("ID_OUT", Long.class, ParameterMode.OUT)
                     .setParameter("p_NO_NOMBRE", talento.getNombre())
                     .setParameter("p_AP_APELLIDO_PATERNO", talento.getApellidoPaterno())
                     .setParameter("p_AP_APELLIDO_MATERNO", talento.getApellidoMaterno())
@@ -71,6 +70,13 @@ public class TalentoService implements ITalentoService{
                     .setParameter("p_DI_GITHUB", talento.getLinkGithub());
 
             storedProcedure.execute();
+
+            // Get the generated ID from the stored procedure
+            Long generatedId = (Long) storedProcedure.getOutputParameterValue("ID_OUT");
+
+            // Set the generated ID to the talento object
+            talento.setId(generatedId);
+
             return talento;
         } catch (Exception e) {
             log.warning(e.getMessage());

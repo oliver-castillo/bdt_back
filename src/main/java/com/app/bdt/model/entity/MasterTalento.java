@@ -35,7 +35,7 @@ public class MasterTalento implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "ID_TALENTO")
-    private Talento talento;
+    private Talent talent;
 
     @Column(name = "ID_MASTER")
     private Integer idMaster;

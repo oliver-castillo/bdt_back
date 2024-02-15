@@ -38,7 +38,7 @@ public class HabilidadBlanda implements Serializable {
      * @ManyToOne
      * 
      * @JoinColumn(name = "ID_TALENTO")
-     * private Talento talento;
+     * private Talent talento;
      */
 
 }

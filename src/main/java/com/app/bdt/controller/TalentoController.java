@@ -1,12 +1,19 @@
 package com.app.bdt.controller;
 
-import com.app.bdt.model.entity.Talento;
-import com.app.bdt.service.serviceImpl.TalentoService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.app.bdt.model.dto.TalentDto;
+import com.app.bdt.model.entity.Talent;
+import com.app.bdt.model.mapper.ITalentMapper;
+import com.app.bdt.service.serviceImpl.TalentoService;
 
 @RestController
 @RequestMapping("/talento")
@@ -16,40 +23,51 @@ public class TalentoController {
     @Autowired
     private TalentoService talentoService;
 
+    @Autowired
+    private ITalentMapper talentMapper;
+
     @GetMapping
-    public ResponseEntity<List<Talento>> getTalentos() {
-        List<Talento> talents = talentoService.getTalentos();
+    public ResponseEntity<List<Talent>> getTalentos() {
+        List<Talent> talents = talentoService.getTalentos();
         return ResponseEntity.ok(talents);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Talento> createTalento(@RequestBody Talento talento) {
-        Talento createdTalento = talentoService.createTalento(talento);
-        return ResponseEntity.ok(createdTalento);
+    /*
+     * @PostMapping("/create")
+     * public ResponseEntity<Talent> createTalento(@RequestBody Talent talent) {
+     * Talent createdTalent = talentoService.createTalento(talent);
+     * return ResponseEntity.ok(createdTalent);
+     * }
+     */
+
+    @GetMapping("/to_talent")
+    public ResponseEntity<Object> testMapper(@RequestBody TalentDto talentDto) {
+        System.out.println(talentMapper.toTalent(talentDto));
+        return ResponseEntity.ok(talentMapper.toTalent(talentDto));
     }
 
     /*
      * @GetMapping
      * public ResponseEntity<Object> base() {
-     * Talento talento = new Talento();
+     * Talent talento = new Talent();
      * talento.setId(1L);
-     * 
+     *
      * HabilidadBlanda habilidadBlanda = new HabilidadBlanda();
-     * 
+     *
      * List<HabilidadBlanda> habilidadesBlandas = new ArrayList();
-     * 
+     *
      * habilidadBlanda.setHabilidad("Puntualidad");
-     * // habilidadBlanda.setTalento(talento);
-     * 
+     * // habilidadBlanda.setTalent(talento);
+     *
      * habilidadesBlandas.add(habilidadBlanda);
-     * 
+     *
      * talento.setHabilidadesBlandas(habilidadesBlandas);
-     * 
+     *
      * List<Object> res = new ArrayList<>();
-     * 
+     *
      * res.add(talento);
      * res.add(habilidadBlanda);
-     * 
+     *
      * return new ResponseEntity<>(habilidadBlanda, HttpStatus.OK);
      * }
      */

@@ -2,15 +2,12 @@ package com.app.bdt.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -31,7 +28,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "BT_TM_TALENTO")
-public class Talento implements Serializable {
+public class Talent implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BET_SEQ_TALENTO")

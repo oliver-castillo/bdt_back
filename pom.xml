@@ -13,7 +13,7 @@
     <artifactId>bdt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>bdt</name>
-    <description>Banco de talentos</description>
+    <description>Banco de talents</description>
 
     <properties>
         <java.version>1.8</java.version>

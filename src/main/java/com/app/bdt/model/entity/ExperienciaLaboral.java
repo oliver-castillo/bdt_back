@@ -48,6 +48,6 @@ public class ExperienciaLaboral implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "ID_TALENTO")
-    private Talento talento;
+    private Talent talent;
 
 }

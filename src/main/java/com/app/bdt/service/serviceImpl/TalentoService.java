@@ -6,7 +6,6 @@ import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 
 import com.app.bdt.model.entity.Talento;
-import com.app.bdt.repository.ITalentoRepository;
 import com.app.bdt.service.ITalentoService;
 import org.springframework.stereotype.Service;
 
@@ -17,25 +16,38 @@ import java.util.logging.Logger;
 @Transactional
 public class TalentoService implements ITalentoService{
 
-    private final ITalentoRepository masterRepository;
     private final EntityManager entityManager;
+
+    private static long nextId = 1;
 
     Logger log = Logger.getLogger(this.getClass().getName());
 
-    public TalentoService(ITalentoRepository talentoRepository, EntityManager entityManager) {
-        this.masterRepository = talentoRepository;
+    public TalentoService(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
     public List<Talento> getTalentos() {
-        return null;
+        try {
+            StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("GET_TALENTOS", Talento.class)
+                    .registerStoredProcedureParameter("p_cursor", void.class, ParameterMode.REF_CURSOR);
+
+            storedProcedure.execute();
+
+            List<Talento> talentos = storedProcedure.getResultList();
+            return talentos;
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+            return null;
+        }
     }
 
     @Override
-    public Talento createTalento(Talento talento) {
+    public synchronized Talento createTalento(Talento talento) {
+        talento.setId(nextId++);
         try {
             StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("INSERT_TALENTO")
+                    .registerStoredProcedureParameter("p_ID_TALENTO", Long.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_NO_NOMBRE", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_AP_APELLIDO_PATERNO", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_AP_APELLIDO_MATERNO", String.class, ParameterMode.IN)
@@ -46,10 +58,11 @@ public class TalentoService implements ITalentoService{
                     .registerStoredProcedureParameter("p_NU_CELULAR", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_DI_LINKDN", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_DI_GITHUB", String.class, ParameterMode.IN)
+                    .setParameter("p_ID_TALENTO", talento.getId())
                     .setParameter("p_NO_NOMBRE", talento.getNombre())
                     .setParameter("p_AP_APELLIDO_PATERNO", talento.getApellidoPaterno())
                     .setParameter("p_AP_APELLIDO_MATERNO", talento.getApellidoMaterno())
-                    .setParameter("p_IM_IMAGEN", talento.getImagen())
+                    .setParameter("p_IM_IMAGEN", talento.getImagen() != null ? talento.getImagen() : new byte[0])
                     .setParameter("p_DE_DESCRIPCION", talento.getDescripcion())
                     .setParameter("p_NU_MONTO_INICIAL", talento.getMontoInicial())
                     .setParameter("p_NU_MONTO_FINAL", talento.getMontoFinal())

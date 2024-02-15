@@ -75,8 +75,8 @@ public class Talento implements Serializable {
     private LocalDate fechaCreacion;
 
     /* Relationship */
-    @OneToMany
+    /*@OneToMany
     @JoinColumn(name = "ID_TALENTO_W")
-    private List<HabilidadBlanda> habilidadesBlandas;
+    private List<HabilidadBlanda> habilidadesBlandas;*/
 
 }

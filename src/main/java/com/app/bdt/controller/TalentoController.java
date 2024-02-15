@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/talento")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -13,6 +15,12 @@ public class TalentoController {
 
     @Autowired
     private TalentoService talentoService;
+
+    @GetMapping
+    public ResponseEntity<List<Talento>> getTalentos() {
+        List<Talento> talents = talentoService.getTalentos();
+        return ResponseEntity.ok(talents);
+    }
 
     @PostMapping("/create")
     public ResponseEntity<Talento> createTalento(@RequestBody Talento talento) {

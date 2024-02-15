@@ -34,8 +34,8 @@ import lombok.ToString;
 public class Talento implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "talento_sequence")
-    @SequenceGenerator(name = "talento_sequence", sequenceName = "talento_sequence", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BET_SEQ_TALENTO")
+    @SequenceGenerator(name = "BET_SEQ_TALENTO", sequenceName = "BET_SEQ_TALENTO", allocationSize = 100)
     @Column(name = "ID_TALENTO")
     private Long id;
 

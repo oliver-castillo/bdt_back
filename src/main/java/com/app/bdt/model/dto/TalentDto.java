@@ -17,37 +17,37 @@ public class TalentDto {
 
     @NotBlank(message = "El nombre es requerido")
     @Length(min = 3, message = "El nombre debe contener más de 3 caracteres")
-    private String nombre;
+    private String name;
 
     @NotBlank(message = "El apellido paterno es requerido")
     @Length(min = 3, message = "El apellido paterno debe contener más de 3 caracteres")
-    private String apellidoPaterno;
+    private String paternalSurname;
 
     @NotBlank(message = "El apellido materno es requerido")
     @Length(min = 3, message = "El apellido materno debe contener más de 3 caracteres")
-    private String apellidoMaterno;
+    private String maternalSurname;
 
     @NotBlank(message = "La imagen es requerida")
-    private String imagen;
+    private String image;
 
     @NotBlank(message = "La descripción es requerida")
     @Length(min = 3, message = "La descripción debe contener más de 3 caracteres.")
-    private String descripcion;
+    private String description;
 
     @NotBlank(message = "El monto inicial es requerido")
-    private Double montoInicial;
+    private Double initialAmount;
 
     @NotBlank(message = "El monto final es requerido")
-    private Double montoFinal;
+    private Double finalAmount;
 
     @NotBlank(message = "El número de celular del talento es requerido")
-    private String nroCelular;
+    private String cellPhoneNumber;
 
     @NotBlank(message = "El link del LinkedIn del talento es requerido")
-    private String linkLinkedin;
+    private String linkedinLink;
 
     @NotBlank(message = "El link de GitHub del talento es requerido")
-    private String linkGithub;
+    private String githubLink;
     /*
      * @NotBlank(message = "The first name is required")
      *

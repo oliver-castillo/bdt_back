@@ -5,20 +5,16 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 
 import com.app.bdt.service.IStoredProceduresService;
 import org.springframework.stereotype.Service;
 
-import com.app.bdt.model.response.CiudadResp;
-import com.app.bdt.model.response.IdiomaResp;
-import com.app.bdt.model.response.MonedaResp;
-import com.app.bdt.model.response.NivelResp;
-import com.app.bdt.model.response.PaisResp;
-import com.app.bdt.model.response.PerfilResp;
-import com.app.bdt.model.response.RolResp;
+import com.app.bdt.model.response.LanguageResponse;
+import com.app.bdt.model.response.CurrencyResponse;
+import com.app.bdt.model.response.LevelResponse;
+import com.app.bdt.model.response.ProfileResponse;
+import com.app.bdt.model.response.RoleResponse;
 import com.app.bdt.repository.IMasterRepository;
 import com.app.bdt.service.IMasterService;
 
@@ -40,15 +36,15 @@ public class MasterService implements IMasterService {
   }
 
   @Override
-  public List<RolResp> obtenerRoles() {
+  public List<RoleResponse> getRoles() {
     try {
-      List<Object[]> objetos = storedProceduresService.obtenerObjetos("SP_OBTENER_ROLES");
-      List<RolResp> roles = new ArrayList<>();
-      for (Object[] objeto : objetos) {
-        int id = Integer.parseInt(objeto[0].toString());
-        String rol = (String) objeto[1];
-        String abreviatura = (String) objeto[2];
-        roles.add(new RolResp(id, rol, abreviatura));
+      List<Object[]> objects = storedProceduresService.getObjects("SP_OBTENER_ROLES");
+      List<RoleResponse> roles = new ArrayList<>();
+      for (Object[] object : objects) {
+        int id = Integer.parseInt(object[0].toString());
+        String role = (String) object[1];
+        String abbreviation = (String) object[2];
+        roles.add(new RoleResponse(id, role, abbreviation));
       }
       return roles;
     } catch (Exception e) {
@@ -58,17 +54,17 @@ public class MasterService implements IMasterService {
   }
 
   @Override
-  public List<MonedaResp> obtenerMonedas() {
+  public List<CurrencyResponse> getCurrencies() {
     try {
-      List<Object[]> objetos = storedProceduresService.obtenerObjetos("SP_OBTENER_MONEDAS");
-      List<MonedaResp> monedas = new ArrayList<>();
-      for (Object[] objeto : objetos) {
-        int id = Integer.parseInt(objeto[0].toString());
-        String moneda = (String) objeto[1];
-        String abreviatura = (String) objeto[2];
-        monedas.add(new MonedaResp(id, moneda, abreviatura));
+      List<Object[]> objects = storedProceduresService.getObjects("SP_OBTENER_MONEDAS");
+      List<CurrencyResponse> currencies = new ArrayList<>();
+      for (Object[] object : objects) {
+        int id = Integer.parseInt(object[0].toString());
+        String currency = (String) object[1];
+        String abbreviation = (String) object[2];
+        currencies.add(new CurrencyResponse(id, currency, abbreviation));
       }
-      return monedas;
+      return currencies;
     } catch (Exception e) {
       log.warning(e.getMessage());
       return null;
@@ -76,17 +72,17 @@ public class MasterService implements IMasterService {
   }
 
   @Override
-  public List<PerfilResp> obtenerPerfiles() {
+  public List<ProfileResponse> getProfiles() {
     try {
-      List<Object[]> objetos = storedProceduresService.obtenerObjetos("SP_OBTENER_PERFILES");
-      List<PerfilResp> perfiles = new ArrayList<>();
-      for (Object[] objeto : objetos) {
-        int id = Integer.parseInt(objeto[0].toString());
-        String perfil = (String) objeto[1];
-        String abreviatura = (String) objeto[2];
-        perfiles.add(new PerfilResp(id, perfil, abreviatura));
+      List<Object[]> objects = storedProceduresService.getObjects("SP_OBTENER_PERFILES");
+      List<ProfileResponse> profiles = new ArrayList<>();
+      for (Object[] object : objects) {
+        int id = Integer.parseInt(object[0].toString());
+        String profile = (String) object[1];
+        String abbreviation = (String) object[2];
+        profiles.add(new ProfileResponse(id, profile, abbreviation));
       }
-      return perfiles;
+      return profiles;
     } catch (Exception e) {
       log.warning(e.getMessage());
       return null;
@@ -94,17 +90,17 @@ public class MasterService implements IMasterService {
   }
 
   @Override
-  public List<IdiomaResp> obtenerIdiomas() {
+  public List<LanguageResponse> getLanguages() {
     try {
-      List<Object[]> objetos = storedProceduresService.obtenerObjetos("SP_OBTENER_IDIOMAS");
-      List<IdiomaResp> idiomas = new ArrayList<>();
-      for (Object[] objeto : objetos) {
-        int id = Integer.parseInt(objeto[0].toString());
-        String idioma = (String) objeto[1];
-        String abreviatura = (String) objeto[2];
-        idiomas.add(new IdiomaResp(id, idioma, abreviatura));
+      List<Object[]> objects = storedProceduresService.getObjects("SP_OBTENER_IDIOMAS");
+      List<LanguageResponse> languages = new ArrayList<>();
+      for (Object[] object : objects) {
+        int id = Integer.parseInt(object[0].toString());
+        String language = (String) object[1];
+        String abbreviation = (String) object[2];
+        languages.add(new LanguageResponse(id, language, abbreviation));
       }
-      return idiomas;
+      return languages;
     } catch (Exception e) {
       log.warning(e.getMessage());
       return null;
@@ -112,16 +108,16 @@ public class MasterService implements IMasterService {
   }
 
   @Override
-  public List<NivelResp> obtenerNiveles() {
+  public List<LevelResponse> getLevels() {
     try {
-      List<Object[]> objetos = storedProceduresService.obtenerObjetos("SP_OBTENER_NIVELES");
-      List<NivelResp> niveles = new ArrayList<>();
-      for (Object[] objeto : objetos) {
-        int id = Integer.parseInt(objeto[0].toString());
-        String nivel = (String) objeto[1];
-        niveles.add(new NivelResp(id, nivel));
+      List<Object[]> objects = storedProceduresService.getObjects("SP_OBTENER_NIVELES");
+      List<LevelResponse> levels = new ArrayList<>();
+      for (Object[] object : objects) {
+        int id = Integer.parseInt(object[0].toString());
+        String level = (String) object[1];
+        levels.add(new LevelResponse(id, level));
       }
-      return niveles;
+      return levels;
     } catch (Exception e) {
       log.warning(e.getMessage());
       return null;

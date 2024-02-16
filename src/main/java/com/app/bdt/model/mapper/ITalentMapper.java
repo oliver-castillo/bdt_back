@@ -11,15 +11,15 @@ import org.mapstruct.factory.Mappers;
 import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.entity.Talent;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring")
 public interface ITalentMapper {
 
   ITalentMapper INSTANCE = Mappers.getMapper(ITalentMapper.class);
 
-  @Mapping(target = "imagen", source = "imagen", qualifiedByName = "byteArrayToString")
+  @Mapping(target = "image", source = "image", qualifiedByName = "byteArrayToString")
   TalentDto toTalentDto(Talent talent);
 
-  @Mapping(target = "imagen", source = "imagen", qualifiedByName = "stringToByteArray")
+  @Mapping(target = "image", source = "image", qualifiedByName = "stringToByteArray")
   Talent toTalent(TalentDto talentDto);
 
   List<TalentDto> toTalentDtoList(List<Talent> talents);

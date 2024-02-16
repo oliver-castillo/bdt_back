@@ -35,24 +35,24 @@ public class Master implements Serializable {
     private Integer idMaster;
 
     @Column(name = "DE_DESCRIPCION")
-    private String descripcion;
+    private String description;
 
     @Column(name = "STRING_UNO")
-    private String strUno;
+    private String strOne;
 
     @Column(name = "STRING_DOS")
-    private String strDos;
+    private String strTwo;
 
     @Column(name = "STRING_TRES")
-    private String strTres;
+    private String strThree;
 
     @Column(name = "ID_UNO")
-    private Integer intUno;
+    private Integer intOne;
 
     @Column(name = "ID_DOS")
-    private Integer intDos;
+    private Integer intTwo;
 
     @Column(name = "ID_TRES")
-    private Integer intTres;
+    private Integer intThree;
 
 }

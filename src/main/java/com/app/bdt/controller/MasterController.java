@@ -3,7 +3,7 @@ package com.app.bdt.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.app.bdt.service.IPaisesCiudadesService;
+import com.app.bdt.service.ICountriesAndCitiesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,57 +16,57 @@ import com.app.bdt.service.IMasterService;
 public class MasterController {
 
   private final IMasterService masterService;
-  private final IPaisesCiudadesService paisesCiudadesService;
+  private final ICountriesAndCitiesService countriesAndCitiesService;
 
-  public MasterController(IMasterService masterService, IPaisesCiudadesService paisesCiudadesService) {
+  public MasterController(IMasterService masterService, ICountriesAndCitiesService countriesAndCitiesService) {
     this.masterService = masterService;
-    this.paisesCiudadesService = paisesCiudadesService;
+    this.countriesAndCitiesService = countriesAndCitiesService;
   }
 
-  @GetMapping("/{descripcion}")
-  public ResponseEntity<Object> mostrarDatos(@PathVariable(name = "descripcion") String descripcion) {
-    List<?> resultado = new ArrayList<>();
-    switch (descripcion) {
-      case "paises":
-        resultado = paisesCiudadesService.obtenerPaises();
+  @GetMapping("/{description}")
+  public ResponseEntity<Object> showData(@PathVariable(name = "description") String description) {
+    List<?> result = new ArrayList<>();
+    switch (description) {
+      case "countries":
+        result = countriesAndCitiesService.getCountries();
         break;
-      case "ciudades":
-        resultado = paisesCiudadesService.obtenerCiudades();
+      case "cities":
+        result = countriesAndCitiesService.getCities();
         break;
       case "roles":
-        resultado = masterService.obtenerRoles();
+        result = masterService.getRoles();
         break;
-      case "monedas":
-        resultado = masterService.obtenerMonedas();
+      case "currencies":
+        result = masterService.getCurrencies();
         break;
-      case "perfiles":
-        resultado = masterService.obtenerPerfiles();
+      case "profiles":
+        result = masterService.getProfiles();
         break;
-      case "idiomas":
-        resultado = masterService.obtenerIdiomas();
+      case "languages":
+        result = masterService.getLanguages();
         break;
-      case "niveles":
-        resultado = masterService.obtenerNiveles();
+      case "levels":
+        result = masterService.getLevels();
         break;
       default:
         break;
     }
-    return new ResponseEntity<>(resultado, HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @GetMapping("/pais/{id}")
-  public ResponseEntity<Object> obtenerPaisPorId(@PathVariable int id) {
-    return new ResponseEntity<>(paisesCiudadesService.obtenerPaisPorId(id), HttpStatus.OK);
+  public ResponseEntity<Object> getCountryById(@PathVariable int id) {
+    return new ResponseEntity<>(countriesAndCitiesService.getCountryById(id), HttpStatus.OK);
   }
 
   @GetMapping("/ciudad/{id}")
-  public ResponseEntity<Object> obtenerCiudadPorId(@PathVariable int id) {
-    return new ResponseEntity<>(paisesCiudadesService.obtenerCiudadPorId(id), HttpStatus.OK);
+  public ResponseEntity<Object> getCityById(@PathVariable int id) {
+    return new ResponseEntity<>(countriesAndCitiesService.getCityById(id), HttpStatus.OK);
   }
 
   @GetMapping("/pais/{id}/ciudades")
-  public ResponseEntity<Object> obtenerCiudadesPorPais(@PathVariable int id) {
-    return new ResponseEntity<>(paisesCiudadesService.obtenerCiudadesPorPais(id), HttpStatus.OK);
+  public ResponseEntity<Object> getCitiesByCountry(@PathVariable int id) {
+    return new ResponseEntity<>(countriesAndCitiesService.getCitiesByCountry(id), HttpStatus.OK);
   }
 
 }

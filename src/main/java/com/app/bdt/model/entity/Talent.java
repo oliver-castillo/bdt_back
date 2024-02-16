@@ -37,43 +37,43 @@ public class Talent implements Serializable {
     private Long id;
 
     @Column(name = "NO_NOMBRE")
-    private String nombre;
+    private String name;
 
     @Column(name = "AP_APELLIDO_PATERNO")
-    private String apellidoPaterno;
+    private String paternalSurname;
 
     @Column(name = "AP_APELLIDO_MATERNO")
-    private String apellidoMaterno;
+    private String maternalSurname;
 
     @Column(name = "IM_IMAGEN")
-    private byte[] imagen;
+    private byte[] image;
 
     @Column(name = "DE_DESCRIPCION")
-    private String descripcion;
+    private String description;
 
     @Column(name = "NU_MONTO_INICIAL")
-    private Double montoInicial;
+    private Double initialAmount;
 
     @Column(name = "NU_MONTO_FINAL")
-    private Double montoFinal;
+    private Double finalAmount;
 
     @Column(name = "NU_CELULAR")
-    private String nroCelular;
+    private String cellPhoneNumber;
 
     @Column(name = "DI_LINKDN")
-    private String linkLinkedin;
+    private String linkedinLink;
 
     @Column(name = "DI_GITHUB")
-    private String linkGithub;
+    private String githubLink;
 
     @Column(name = "FE_CREACION", updatable = false)
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private LocalDate fechaCreacion;
+    private LocalDate creationDate;
 
     /* Relationship */
     /*@OneToMany
     @JoinColumn(name = "ID_TALENTO_W")
-    private List<HabilidadBlanda> habilidadesBlandas;*/
+    private List<SoftSkill> habilidadesBlandas;*/
 
 }

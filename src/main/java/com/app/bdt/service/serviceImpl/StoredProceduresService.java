@@ -23,11 +23,11 @@ public class StoredProceduresService implements IStoredProceduresService {
   }
 
   @Override
-  public List<Object[]> obtenerObjetos(String nombreStoredProcedure) {
+  public List<Object[]> getObjects(String storedProcedureName) {
     try {
       StoredProcedureQuery storedProcedure = entityManager
               .createStoredProcedureQuery(
-                      nombreStoredProcedure)
+                      storedProcedureName)
               .registerStoredProcedureParameter(1, Object.class, ParameterMode.REF_CURSOR);
       storedProcedure.execute();
       List<Object[]> objetos = storedProcedure.getResultList();

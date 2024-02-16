@@ -1,12 +1,9 @@
 spring:
   datasource:
-    #    url: jdbc:oracle:thin:@bdt.clweios6cmmg.us-east-2.rds.amazonaws.com:1521/bdt
-    #    username: admin
-    #    password: admin123
-    url: jdbc:oracle:thin:@localhost:1521/xe
-    username: user_bdt
-    password: admin
-    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:mysql://bt.clweios6cmmg.us-east-2.rds.amazonaws.com:3306/bt
+    username: admin
+    password: admin1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       #ddl-auto: create-drop

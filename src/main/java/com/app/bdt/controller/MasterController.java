@@ -54,17 +54,17 @@ public class MasterController {
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
-  @GetMapping("/pais/{id}")
+  @GetMapping("/country/{id}")
   public ResponseEntity<Object> getCountryById(@PathVariable int id) {
     return new ResponseEntity<>(countriesAndCitiesService.getCountryById(id), HttpStatus.OK);
   }
 
-  @GetMapping("/ciudad/{id}")
+  @GetMapping("/city/{id}")
   public ResponseEntity<Object> getCityById(@PathVariable int id) {
     return new ResponseEntity<>(countriesAndCitiesService.getCityById(id), HttpStatus.OK);
   }
 
-  @GetMapping("/pais/{id}/ciudades")
+  @GetMapping("/country/{id}/cities")
   public ResponseEntity<Object> getCitiesByCountry(@PathVariable int id) {
     return new ResponseEntity<>(countriesAndCitiesService.getCitiesByCountry(id), HttpStatus.OK);
   }

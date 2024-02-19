@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class LevelResponse {
+public interface ICountryResponse {
 
-    private int id;
+    int getId();
 
-    private String level;
+    String getCountry();
+
+    String getAbbreviation();
+
 }

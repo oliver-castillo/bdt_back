@@ -1,14 +1,12 @@
 package com.app.bdt.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.app.bdt.service.ICountriesAndCitiesService;
+import com.app.bdt.service.IMasterService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.app.bdt.service.IMasterService;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("")
@@ -16,11 +14,9 @@ import com.app.bdt.service.IMasterService;
 public class MasterController {
 
   private final IMasterService masterService;
-  private final ICountriesAndCitiesService countriesAndCitiesService;
 
-  public MasterController(IMasterService masterService, ICountriesAndCitiesService countriesAndCitiesService) {
+  public MasterController(IMasterService masterService) {
     this.masterService = masterService;
-    this.countriesAndCitiesService = countriesAndCitiesService;
   }
 
   @GetMapping("/{description}")
@@ -28,10 +24,10 @@ public class MasterController {
     List<?> result = new ArrayList<>();
     switch (description) {
       case "countries":
-        result = countriesAndCitiesService.getCountries();
+        result = masterService.getCountries();
         break;
       case "cities":
-        result = countriesAndCitiesService.getCities();
+        result = masterService.getCities();
         break;
       case "roles":
         result = masterService.getRoles();
@@ -54,19 +50,9 @@ public class MasterController {
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
-  @GetMapping("/country/{id}")
-  public ResponseEntity<Object> getCountryById(@PathVariable int id) {
-    return new ResponseEntity<>(countriesAndCitiesService.getCountryById(id), HttpStatus.OK);
-  }
-
-  @GetMapping("/city/{id}")
-  public ResponseEntity<Object> getCityById(@PathVariable int id) {
-    return new ResponseEntity<>(countriesAndCitiesService.getCityById(id), HttpStatus.OK);
-  }
-
   @GetMapping("/country/{id}/cities")
   public ResponseEntity<Object> getCitiesByCountry(@PathVariable int id) {
-    return new ResponseEntity<>(countriesAndCitiesService.getCitiesByCountry(id), HttpStatus.OK);
+    return new ResponseEntity<>(masterService.getCitiesByCountry(id), HttpStatus.OK);
   }
 
 }

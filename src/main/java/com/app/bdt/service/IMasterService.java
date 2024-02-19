@@ -1,23 +1,25 @@
 package com.app.bdt.service;
 
-import java.util.List;
+import com.app.bdt.model.response.*;
 
-import com.app.bdt.model.response.LanguageResponse;
-import com.app.bdt.model.response.CurrencyResponse;
-import com.app.bdt.model.response.LevelResponse;
-import com.app.bdt.model.response.ProfileResponse;
-import com.app.bdt.model.response.RoleResponse;
+import java.util.List;
 
 public interface IMasterService {
 
-    List<RoleResponse> getRoles();
+  List<IRoleResponse> getRoles();
 
-    List<CurrencyResponse> getCurrencies();
+  List<ICurrencyResponse> getCurrencies();
 
-    List<ProfileResponse> getProfiles();
+  List<IProfileResponse> getProfiles();
 
-    List<LanguageResponse> getLanguages();
+  List<ILanguageResponse> getLanguages();
 
-    List<LevelResponse> getLevels();
+  List<ILevelResponse> getLevels();
+
+  List<ICountryResponse> getCountries();
+
+  List<ICityResponse> getCities();
+
+  List<ICityResponse> getCitiesByCountry(int countryId);
 
 }

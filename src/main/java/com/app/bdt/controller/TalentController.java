@@ -4,11 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.entity.Talent;
@@ -27,18 +23,16 @@ public class TalentController {
     private ITalentMapper talentMapper;
 
     @GetMapping
-    public ResponseEntity<List<Talent>> getTalentos() {
-        List<Talent> talents = talentService.getTalents();
+    public ResponseEntity<List<TalentDto>> getTalentos() {
+        List<TalentDto> talents = talentService.getTalents();
         return ResponseEntity.ok(talents);
     }
 
-    /*
-     * @PostMapping("/create")
-     * public ResponseEntity<Talent> createTalento(@RequestBody Talent talent) {
-     * Talent createdTalent = talentoService.createTalento(talent);
-     * return ResponseEntity.ok(createdTalent);
-     * }
-     */
+    @PostMapping("/create")
+    public ResponseEntity<TalentDto> createTalento(@RequestBody TalentDto talentDto) {
+      TalentDto createdTalent = talentService.createTalent(talentDto);
+      return ResponseEntity.ok(createdTalent);
+      }
 
     @GetMapping("/to_talent")
     public ResponseEntity<Object> testMapper(@RequestBody TalentDto talentDto) {

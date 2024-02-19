@@ -1,5 +1,8 @@
 package com.app.bdt.service.serviceImpl;
 
+
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -33,15 +36,40 @@ public class TalentService implements ITalentService {
     }
 
     @Override
-    public List<Talent> getTalents() {
+    public List<TalentDto> getTalents() {
         try {
             StoredProcedureQuery storedProcedure = entityManager
-                    .createStoredProcedureQuery("GET_TALENTOS", Talent.class)
-                    .registerStoredProcedureParameter("p_cursor", void.class, ParameterMode.REF_CURSOR);
+                    .createStoredProcedureQuery("GET_TALENTOS");
 
             storedProcedure.execute();
 
-            List<Talent> talents = storedProcedure.getResultList();
+            List<Object[]> results = storedProcedure.getResultList();
+            List<TalentDto> talents = new ArrayList<>();
+
+            for (Object[] result : results) {
+                Talent talent = new Talent();
+                talent.setId(((Integer) result[0]).longValue());
+                talent.setName((String) result[1]);
+                talent.setPaternalSurname((String) result[2]);
+                talent.setMaternalSurname((String) result[3]);
+                talent.setImage((byte[]) result[4]);
+                talent.setDescription((String) result[5]);
+                talent.setInitialAmount(((Integer) result[6]).doubleValue());
+                talent.setFinalAmount(((Integer) result[7]).doubleValue());
+                talent.setCellPhoneNumber((String) result[8]);
+                talent.setLinkedinLink((String) result[9]);
+                talent.setGithubLink((String) result[10]);
+
+                // Convierte el array de bytes de la imagen a una cadena en base64
+                String base64Image = Base64.getEncoder().encodeToString(talent.getImage());
+
+                // Crea un nuevo objeto TalentDto y establece sus propiedades
+                TalentDto talentDto = talentMapper.toTalentDto(talent);
+                talentDto.setImage(base64Image);
+
+                talents.add(talentDto);
+            }
+
             return talents;
         } catch (Exception e) {
             log.warning(e.getMessage());
@@ -50,8 +78,15 @@ public class TalentService implements ITalentService {
     }
 
     @Override
-    public synchronized TalentDto createTalent(TalentDto talentDto) {
+    public TalentDto createTalent(TalentDto talentDto) {
+        // Elimina el prefijo de la cadena de la imagen
+        String base64Image = talentDto.getImage().split(",")[1];
+        // Convierte la cadena base64 en un array de bytes
+        byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+
         Talent talent = talentMapper.toTalent(talentDto);
+        // Establece la imagen
+        talent.setImage(imageBytes);
         try {
             StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("INSERT_TALENTO")
                     .registerStoredProcedureParameter("p_NO_NOMBRE", String.class, ParameterMode.IN)
@@ -78,10 +113,7 @@ public class TalentService implements ITalentService {
 
             storedProcedure.execute();
 
-            // Get the generated ID from the stored procedure
             Long generatedId = (Long) storedProcedure.getOutputParameterValue("ID_OUT");
-
-            // Set the generated ID to the talent object
             talent.setId(generatedId);
 
             return talentMapper.toTalentDto(talent);

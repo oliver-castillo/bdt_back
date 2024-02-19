@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class TalentDto {
 
-    @NotBlank
+
     private Long id;
 
     @NotBlank(message = "El nombre es requerido")

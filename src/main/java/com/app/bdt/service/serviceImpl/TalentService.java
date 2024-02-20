@@ -79,9 +79,10 @@ public class TalentService implements ITalentService {
 
     @Override
     public TalentDto createTalent(TalentDto talentDto) {
-        // Elimina el prefijo de la cadena de la imagen
-        String base64Image = talentDto.getImage().split(",")[1];
-        // Convierte la cadena base64 en un array de bytes
+        String base64Image = talentDto.getImage();
+        if (base64Image.contains(",")) {
+            base64Image = base64Image.split(",")[1];
+        }
         byte[] imageBytes = Base64.getDecoder().decode(base64Image);
 
         Talent talent = talentMapper.toTalent(talentDto);

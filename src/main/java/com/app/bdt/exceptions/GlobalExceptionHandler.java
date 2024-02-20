@@ -1,11 +1,18 @@
 package com.app.bdt.exceptions;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -13,10 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice(annotations = RestController.class)
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   private final HttpServletRequest request;
-  private Map<String, String> errores = new HashMap<>();
+  private final Map<String, String> fieldsErrorsMap = new HashMap<>();
 
   public GlobalExceptionHandler(HttpServletRequest request) {
     this.request = request;
@@ -38,6 +45,18 @@ public class GlobalExceptionHandler {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseEntity<Object> internalServerErrorExceptionHandler(Exception ex, HttpServletRequest request) {
     return handleException(ex, request, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @Override
+  @Nullable
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    BindingResult bindingResult = ex.getBindingResult();
+    for (FieldError fieldError : bindingResult.getFieldErrors()) {
+      String fieldName = fieldError.getField();
+      String errorMessage = fieldError.getDefaultMessage();
+      fieldsErrorsMap.put(fieldName, errorMessage);
+    }
+    return new ResponseEntity<>(fieldsErrorsMap, HttpStatus.BAD_REQUEST);
   }
 
   private ResponseEntity<Object> handleException(Exception ex, HttpServletRequest request, HttpStatus status) {

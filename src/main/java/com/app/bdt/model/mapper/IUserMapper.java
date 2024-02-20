@@ -1,26 +1,23 @@
 package com.app.bdt.model.mapper;
 
-import com.app.bdt.model.dto.TalentDto;
-import com.app.bdt.model.entity.Talent;
+import com.app.bdt.model.dto.UserDto;
+import com.app.bdt.model.entity.User;
+import com.app.bdt.model.request.UserRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
-public interface ITalentMapper {
+public interface IUserMapper {
 
-  ITalentMapper INSTANCE = Mappers.getMapper(ITalentMapper.class);
+  IUserMapper INSTANCE = Mappers.getMapper(IUserMapper.class);
 
   @Mapping(target = "image", source = "image", qualifiedByName = "byteArrayToString")
-  TalentDto toTalentDto(Talent talent);
+  UserDto toUserDto(User user);
 
   @Mapping(target = "image", source = "image", qualifiedByName = "stringToByteArray")
-  Talent toTalent(TalentDto talentDto);
-
-  List<TalentDto> toTalentDtoList(List<Talent> talents);
+  User toUser(UserRequest userRequest);
 
   @Named("byteArrayToString")
   default String byteArrayToString(byte[] byteArray) {

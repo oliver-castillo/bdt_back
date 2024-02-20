@@ -39,6 +39,7 @@ public class Talent implements Serializable {
     @Column(name = "AP_APELLIDO_MATERNO")
     private String maternalSurname;
 
+    @Lob
     @Column(name = "IM_IMAGEN")
     private byte[] image;
 
@@ -72,5 +73,13 @@ public class Talent implements Serializable {
     @OneToMany()
     @JoinColumn(name = "ID_TALENTO")
     private List<TechnicalSkills> technicalSkillList;
+
+    @OneToMany()
+    @JoinColumn(name = "ID_TALENTO")
+    private List<EducationalExperience> educationalExperienceList;
+
+    @OneToMany()
+    @JoinColumn(name = "ID_TALENTO")
+    private List<WorkExperience> workExperienceList;
 
 }

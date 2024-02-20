@@ -24,7 +24,6 @@ public class SoftSkillService implements ISoftSkillService {
         StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("SP_INSERT_SOFTSKILL")
                 .registerStoredProcedureParameter("p_ID_TALENTO", Long.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("p_NO_HABILIDAD", String.class, ParameterMode.IN)
-                .registerStoredProcedureParameter("ID_OUT", Long.class, ParameterMode.OUT)
                 .setParameter("p_ID_TALENTO", talentId)
                 .setParameter("p_NO_HABILIDAD", skill);
         storedProcedure.execute();

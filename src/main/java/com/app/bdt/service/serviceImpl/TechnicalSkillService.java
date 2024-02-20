@@ -23,7 +23,6 @@ public class TechnicalSkillService implements ITechnicalSkillService {
                 .registerStoredProcedureParameter("p_ID_TALENTO", Long.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("p_NO_HABILIDAD", String.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("p_NU_ANIOS", Integer.class, ParameterMode.IN)
-                .registerStoredProcedureParameter("ID_OUT", Long.class, ParameterMode.OUT)
                 .setParameter("p_ID_TALENTO", talentId)
                 .setParameter("p_NO_HABILIDAD", skill)
                 .setParameter("p_NU_ANIOS", years);

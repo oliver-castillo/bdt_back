@@ -11,13 +11,11 @@ import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 
-import com.app.bdt.model.dto.SoftSkillDto;
-import com.app.bdt.model.dto.TechnicallSkillDto;
+import com.app.bdt.model.dto.*;
 import com.app.bdt.model.entity.SoftSkill;
 import com.app.bdt.model.entity.TechnicalSkills;
 import org.springframework.stereotype.Service;
 
-import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.entity.Talent;
 import com.app.bdt.model.mapper.ITalentMapper;
 import com.app.bdt.service.ITalentService;
@@ -34,20 +32,31 @@ public class TalentService implements ITalentService {
     private final TechnicalSkillService technicalSkillService;
     private final SoftSkillService softSkillService;
 
+    private final WorkExperienceService workExperienceService;
+    private final EducationalExperienceService educationalExperienceService;
+
     Logger log = Logger.getLogger(this.getClass().getName());
 
-    public TalentService(EntityManager entityManager, ITalentMapper talentMapper, TechnicalSkillService technicalSkillService, SoftSkillService softSkillService) {
+    public TalentService(EntityManager entityManager,
+                         ITalentMapper talentMapper,
+                         TechnicalSkillService technicalSkillService,
+                         SoftSkillService softSkillService,
+                         WorkExperienceService workExperienceService,
+                         EducationalExperienceService educationalExperienceService
+    ) {
         this.entityManager = entityManager;
         this.talentMapper = talentMapper;
         this.technicalSkillService = technicalSkillService;
         this.softSkillService = softSkillService;
+        this.workExperienceService = workExperienceService;
+        this.educationalExperienceService = educationalExperienceService;
     }
 
     @Override
     public List<TalentDto> getTalents() {
         try {
             StoredProcedureQuery storedProcedure = entityManager
-                    .createStoredProcedureQuery("GET_TALENTOS");
+                    .createStoredProcedureQuery("SP_GET_TALENTOS");
 
             storedProcedure.execute();
 
@@ -97,7 +106,7 @@ public class TalentService implements ITalentService {
         // Establece la imagen
         talent.setImage(imageBytes);
         try {
-            StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("INSERT_TALENTO")
+            StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("SP_INSERT_TALENT")
                     .registerStoredProcedureParameter("p_NO_NOMBRE", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_AP_APELLIDO_PATERNO", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("p_AP_APELLIDO_MATERNO", String.class, ParameterMode.IN)
@@ -133,6 +142,14 @@ public class TalentService implements ITalentService {
             // Inserta las habilidades técnicas
             for (TechnicallSkillDto technicalSkillDto : talentDto.getTechnicalSkillList()) {
                 technicalSkillService.createTechnicalSkill(talent.getId(), technicalSkillDto.getSkill(), technicalSkillDto.getYears());
+            }
+
+            for (WorkExperienceDto workExperienceDto : talentDto.getWorkExperienceList()) {
+                workExperienceService.createWorkExperience(talent.getId(), workExperienceDto.getCompanyName(), workExperienceDto.getPosition(), workExperienceDto.getStartDate(), workExperienceDto.getEndDate());
+            }
+
+            for (EducationalExperienceDto educationalExperienceDto : talentDto.getEducationalExperienceList()) {
+                educationalExperienceService.createEducationalExperience(talent.getId(), educationalExperienceDto.getEducationalInstitute(), educationalExperienceDto.getCareer(), educationalExperienceDto.getDegree(), educationalExperienceDto.getStartDate(), educationalExperienceDto.getEndDate());
             }
 
             return talentMapper.toTalentDto(talent);

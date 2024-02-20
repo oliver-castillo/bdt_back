@@ -33,8 +33,7 @@ import lombok.ToString;
 public class UserList implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "listausuario_sequence")
-    @SequenceGenerator(name = "listausuario_sequence", sequenceName = "listausuario_sequence", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_LISTA_USUARIO")
     private Long id;
 

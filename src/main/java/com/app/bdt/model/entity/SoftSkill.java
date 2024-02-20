@@ -2,13 +2,7 @@ package com.app.bdt.model.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,19 +20,15 @@ import lombok.ToString;
 public class SoftSkill implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "habilidadblanda_sequence")
-    @SequenceGenerator(name = "habilidadblanda_sequence", sequenceName = "habilidadblanda_sequence", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_HABILIDAD_BLANDA")
     private Long id;
 
     @Column(name = "NO_HABILIDAD")
     private String skill;
 
-    /*
-     * @ManyToOne
-     * 
-     * @JoinColumn(name = "ID_TALENTO")
-     * private Talent talento;
-     */
+    /*@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_TALENTO")
+    private Talent talent;*/
 
 }

@@ -11,6 +11,10 @@ import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 
+import com.app.bdt.model.dto.SoftSkillDto;
+import com.app.bdt.model.dto.TechnicallSkillDto;
+import com.app.bdt.model.entity.SoftSkill;
+import com.app.bdt.model.entity.TechnicalSkills;
 import org.springframework.stereotype.Service;
 
 import com.app.bdt.model.dto.TalentDto;
@@ -27,12 +31,16 @@ public class TalentService implements ITalentService {
     private final EntityManager entityManager;
 
     private final ITalentMapper talentMapper;
+    private final TechnicalSkillService technicalSkillService;
+    private final SoftSkillService softSkillService;
 
     Logger log = Logger.getLogger(this.getClass().getName());
 
-    public TalentService(EntityManager entityManager, ITalentMapper talentMapper) {
+    public TalentService(EntityManager entityManager, ITalentMapper talentMapper, TechnicalSkillService technicalSkillService, SoftSkillService softSkillService) {
         this.entityManager = entityManager;
         this.talentMapper = talentMapper;
+        this.technicalSkillService = technicalSkillService;
+        this.softSkillService = softSkillService;
     }
 
     @Override
@@ -116,6 +124,16 @@ public class TalentService implements ITalentService {
 
             Long generatedId = (Long) storedProcedure.getOutputParameterValue("ID_OUT");
             talent.setId(generatedId);
+
+            // Inserta las habilidades blandas
+            for (SoftSkillDto softSkillDto : talentDto.getSoftSkillList()) {
+                softSkillService.createSoftSkill(talent.getId(), softSkillDto.getSkill());
+            }
+
+            // Inserta las habilidades técnicas
+            for (TechnicallSkillDto technicalSkillDto : talentDto.getTechnicalSkillList()) {
+                technicalSkillService.createTechnicalSkill(talent.getId(), technicalSkillDto.getSkill(), technicalSkillDto.getYears());
+            }
 
             return talentMapper.toTalentDto(talent);
         } catch (Exception e) {

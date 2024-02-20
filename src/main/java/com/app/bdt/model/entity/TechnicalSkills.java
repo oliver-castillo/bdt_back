@@ -28,17 +28,12 @@ import lombok.ToString;
 public class TechnicalSkills implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "habilidadtecnica_sequence")
-    @SequenceGenerator(name = "habilidadtecnica_sequence", sequenceName = "habilidadtecnica_sequence", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_HABILIDAD_TECNICA")
     private Long id;
 
     @Column(name = "NO_HABILIDAD")
     private String skill;
-
-    @ManyToOne
-    @JoinColumn(name = "ID_TALENTO")
-    private Talent talent;
 
     @Column(name = "NU_ANIOS")
     private Integer years;

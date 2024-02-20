@@ -28,6 +28,4 @@ public class UserController {
     userService.createUser(userRequest);
     return new ResponseEntity<>(HttpStatus.OK);
   }
-
-
 }

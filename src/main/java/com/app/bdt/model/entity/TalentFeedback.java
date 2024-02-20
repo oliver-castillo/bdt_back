@@ -28,8 +28,7 @@ import lombok.ToString;
 public class TalentFeedback implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feedbacktalento_sequence")
-    @SequenceGenerator(name = "feedbacktalento_sequence", sequenceName = "feedbacktalento_sequence", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_FEEDBACK")
     private Long id;
 

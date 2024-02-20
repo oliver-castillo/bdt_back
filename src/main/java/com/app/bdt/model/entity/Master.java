@@ -26,8 +26,7 @@ import lombok.ToString;
 public class Master implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "master_sequence")
-    @SequenceGenerator(name = "master_sequence", sequenceName = "master_sequence", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 

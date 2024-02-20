@@ -29,8 +29,7 @@ import lombok.ToString;
 public class WorkExperience implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "experiencialaboral_sequence")
-    @SequenceGenerator(name = "experiencialaboral_sequence", sequenceName = "experiencialaboral_sequence", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_EXPERIENCIA_LABORAL")
     private Long id;
 

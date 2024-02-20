@@ -2,14 +2,9 @@ package com.app.bdt.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -70,9 +65,12 @@ public class Talent implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate creationDate;
 
-    /* Relationship */
-    /*@OneToMany
-    @JoinColumn(name = "ID_TALENTO_W")
-    private List<SoftSkill> habilidadesBlandas;*/
+    @OneToMany()
+    @JoinColumn(name = "ID_TALENTO")
+    private List<SoftSkill> softSkillList;
+
+    @OneToMany()
+    @JoinColumn(name = "ID_TALENTO")
+    private List<TechnicalSkills> technicalSkillList;
 
 }

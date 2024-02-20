@@ -28,8 +28,7 @@ import lombok.ToString;
 public class File implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "archivo_sequence")
-    @SequenceGenerator(name = "archivo_sequence", sequenceName = "archivo_sequence", allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_ARCHIVO")
     private Long id;
 

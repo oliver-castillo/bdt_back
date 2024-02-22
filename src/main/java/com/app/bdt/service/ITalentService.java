@@ -1,12 +1,13 @@
 package com.app.bdt.service;
 
+import com.app.bdt.model.dto.TalentDto;
+import com.app.bdt.model.request.TalentRequest;
+
 import java.util.List;
 
-import com.app.bdt.model.dto.TalentDto;
-import com.app.bdt.model.entity.Talent;
-
 public interface ITalentService {
-    List<TalentDto> getTalents();
+  List<TalentDto> getTalents();
 
-    TalentDto createTalent(TalentDto talent);
+  TalentDto createTalent(TalentRequest talentRequest);
+
 }

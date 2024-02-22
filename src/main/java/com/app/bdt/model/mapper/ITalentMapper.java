@@ -1,7 +1,8 @@
 package com.app.bdt.model.mapper;
 
-import com.app.bdt.model.dto.*;
-import com.app.bdt.model.entity.*;
+import com.app.bdt.model.dto.TalentDto;
+import com.app.bdt.model.entity.Talent;
+import com.app.bdt.model.request.TalentRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -14,36 +15,21 @@ public interface ITalentMapper {
 
   ITalentMapper INSTANCE = Mappers.getMapper(ITalentMapper.class);
 
-  @Mapping(target = "image", source = "image", qualifiedByName = "byteArrayToString")
-  @Mapping(target = "softSkillList", source = "softSkillList")
+  /* @Mapping(target = "softSkillList", source = "softSkillList")
   @Mapping(target = "technicalSkillList", source = "technicalSkillList")
   @Mapping(target = "workExperienceList", source = "workExperienceList")
-  @Mapping(target = "educationalExperienceList", source = "educationalExperienceList")
+  @Mapping(target = "educationalExperienceList", source = "educationalExperienceList")*/
+  @Mapping(target = "image", source = "image", qualifiedByName = "stringToByteArray")
+  Talent toTalent(TalentRequest TalentRequest);
+
+  /* @Mapping(target = "softSkillList", source = "softSkillList")
+  @Mapping(target = "technicalSkillList", source = "technicalSkillList")
+  @Mapping(target = "workExperienceList", source = "workExperienceList")
+  @Mapping(target = "educationalExperienceList", source = "educationalExperienceList")*/
+  @Mapping(target = "image", source = "image", qualifiedByName = "byteArrayToString")
   TalentDto toTalentDto(Talent talent);
 
-  @Mapping(target = "image", source = "image", qualifiedByName = "stringToByteArray")
-  @Mapping(target = "softSkillList", source = "softSkillList")
-  @Mapping(target = "technicalSkillList", source = "technicalSkillList")
-  @Mapping(target = "workExperienceList", source = "workExperienceList")
-  @Mapping(target = "educationalExperienceList", source = "educationalExperienceList")
-  Talent toTalent(TalentDto talentDto);
-
   List<TalentDto> toTalentDtoList(List<Talent> talents);
-  SoftSkillDto toSoftSkillDto(SoftSkill softSkill);
-
-  SoftSkill toSoftSkill(SoftSkillDto softSkillDto);
-
-  TechnicallSkillDto toTechnicalSkillDto(TechnicalSkills technicalSkill);
-
-  TechnicalSkills toTechnicalSkill(TechnicallSkillDto technicalSkillDto);
-
-  EducationalExperienceDto toEducationalExperienceDto(EducationalExperience educationalExperience);
-
-  EducationalExperience toEducationalExperience(EducationalExperienceDto educationalExperienceDto);
-
-  WorkExperienceDto toWorkExperienceDto(WorkExperience workExperience);
-  
-  WorkExperience toWorkExperience(WorkExperienceDto workExperienceDto);
 
   @Named("byteArrayToString")
   default String byteArrayToString(byte[] byteArray) {
@@ -51,7 +37,9 @@ public interface ITalentMapper {
   }
 
   @Named("stringToByteArray")
-  default byte[] stringToByteArray(String string) {
-    return string != null ? string.getBytes() : null;
+  default byte[] stringToByteArray(String image) {
+    image = image.contains(",") ? image.split(",")[1] : image;
+    return image != null ? image.getBytes() : null;
   }
+
 }

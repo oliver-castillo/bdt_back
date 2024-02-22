@@ -1,5 +1,6 @@
 package com.app.bdt.model.entity;
 
+import com.app.bdt.model.dto.Languages;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -61,18 +62,22 @@ public class Talent implements Serializable {
 
   @OneToMany()
   @JoinColumn(name = "ID_TALENTO")
-  private List<SoftSkill> softSkillList;
+  private List<SoftSkill> softSkillsList;
 
   @OneToMany()
   @JoinColumn(name = "ID_TALENTO")
-  private List<TechnicalSkill> technicalSkillList;
+  private List<TechnicalSkill> technicalSkillsList;
 
   @OneToMany()
   @JoinColumn(name = "ID_TALENTO")
-  private List<EducationalExperience> educationalExperienceList;
+  private List<EducationalExperience> educationalExperiencesList;
 
   @OneToMany()
   @JoinColumn(name = "ID_TALENTO")
-  private List<WorkExperience> workExperienceList;
+  private List<WorkExperience> workExperiencesList;
+
+  @Transient
+  private List<Languages> languagesList;
+
 
 }

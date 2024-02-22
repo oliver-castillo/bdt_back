@@ -33,11 +33,11 @@ public class TalentDto {
 
   private String githubLink;
 
-  private List<SoftSkillDto> softSkillList;
+  private List<SoftSkillDto> softSkillsList;
 
-  private List<TechnicallSkillDto> technicalSkillList;
+  private List<TechnicallSkillDto> technicalSkillsList;
 
-  private List<WorkExperienceDto> workExperienceList;
+  private List<WorkExperienceDto> workExperiencesList;
 
-  private List<EducationalExperienceDto> educationalExperienceList;
+  private List<EducationalExperienceDto> educationalExperiencesList;
 }

@@ -48,9 +48,9 @@ public class TalentRequest {
   private String githubLink;
 
   @NotBlank
-  private List<SoftSkillRequest> softSkillList;
-  private List<TechnicalSkillRequest> technicalSkillList;
+  private List<SoftSkillRequest> softSkillsList;
+  private List<TechnicalSkillRequest> technicalSkillsList;
 
-  private List<WorkExperienceRequest> workExperienceList;
-  private List<EducationalExperienceRequest> educationalExperienceList;
+  private List<WorkExperienceRequest> workExperiencesList;
+  private List<EducationalExperienceRequest> educationalExperiencesList;
 }

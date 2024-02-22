@@ -53,23 +53,26 @@ public class TalentService implements ITalentService {
       talentRepository.createTalent(talentMapper.toTalent(talentRequest));
       Talent createdTalent = talentRepository.getLastInsertedTalent();
       saveSkillsAndExperiences(talent, createdTalent.getId());
+      System.out.println("TALENT: " + talent);
+      System.out.println("LAST TALENT: " + createdTalent);
       return talentMapper.toTalentDto(createdTalent);
     } catch (RuntimeException e) {
+      log.warning("HERE = " + e.getMessage());
       throw new InternalServerError(e.getMessage());
     }
   }
 
   private void saveSkillsAndExperiences(Talent talent, Long talentId) {
-    for (TechnicalSkill technicalSkill : talent.getTechnicalSkillList()) {
+    for (TechnicalSkill technicalSkill : talent.getTechnicalSkillsList()) {
       technicalSkillRepository.createTechnicalSkill(talentId, technicalSkill);
     }
-    for (SoftSkill softSkill : talent.getSoftSkillList()) {
+    for (SoftSkill softSkill : talent.getSoftSkillsList()) {
       softSkillRepository.createSoftSkill(talentId, softSkill);
     }
-    for (WorkExperience workExperience : talent.getWorkExperienceList()) {
+    for (WorkExperience workExperience : talent.getWorkExperiencesList()) {
       workExperienceRepository.createWorkExperience(talentId, workExperience);
     }
-    for (EducationalExperience educationalExperience : talent.getEducationalExperienceList()) {
+    for (EducationalExperience educationalExperience : talent.getEducationalExperiencesList()) {
       educationalExperienceRepository.createEducationalExperience(talentId, educationalExperience);
     }
   }

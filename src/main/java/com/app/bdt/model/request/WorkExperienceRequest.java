@@ -15,7 +15,7 @@ public class WorkExperienceRequest {
 
   @NotBlank(message = "El nombre de la empresa es requerido")
   @Length(min = 3, message = "El nombre debe contener más de 3 caracteres")
-  private String companyName;
+  private String company;
 
   @NotBlank(message = "El puesto es requerido")
   private String position;

@@ -14,7 +14,7 @@ public interface ITechnicalSkillRepository extends JpaRepository<TechnicalSkill,
 
   @Transactional
   @Modifying
-  @Query(value = "CALL SP_INSERT_TECHNICAL_SKILL(:#{#technicalSkill.skill}, :#{#technicalSkill.years})", nativeQuery = true)
-  void createTechnicalSkill(@Param("technicalSkill") TechnicalSkill technicalSkill);
+  @Query(value = "CALL SP_INSERT_TECHNICAL_SKILL(:talentId, :#{#technicalSkill.skill}, :#{#technicalSkill.years})", nativeQuery = true)
+  void createTechnicalSkill(@Param("talentId") Long talentId, @Param("technicalSkill") TechnicalSkill technicalSkill);
 
 }

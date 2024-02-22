@@ -15,17 +15,9 @@ public interface ITalentMapper {
 
   ITalentMapper INSTANCE = Mappers.getMapper(ITalentMapper.class);
 
-  /* @Mapping(target = "softSkillList", source = "softSkillList")
-  @Mapping(target = "technicalSkillList", source = "technicalSkillList")
-  @Mapping(target = "workExperienceList", source = "workExperienceList")
-  @Mapping(target = "educationalExperienceList", source = "educationalExperienceList")*/
   @Mapping(target = "image", source = "image", qualifiedByName = "stringToByteArray")
   Talent toTalent(TalentRequest TalentRequest);
 
-  /* @Mapping(target = "softSkillList", source = "softSkillList")
-  @Mapping(target = "technicalSkillList", source = "technicalSkillList")
-  @Mapping(target = "workExperienceList", source = "workExperienceList")
-  @Mapping(target = "educationalExperienceList", source = "educationalExperienceList")*/
   @Mapping(target = "image", source = "image", qualifiedByName = "byteArrayToString")
   TalentDto toTalentDto(Talent talent);
 

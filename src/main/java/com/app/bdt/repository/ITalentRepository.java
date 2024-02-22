@@ -15,7 +15,7 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
 
   @Transactional
   @Modifying
-  @Query(value = "CALL SP_INSERT_TALENT_(:#{#talent.name}, :#{#talent.paternalSurname}, :#{#talent.maternalSurname}, :#{#talent.image}, :#{#talent.description}, :#{#talent.initialAmount}, :#{#talent.finalAmount}, :#{#talent.cellPhoneNumber}, :#{#talent.linkedinLink}, :#{#talent.githubLink})", nativeQuery = true)
+  @Query(value = "CALL SP_INSERT_TALENT(:#{#talent.name}, :#{#talent.paternalSurname}, :#{#talent.maternalSurname}, :#{#talent.image}, :#{#talent.description}, :#{#talent.initialAmount}, :#{#talent.finalAmount}, :#{#talent.cellPhoneNumber}, :#{#talent.linkedinLink}, :#{#talent.githubLink})", nativeQuery = true)
   void createTalent(@Param("talent") Talent talent);
 
   @Query(value = "CALL SP_GET_LAST_INSERTED_TALENT;", nativeQuery = true)

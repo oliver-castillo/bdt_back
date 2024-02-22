@@ -11,8 +11,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EducationalExperienceDto {
 
-  private Long id;
-
   private String educationalInstitute;
 
   private String career;

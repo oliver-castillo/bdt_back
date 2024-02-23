@@ -26,6 +26,7 @@ public interface ITalentMapper {
 
   @Named("byteArrayToString")
   default String byteArrayToString(byte[] byteArray) {
+    String decodedImage = Base64.getDecoder().decode(byteArray).toString();
     return byteArray != null ? new String(byteArray) : null;
   }
 

@@ -1,4 +1,4 @@
-package com.app.bdt.model.dto;
+package com.app.bdt.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Languages {
+public class LanguageRequest {
 
-  private int id;
+  private int languageId;
 
-  private String language;
-
-  private String level;
+  private int levelId;
 
   private int numberOfStars;
 

@@ -53,4 +53,5 @@ public class TalentRequest {
 
   private List<WorkExperienceRequest> workExperiencesList;
   private List<EducationalExperienceRequest> educationalExperiencesList;
+  private List<LanguageRequest> languagesList;
 }

@@ -12,11 +12,17 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name = "BT_TX_MASTER_TALENTO_IDIOMA")
-public class MasterTalentLanguage implements Serializable {
+public class LanguageTalentMaster implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID_MASTER_TALENTO_IDIOMA")
   private Long id;
+
+  private int languageId;
+
+  private int levelId;
+
+  private int numberOfStars;
 
 }

@@ -40,4 +40,6 @@ public class TalentDto {
   private List<WorkExperienceDto> workExperiencesList;
 
   private List<EducationalExperienceDto> educationalExperiencesList;
+
+  private List<LanguageDto> languageList;
 }

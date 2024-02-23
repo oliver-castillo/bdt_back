@@ -1,6 +1,5 @@
 package com.app.bdt.model.entity;
 
-import com.app.bdt.model.dto.Languages;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -60,7 +59,7 @@ public class Talent implements Serializable {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
   private LocalDate creationDate;
 
-  @OneToMany()
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "ID_TALENTO")
   private List<SoftSkill> softSkillsList;
 
@@ -76,8 +75,8 @@ public class Talent implements Serializable {
   @JoinColumn(name = "ID_TALENTO")
   private List<WorkExperience> workExperiencesList;
 
-  @Transient
-  private List<Languages> languagesList;
-
+  @OneToMany
+  @JoinColumn(name = "ID_TALENTO")
+  private List<LanguageTalentMaster> languagesList;
 
 }

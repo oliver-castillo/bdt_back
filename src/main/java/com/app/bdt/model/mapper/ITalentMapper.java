@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Base64;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -31,7 +32,8 @@ public interface ITalentMapper {
   @Named("stringToByteArray")
   default byte[] stringToByteArray(String image) {
     image = image.contains(",") ? image.split(",")[1] : image;
-    return image != null ? image.getBytes() : null;
+    byte[] base64Image = Base64.getEncoder().encode(image.getBytes());
+    return image != null ? base64Image : null;
   }
 
 }

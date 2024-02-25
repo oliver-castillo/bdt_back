@@ -19,6 +19,18 @@ public class TalentDto {
 
   private String maternalSurname;
 
+  /**/
+
+  private String country;
+
+  private String city;
+
+  private String currency;
+
+  private String profile;
+
+  /**/
+
   private String image;
 
   private String description;

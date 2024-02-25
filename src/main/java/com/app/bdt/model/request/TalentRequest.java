@@ -25,6 +25,14 @@ public class TalentRequest {
   @Length(min = 3, message = "El apellido materno debe contener más de 3 caracteres")
   private String maternalSurname;
 
+  private int countryId;
+
+  private int cityId;
+
+  private int currencyId;
+
+  private int profileId;
+
   @NotBlank(message = "La imagen es requerida")
   private String image;
 

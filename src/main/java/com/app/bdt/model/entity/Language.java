@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name = "BT_TX_MASTER_TALENTO_IDIOMA")
-public class LanguageTalentMaster implements Serializable {
+public class Language implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

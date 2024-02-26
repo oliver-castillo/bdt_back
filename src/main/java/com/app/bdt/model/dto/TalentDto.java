@@ -19,8 +19,6 @@ public class TalentDto {
 
   private String maternalSurname;
 
-  /**/
-
   private String country;
 
   private String city;
@@ -28,10 +26,6 @@ public class TalentDto {
   private String currency;
 
   private String profile;
-
-  /**/
-
-  private String image;
 
   private String description;
 
@@ -54,4 +48,6 @@ public class TalentDto {
   private List<EducationalExperienceDto> educationalExperiencesList;
 
   private List<LanguageDto> languageList;
+
+  private String image;
 }

@@ -77,6 +77,6 @@ public class Talent implements Serializable {
 
   @OneToMany
   @JoinColumn(name = "ID_TALENTO")
-  private List<LanguageTalentMaster> languagesList;
+  private List<Language> languagesList;
 
 }

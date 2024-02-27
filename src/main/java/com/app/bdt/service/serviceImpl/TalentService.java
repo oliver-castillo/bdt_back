@@ -85,6 +85,21 @@ public class TalentService implements ITalentService {
     }
   }
 
+  @Override
+  public TalentDto updateTalent(Long talentId, TalentRequest talentRequest) {
+    try {
+      Talent foundTalent = talentRepository.findTalentById(talentId);
+      Talent talentToUpdate = new Talent();
+      if (foundTalent != null) {
+        talentToUpdate.setId(foundTalent.getId());
+        talentToUpdate.setName(!talentRequest.getName().isEmpty() || talentRequest.getName() != null ? talentRequest.getName() : foundTalent.getName());
+      }
+      return talentMapper.toTalentDto(talentToUpdate);
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
   private TalentDto getBuiltTalentDto(Talent talent) {
     TalentDto talentDto = talentMapper.toTalentDto(talent);
 
@@ -92,7 +107,7 @@ public class TalentService implements ITalentService {
             .filter(languageTalent -> Objects.equals(languageTalent.getTalentId(), talent.getId()))
             .collect(Collectors.toList());
 
-    talentDto.setLanguageList(masterMapper.toLanguageDtoList(languagesTalent));
+    talentDto.setLanguagesList(masterMapper.toLanguageDtoList(languagesTalent));
 
     talentMasterRepository.getMasterDataOfTalents().stream()
             .filter(talentMasterDataResponse -> talent.getId() == talentMasterDataResponse.getTalentId())

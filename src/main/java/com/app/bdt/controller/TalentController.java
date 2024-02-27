@@ -2,7 +2,7 @@ package com.app.bdt.controller;
 
 import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.request.TalentRequest;
-import com.app.bdt.service.serviceImpl.TalentService;
+import com.app.bdt.service.ITalentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TalentController {
 
-  private final TalentService talentService;
+  private final ITalentService talentService;
 
   @GetMapping
   public ResponseEntity<List<TalentDto>> getTalents() {
@@ -24,7 +24,7 @@ public class TalentController {
   }
 
   @PostMapping
-  public ResponseEntity<Object> createTalent(@RequestBody @Valid TalentRequest talentRequest) {
+  public ResponseEntity<TalentDto> createTalent(@RequestBody @Valid TalentRequest talentRequest) {
     return new ResponseEntity<>(talentService.createTalent(talentRequest), HttpStatus.CREATED);
   }
 

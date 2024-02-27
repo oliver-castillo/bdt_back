@@ -1,17 +1,11 @@
 package com.app.bdt.model.entity;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
@@ -25,10 +19,13 @@ public class Language implements Serializable {
   @Column(name = "ID_MASTER_TALENTO_IDIOMA")
   private Long id;
 
+  @Column(name = "ID_IDIOMA")
   private int languageId;
 
+  @Column(name = "ID_NIVEL")
   private int levelId;
 
+  @Column(name = "NU_ESTRELLAS")
   private int numberOfStars;
 
 }

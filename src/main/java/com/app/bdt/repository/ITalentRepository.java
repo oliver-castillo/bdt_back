@@ -1,22 +1,14 @@
 package com.app.bdt.repository;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import com.app.bdt.model.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.app.bdt.model.entity.EducationalExperience;
-import com.app.bdt.model.entity.File;
-import com.app.bdt.model.entity.Language;
-import com.app.bdt.model.entity.SoftSkill;
-import com.app.bdt.model.entity.Talent;
-import com.app.bdt.model.entity.TechnicalSkill;
-import com.app.bdt.model.entity.WorkExperience;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface ITalentRepository extends JpaRepository<Talent, Long> {
@@ -45,7 +37,7 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
   @Modifying
   @Query(value = "CALL SP_INSERT_EDUCATIONAL_EXPERIENCE(:talentId, :#{#educationalExperience.educationalInstitute}, :#{#educationalExperience.career}, :#{#educationalExperience.degree}, :#{#educationalExperience.startDate}, :#{#educationalExperience.endDate})", nativeQuery = true)
   void addEducationalExperience(@Param("talentId") Long talentId,
-      @Param("educationalExperience") EducationalExperience educationalExperience);
+                                @Param("educationalExperience") EducationalExperience educationalExperience);
 
   @Modifying
   @Transactional
@@ -62,5 +54,8 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
 
   @Query(value = "CALL SP_GET_TALENTS", nativeQuery = true)
   List<Talent> findAllTalents();
+
+  @Query(value = "CALL SP_GET_TALENT_BY_ID", nativeQuery = true)
+  Talent findTalentById(@Param("talentId") Long talentId);
 
 }

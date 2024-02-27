@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Data
@@ -19,18 +19,32 @@ public class TalentRequest {
 
   @NotBlank(message = "El apellido paterno es requerido")
   @Length(min = 3, message = "El apellido paterno debe contener más de 3 caracteres")
+  @Pattern(regexp = "^[^0-9]+$", message = "Ingrese datos válidos")
   private String paternalSurname;
 
   @NotBlank(message = "El apellido materno es requerido")
   @Length(min = 3, message = "El apellido materno debe contener más de 3 caracteres")
+  @Pattern(regexp = "^[^0-9]+$", message = "Ingrese datos válidos")
   private String maternalSurname;
 
+  @NotNull
+  @Min(value = 1, message = "Ingrese el ID de un país válido")
+  @Max(value = 2, message = "Ingrese el ID de un país válido")
   private int countryId;
 
+  @NotNull
+  @Min(value = 1, message = "Ingrese el ID de un país válido")
+  @Max(value = 3, message = "Ingrese el ID de un país válido")
   private int cityId;
 
+  @NotNull
+  @Min(value = 1, message = "Ingrese el ID de un país válido")
+  @Max(value = 2, message = "Ingrese el ID de un país válido")
   private int currencyId;
 
+  @NotNull
+  @Min(value = 1, message = "Ingrese el ID de un país válido")
+  @Max(value = 4, message = "Ingrese el ID de un país válido")
   private int profileId;
 
   @NotBlank(message = "La imagen es requerida")
@@ -40,10 +54,10 @@ public class TalentRequest {
   @Length(min = 3, message = "La descripción debe contener más de 3 caracteres.")
   private String description;
 
-  @NotBlank(message = "El monto inicial es requerido")
+  @NotNull(message = "El monto inicial es requerido")
   private Double initialAmount;
 
-  @NotBlank(message = "El monto final es requerido")
+  @NotNull(message = "El monto final es requerido")
   private Double finalAmount;
 
   @NotBlank(message = "El número de celular del talento es requerido")
@@ -55,11 +69,21 @@ public class TalentRequest {
   @NotBlank(message = "El link de GitHub del talento es requerido")
   private String githubLink;
 
-  @NotBlank
+  @NotEmpty
   private List<SoftSkillRequest> softSkillsList;
+
+  @NotEmpty
   private List<TechnicalSkillRequest> technicalSkillsList;
 
+  @NotEmpty
   private List<WorkExperienceRequest> workExperiencesList;
+
+  @NotEmpty
   private List<EducationalExperienceRequest> educationalExperiencesList;
+
+  @NotEmpty
   private List<LanguageRequest> languagesList;
+
+  @NotEmpty
+  private List<FileRequest> filesList;
 }

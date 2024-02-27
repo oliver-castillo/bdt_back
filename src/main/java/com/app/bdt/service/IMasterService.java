@@ -1,8 +1,14 @@
 package com.app.bdt.service;
 
-import com.app.bdt.model.response.*;
-
 import java.util.List;
+
+import com.app.bdt.model.response.ICityResponse;
+import com.app.bdt.model.response.ICountryResponse;
+import com.app.bdt.model.response.ICurrencyResponse;
+import com.app.bdt.model.response.ILanguageResponse;
+import com.app.bdt.model.response.ILevelResponse;
+import com.app.bdt.model.response.IProfileResponse;
+import com.app.bdt.model.response.IRoleResponse;
 
 public interface IMasterService {
 

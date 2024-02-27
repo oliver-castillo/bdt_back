@@ -1,15 +1,19 @@
 package com.app.bdt.model.mapper;
 
-import com.app.bdt.model.dto.TalentDto;
-import com.app.bdt.model.entity.Talent;
-import com.app.bdt.model.request.TalentRequest;
+import java.util.Base64;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-import java.util.Base64;
-import java.util.List;
+import com.app.bdt.model.dto.FileDto;
+import com.app.bdt.model.dto.TalentDto;
+import com.app.bdt.model.entity.File;
+import com.app.bdt.model.entity.Talent;
+import com.app.bdt.model.request.FileRequest;
+import com.app.bdt.model.request.TalentRequest;
 
 @Mapper(componentModel = "spring")
 public interface ITalentMapper {
@@ -17,12 +21,26 @@ public interface ITalentMapper {
   ITalentMapper INSTANCE = Mappers.getMapper(ITalentMapper.class);
 
   @Mapping(target = "image", source = "image", qualifiedByName = "stringToByteArray")
+  @Mapping(target = "filesList", source = "filesList", qualifiedByName = "filesList")
   Talent toTalent(TalentRequest TalentRequest);
 
   @Mapping(target = "image", source = "image", qualifiedByName = "byteArrayToString")
+  @Mapping(target = "filesList", source = "filesList", qualifiedByName = "filesDtoList")
   TalentDto toTalentDto(Talent talent);
 
   List<TalentDto> toTalentDtoList(List<Talent> talents);
+
+  @Mapping(target = "fileInBytes", source = "file", qualifiedByName = "stringToByteArray")
+  File toFile(FileRequest fileRequest);
+
+  @Mapping(target = "file", source = "fileInBytes", qualifiedByName = "byteArrayToString")
+  FileDto toFileDto(File file);
+
+  @Named("filesList")
+  List<File> toFilesList(List<FileRequest> filesRequest);
+
+  @Named("filesDtoList")
+  List<FileDto> toFilesDtoList(List<File> files);
 
   @Named("byteArrayToString")
   default String byteArrayToString(byte[] byteArray) {
@@ -31,10 +49,10 @@ public interface ITalentMapper {
   }
 
   @Named("stringToByteArray")
-  default byte[] stringToByteArray(String image) {
-    image = image.contains(",") ? image.split(",")[1] : image;
-    byte[] base64Image = Base64.getEncoder().encode(image.getBytes());
-    return image != null ? base64Image : null;
+  default byte[] stringToByteArray(String file) {
+    file = file.contains(",") ? file.split(",")[1] : file;
+    byte[] base64Image = Base64.getEncoder().encode(file.getBytes());
+    return file != null ? base64Image : null;
   }
 
 }

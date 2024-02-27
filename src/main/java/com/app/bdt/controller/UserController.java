@@ -2,7 +2,7 @@ package com.app.bdt.controller;
 
 import com.app.bdt.model.request.UserRequest;
 import com.app.bdt.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,14 +14,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("")
+@RequiredArgsConstructor
 public class UserController {
 
   private final IUserService userService;
-
-  @Autowired
-  public UserController(IUserService userService) {
-    this.userService = userService;
-  }
 
   @PostMapping("/user")
   public ResponseEntity<Object> createUser(@Valid @RequestBody UserRequest userRequest) {

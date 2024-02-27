@@ -1,11 +1,12 @@
 package com.app.bdt.model.mapper;
 
-import com.app.bdt.model.dto.LanguageDto;
-import com.app.bdt.model.response.ILanguagesTalent;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
+import com.app.bdt.model.dto.LanguageDto;
+import com.app.bdt.model.response.ILanguagesTalent;
 
 @Mapper(componentModel = "spring")
 public interface IMasterMapper {

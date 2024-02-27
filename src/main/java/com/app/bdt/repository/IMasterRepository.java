@@ -1,12 +1,19 @@
 package com.app.bdt.repository;
 
-import com.app.bdt.model.entity.Master;
-import com.app.bdt.model.response.*;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.app.bdt.model.entity.Master;
+import com.app.bdt.model.response.ICityResponse;
+import com.app.bdt.model.response.ICountryResponse;
+import com.app.bdt.model.response.ICurrencyResponse;
+import com.app.bdt.model.response.ILanguageResponse;
+import com.app.bdt.model.response.ILevelResponse;
+import com.app.bdt.model.response.IProfileResponse;
+import com.app.bdt.model.response.IRoleResponse;
 
 @Repository
 public interface IMasterRepository extends JpaRepository<Master, Long> {

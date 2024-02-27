@@ -7,9 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,22 +25,19 @@ import lombok.ToString;
 @Table(name = "BT_TD_ARCHIVOS")
 public class File implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_ARCHIVO")
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ID_ARCHIVO")
+  private Long id;
 
-    @Column(name = "NO_ARCHIVO")
-    private String fileName;
+  @Column(name = "NO_ARCHIVO")
+  private String fileName;
 
-    @Column(name = "FL_TIPO_ARCHIVO")
-    private String fileType;
+  @Column(name = "FL_TIPO_ARCHIVO")
+  private String fileType;
 
-    @Column(name = "AR_ARCHIVO")
-    private byte[] fileInBytes;
-
-    @ManyToOne
-    @JoinColumn(name = "ID_TALENTO")
-    private Talent talent;
+  @Lob
+  @Column(name = "AR_ARCHIVO")
+  private byte[] fileInBytes;
 
 }

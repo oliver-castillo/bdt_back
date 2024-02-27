@@ -1,10 +1,10 @@
 package com.app.bdt.model.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -50,4 +50,6 @@ public class TalentDto {
   private List<LanguageDto> languageList;
 
   private String image;
+
+  private List<FileDto> filesList;
 }

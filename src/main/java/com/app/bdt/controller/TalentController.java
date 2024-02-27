@@ -3,23 +3,20 @@ package com.app.bdt.controller;
 import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.request.TalentRequest;
 import com.app.bdt.service.serviceImpl.TalentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/talent")
-@CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
 public class TalentController {
 
-
   private final TalentService talentService;
-
-  public TalentController(TalentService talentService) {
-    this.talentService = talentService;
-  }
 
   @GetMapping
   public ResponseEntity<List<TalentDto>> getTalents() {
@@ -27,7 +24,7 @@ public class TalentController {
   }
 
   @PostMapping
-  public ResponseEntity<Object> createTalent(@RequestBody TalentRequest talentRequest) {
+  public ResponseEntity<Object> createTalent(@RequestBody @Valid TalentRequest talentRequest) {
     return new ResponseEntity<>(talentService.createTalent(talentRequest), HttpStatus.CREATED);
   }
 

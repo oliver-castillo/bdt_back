@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TechnicallSkillDto {
+public class FileDto {
 
-  private String skill;
+  private String fileName;
 
-  private Integer years;
+  private String fileType;
 
+  private String file;
 }

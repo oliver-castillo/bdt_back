@@ -1,16 +1,18 @@
 package com.app.bdt.repository;
 
-import com.app.bdt.model.entity.TalentMaster;
-import com.app.bdt.model.response.ILanguagesTalent;
-import com.app.bdt.model.response.ITalentMasterDataResponse;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
-import java.util.List;
+import com.app.bdt.model.entity.TalentMaster;
+import com.app.bdt.model.response.ILanguagesTalent;
+import com.app.bdt.model.response.ITalentMasterDataResponse;
 
 @Repository
 public interface ITalentMasterRepository extends JpaRepository<TalentMaster, Long> {

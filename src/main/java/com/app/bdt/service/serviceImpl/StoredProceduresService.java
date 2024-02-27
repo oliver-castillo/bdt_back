@@ -1,15 +1,16 @@
 package com.app.bdt.service.serviceImpl;
 
-import com.app.bdt.exceptions.InternalServerError;
-import com.app.bdt.service.IStoredProceduresService;
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
+
+import org.springframework.stereotype.Service;
+
+import com.app.bdt.exceptions.InternalServerError;
+import com.app.bdt.service.IStoredProceduresService;
 
 @Service
 public class StoredProceduresService implements IStoredProceduresService {
@@ -26,14 +27,14 @@ public class StoredProceduresService implements IStoredProceduresService {
   public List<Object[]> getObjects(String storedProcedureName) {
     try {
       StoredProcedureQuery storedProcedure = entityManager
-              .createStoredProcedureQuery(
-                      storedProcedureName)
-              .registerStoredProcedureParameter(1, Object.class, ParameterMode.REF_CURSOR);
+          .createStoredProcedureQuery(
+              storedProcedureName)
+          .registerStoredProcedureParameter(1, Object.class, ParameterMode.REF_CURSOR);
       storedProcedure.execute();
       List<Object[]> objetos = storedProcedure.getResultList();
       return objetos;
     } catch (Exception e) {
-      throw new InternalServerError("Error en el servidor: "+ e.getMessage());
+      throw new InternalServerError("Error en el servidor: " + e.getMessage());
     }
   }
 }

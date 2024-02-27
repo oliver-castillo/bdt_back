@@ -1,13 +1,14 @@
 package com.app.bdt.service.serviceImpl;
 
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
 import com.app.bdt.exceptions.InternalServerError;
 import com.app.bdt.model.mapper.IUserMapper;
 import com.app.bdt.model.request.UserRequest;
 import com.app.bdt.repository.IUserRepository;
 import com.app.bdt.service.IUserService;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 @Service
 @Transactional

@@ -1,6 +1,5 @@
 package com.app.bdt.service.serviceImpl;
 
-
 import com.app.bdt.exceptions.InternalServerError;
 import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.entity.*;
@@ -11,6 +10,7 @@ import com.app.bdt.model.response.ILanguagesTalent;
 import com.app.bdt.repository.ITalentMasterRepository;
 import com.app.bdt.repository.ITalentRepository;
 import com.app.bdt.service.ITalentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,19 +20,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class TalentService implements ITalentService {
 
   private final ITalentRepository talentRepository;
   private final ITalentMasterRepository talentMasterRepository;
   private final ITalentMapper talentMapper;
   private final IMasterMapper masterMapper;
-
-  public TalentService(ITalentRepository talentRepository, ITalentMasterRepository talentMasterRepository, ITalentMapper talentMapper, IMasterMapper masterMapper) {
-    this.talentRepository = talentRepository;
-    this.talentMasterRepository = talentMasterRepository;
-    this.talentMapper = talentMapper;
-    this.masterMapper = masterMapper;
-  }
 
   @Override
   public List<TalentDto> getTalents() {
@@ -46,40 +40,43 @@ public class TalentService implements ITalentService {
     }
   }
 
-
   @Override
   public TalentDto createTalent(TalentRequest talentRequest) {
     try {
       Talent talent = talentMapper.toTalent(talentRequest);
       talentRepository.createTalent(talent);
       Talent createdTalent = talentRepository.getLastInsertedTalent();
-      /*Add technical skills*/
+      /* Add technical skills */
       for (TechnicalSkill technicalSkill : talent.getTechnicalSkillsList()) {
         talentRepository.addTechnicalSkill(createdTalent.getId(), technicalSkill);
       }
-      /*Add soft skills*/
+      /* Add soft skills */
       for (SoftSkill softSkill : talent.getSoftSkillsList()) {
         talentRepository.addSoftSkill(createdTalent.getId(), softSkill);
       }
-      /*Add work experiences*/
+      /* Add work experiences */
       for (WorkExperience workExperience : talent.getWorkExperiencesList()) {
         talentRepository.addWorkExperience(createdTalent.getId(), workExperience);
       }
-      /*Add educational experiences*/
+      /* Add educational experiences */
       for (EducationalExperience educationalExperience : talent.getEducationalExperiencesList()) {
         talentRepository.addEducationalExperience(createdTalent.getId(), educationalExperience);
       }
-      /*Add languages*/
+      /* Add languages */
       for (Language language : talent.getLanguagesList()) {
         talentRepository.addLanguage(createdTalent.getId(), language);
       }
-      /*Add country*/
+      /* Add files */
+      for (File file : talent.getFilesList()) {
+        talentRepository.addFile(createdTalent.getId(), file);
+      }
+      /* Add country */
       talentMasterRepository.addCountry(createdTalent.getId(), talentRequest.getCountryId());
-      /*Add city*/
+      /* Add city */
       talentMasterRepository.addCity(createdTalent.getId(), talentRequest.getCityId());
-      /*Add currency*/
+      /* Add currency */
       talentMasterRepository.addCurrency(createdTalent.getId(), talentRequest.getCurrencyId());
-      /*Add profile*/
+      /* Add profile */
       talentMasterRepository.addProfile(createdTalent.getId(), talentRequest.getProfileId());
 
       return getBuiltTalentDto(createdTalent);

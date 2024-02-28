@@ -1,12 +1,15 @@
 package com.app.bdt.service.serviceImpl;
 
 import com.app.bdt.exceptions.InternalServerError;
+import com.app.bdt.exceptions.NotFoundException;
 import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.entity.*;
 import com.app.bdt.model.mapper.IMasterMapper;
 import com.app.bdt.model.mapper.ITalentMapper;
 import com.app.bdt.model.request.TalentRequest;
 import com.app.bdt.model.response.ILanguagesTalent;
+import com.app.bdt.model.response.ITalentByLanguageAndLevel;
+import com.app.bdt.model.response.ITalentByTechnicalSkills;
 import com.app.bdt.repository.ITalentMasterRepository;
 import com.app.bdt.repository.ITalentRepository;
 import com.app.bdt.service.ITalentService;
@@ -14,7 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -89,16 +94,77 @@ public class TalentService implements ITalentService {
   public TalentDto updateTalent(Long talentId, TalentRequest talentRequest) {
     try {
       Talent foundTalent = talentRepository.findTalentById(talentId);
-      Talent talentToUpdate = new Talent();
-      if (foundTalent != null) {
-        talentToUpdate.setId(foundTalent.getId());
-        talentToUpdate.setName(!talentRequest.getName().isEmpty() || talentRequest.getName() != null ? talentRequest.getName() : foundTalent.getName());
+      if (talentRequest != null) {
+        Talent talent = talentMapper.toTalent(talentRequest);
+        Talent talentToUpdate = new Talent();
+        talentToUpdate.setName(
+                (talent.getName() != null && !talent.getName().isEmpty())
+                        ? talent.getName() : foundTalent.getName());
+        talentToUpdate.setPaternalSurname(
+                (talent.getPaternalSurname() != null && !talent.getPaternalSurname().isEmpty())
+                        ? talent.getPaternalSurname() : foundTalent.getPaternalSurname());
+        talentToUpdate.setMaternalSurname(
+                (talent.getMaternalSurname() != null && !talent.getMaternalSurname().isEmpty())
+                        ? talent.getMaternalSurname() : foundTalent.getMaternalSurname());
+        talentToUpdate.setImage(
+                (talent.getImage() != null)
+                        ? talent.getImage() : foundTalent.getImage());
+        talentToUpdate.setDescription(
+                (talent.getDescription() != null && !talent.getDescription().isEmpty())
+                        ? talent.getDescription() : foundTalent.getDescription());
+        talentToUpdate.setInitialAmount(
+                (talent.getInitialAmount() != null)
+                        ? talent.getInitialAmount() : foundTalent.getInitialAmount());
+        talentToUpdate.setFinalAmount(
+                (talent.getFinalAmount() != null)
+                        ? talent.getFinalAmount() : foundTalent.getFinalAmount());
+        talentToUpdate.setCellPhoneNumber(
+                (talent.getCellPhoneNumber() != null && !talent.getCellPhoneNumber().isEmpty())
+                        ? talent.getCellPhoneNumber() : foundTalent.getCellPhoneNumber());
+        talentToUpdate.setLinkedinLink(
+                (talent.getLinkedinLink() != null && !talent.getLinkedinLink().isEmpty())
+                        ? talent.getLinkedinLink() : foundTalent.getLinkedinLink());
+        talentToUpdate.setGithubLink(
+                (talent.getGithubLink() != null && !talent.getGithubLink().isEmpty())
+                        ? talent.getGithubLink() : foundTalent.getGithubLink());
+        return getBuiltTalentDto(talentToUpdate);
+      } else {
+        throw new NotFoundException("No se encontró el registro");
       }
-      return talentMapper.toTalentDto(talentToUpdate);
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }
   }
+
+  @Override
+  public List<Map<String, Object>> getTalentsByTechnicalSkills(List<String> technicalSkills) {
+    try {
+      List<ITalentByTechnicalSkills> talentsAndTechnicalSkills = talentRepository.findTalentsByTechnicalSkills(String.join(",", technicalSkills));
+      return talentsAndTechnicalSkills.stream()
+              .collect(Collectors.groupingBy(ITalentByTechnicalSkills::getTalentId, Collectors.mapping(ITalentByTechnicalSkills::getTechnicalSkill, Collectors.toList())))
+              .entrySet()
+              .stream()
+              .map(entry -> {
+                Map<String, Object> map = new HashMap<>();
+                map.put("talentId", entry.getKey());
+                map.put("technicalSkills", entry.getValue());
+                return map;
+              })
+              .collect(Collectors.toList());
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
+  public List<ITalentByLanguageAndLevel> getTalentsByLanguageAndLevel(int languageId, int levelId) {
+    try {
+      return talentRepository.findTalentsByLanguageAndLevel(languageId, levelId);
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
 
   private TalentDto getBuiltTalentDto(Talent talent) {
     TalentDto talentDto = talentMapper.toTalentDto(talent);

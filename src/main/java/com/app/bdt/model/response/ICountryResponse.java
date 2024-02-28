@@ -1,11 +1,16 @@
 package com.app.bdt.model.response;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public interface ICountryResponse {
 
-    int getId();
+  int getId();
 
-    String getCountry();
+  String getCountry();
 
-    String getAbbreviation();
+  String getAbbreviation();
+
+  @Value("#{target.CALL_PREFIX}")
+  String getCallPrefix();
 
 }

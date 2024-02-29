@@ -1,24 +1,19 @@
 package com.app.bdt.model.response;
 
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.List;
+
 public interface ITalentResponse {
 
-  int getId();
+  @Value("#{target.TALENT_ID}")
+  Long getTalentId();
 
-  String getPaternalSurname();
+  String getLanguage();
 
-  String getMaternalSurname();
+  String getLevel();
 
-  String getImage();
+  @Value("#{target.TECHNICAL_SKILL}")
+  List<String> getTechnicalSkills();
 
-  String getDescription();
-
-  double getInitialAmount();
-
-  double getFinalAmount();
-
-  String getCellPhoneNumber();
-
-  String getLinkedinLink();
-
-  String getGithubLink();
 }

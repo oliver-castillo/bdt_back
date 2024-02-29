@@ -8,8 +8,7 @@ import com.app.bdt.model.mapper.IMasterMapper;
 import com.app.bdt.model.mapper.ITalentMapper;
 import com.app.bdt.model.request.TalentRequest;
 import com.app.bdt.model.response.ILanguagesTalent;
-import com.app.bdt.model.response.ITalentByLanguageAndLevel;
-import com.app.bdt.model.response.ITalentByTechnicalSkills;
+import com.app.bdt.model.response.ITalentResponse;
 import com.app.bdt.repository.ITalentMasterRepository;
 import com.app.bdt.repository.ITalentRepository;
 import com.app.bdt.service.ITalentService;
@@ -17,10 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -137,34 +133,36 @@ public class TalentService implements ITalentService {
   }
 
   @Override
-  public List<Map<String, Object>> getTalentsByTechnicalSkills(List<String> technicalSkills) {
+  public List<Map<String, Object>> getTalentsByTechnicalSkillsLanguageAndLevel(Map<String, Object> params) {
     try {
-      List<ITalentByTechnicalSkills> talentsAndTechnicalSkills = talentRepository.findTalentsByTechnicalSkills(String.join(",", technicalSkills));
-      return talentsAndTechnicalSkills.stream()
-              .collect(Collectors.groupingBy(ITalentByTechnicalSkills::getTalentId, Collectors.mapping(ITalentByTechnicalSkills::getTechnicalSkill, Collectors.toList())))
-              .entrySet()
-              .stream()
-              .map(entry -> {
+      Optional<Integer> languageId = Optional.ofNullable((Integer) params.get("languageId"));
+      Optional<Integer> levelId = Optional.ofNullable((Integer) params.get("levelId"));
+      Optional<List<String>> technicalSkills = Optional.ofNullable((List<String>) params.get("technicalSkills"));
+      List<ITalentResponse> result;
+      if (languageId.isPresent() || levelId.isPresent() || technicalSkills.isPresent()) {
+        result = talentRepository.findTalentsIdsByTechnicalSkillsLanguageIdAndLevelId(
+                languageId.orElse(null),
+                levelId.orElse(null),
+                technicalSkills.map(skills -> String.join(",", skills)).orElse(null)
+        );
+      } else {
+        result = talentRepository.findTalentsIdsByTechnicalSkillsLanguageIdAndLevelId(null, null, null);
+      }
+      return result.stream()
+              .collect(Collectors.toMap(ITalentResponse::getTalentId, obj -> obj, (existing, replacement) -> existing))
+              .values().stream()
+              .map(object -> {
                 Map<String, Object> map = new HashMap<>();
-                map.put("talentId", entry.getKey());
-                map.put("technicalSkills", entry.getValue());
+                map.put("talentId", object.getTalentId());
                 return map;
               })
               .collect(Collectors.toList());
+    } catch (NumberFormatException e) {
+      throw new InternalServerError("Error de conversión de tipo: " + e.getMessage());
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }
   }
-
-  @Override
-  public List<ITalentByLanguageAndLevel> getTalentsByLanguageAndLevel(int languageId, int levelId) {
-    try {
-      return talentRepository.findTalentsByLanguageAndLevel(languageId, levelId);
-    } catch (RuntimeException e) {
-      throw new InternalServerError(e.getMessage());
-    }
-  }
-
 
   private TalentDto getBuiltTalentDto(Talent talent) {
     TalentDto talentDto = talentMapper.toTalentDto(talent);

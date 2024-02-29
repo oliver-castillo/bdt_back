@@ -3,6 +3,7 @@ package com.app.bdt.repository;
 import com.app.bdt.model.entity.*;
 import com.app.bdt.model.response.ITalentByLanguageAndLevel;
 import com.app.bdt.model.response.ITalentByTechnicalSkills;
+import com.app.bdt.model.response.ITalentResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -65,5 +66,14 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
 
   @Query(value = "CALL SP_GET_TALENTS_BY_LANGUAGE_AND_LEVEL(:languageId, :levelId)", nativeQuery = true)
   List<ITalentByLanguageAndLevel> findTalentsByLanguageAndLevel(@Param("languageId") int languageId, @Param("levelId") int levelId);
+
+  @Query(value = "CALL SP_FILTER_TALENTS_IDS_BY_TECHNICAL_SKILLS_LANGUAGE_AND_LEVEL(" +
+          ":languageId, " +
+          ":levelId, " +
+          ":technicalSkills)", nativeQuery = true)
+  List<ITalentResponse> findTalentsIdsByTechnicalSkillsLanguageIdAndLevelId(
+          @Param("languageId") Integer languageId,
+          @Param("levelId") Integer levelId,
+          @Param("technicalSkills") String technicalSkills);
 
 }

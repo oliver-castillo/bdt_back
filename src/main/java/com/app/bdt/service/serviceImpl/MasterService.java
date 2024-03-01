@@ -1,33 +1,22 @@
 package com.app.bdt.service.serviceImpl;
 
+import com.app.bdt.exceptions.InternalServerError;
+import com.app.bdt.model.response.*;
+import com.app.bdt.repository.IMasterRepository;
+import com.app.bdt.service.IMasterService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
-
-import com.app.bdt.exceptions.InternalServerError;
-import com.app.bdt.model.response.ICityResponse;
-import com.app.bdt.model.response.ICountryResponse;
-import com.app.bdt.model.response.ICurrencyResponse;
-import com.app.bdt.model.response.ILanguageResponse;
-import com.app.bdt.model.response.ILevelResponse;
-import com.app.bdt.model.response.IProfileResponse;
-import com.app.bdt.model.response.IRoleResponse;
-import com.app.bdt.repository.IMasterRepository;
-import com.app.bdt.service.IMasterService;
-
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class MasterService implements IMasterService {
 
   private final IMasterRepository masterRepository;
-
-  public MasterService(IMasterRepository masterRepository, EntityManager entityManager) {
-    this.masterRepository = masterRepository;
-  }
 
   @Override
   public List<IRoleResponse> getRoles() {
@@ -97,8 +86,17 @@ public class MasterService implements IMasterService {
   public List<ICityResponse> getCitiesByCountry(int countryId) {
     try {
       return getCities().stream()
-          .filter(city -> city.getCountryId() == countryId)
-          .collect(Collectors.toList());
+              .filter(city -> city.getCountryId() == countryId)
+              .collect(Collectors.toList());
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
+  public List<String> getAllTechnicalSkills() {
+    try {
+      return masterRepository.findAllTechnicalSkills();
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }

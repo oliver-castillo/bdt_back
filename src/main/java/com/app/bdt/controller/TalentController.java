@@ -2,7 +2,9 @@ package com.app.bdt.controller;
 
 import com.app.bdt.exceptions.NotFoundException;
 import com.app.bdt.model.dto.TalentDto;
+import com.app.bdt.model.request.SoftSkillRequest;
 import com.app.bdt.model.request.TalentRequest;
+import com.app.bdt.model.request.TechnicalSkillRequest;
 import com.app.bdt.service.ITalentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +30,7 @@ public class TalentController {
 
   @GetMapping(value = "/{talentId}")
   public ResponseEntity<Object> getTalentById(@PathVariable Long talentId) {
-    Optional<TalentDto> talentDto = talentService.getTalentById(talentId);
+    Optional<TalentDto> talentDto = talentService.getTalentDtoById(talentId);
     if (!talentDto.isPresent()) {
       throw new NotFoundException("No se encontró el registro");
     }
@@ -53,6 +55,20 @@ public class TalentController {
   @PutMapping("/update_salary_band/{talentId}")
   public ResponseEntity<Object> updateTalentById(@PathVariable Long talentId, @RequestBody @Valid TalentRequest talentRequest) {
     return new ResponseEntity<>(talentService.updateSalaryBandOfTalent(talentId, talentRequest), HttpStatus.OK);
+  }
+
+  @PostMapping("/add_technical_skill/{talentId}")
+  public ResponseEntity<Object> addTechnicalSkill(
+          @PathVariable Long talentId,
+          @RequestBody @Valid TechnicalSkillRequest technicalSkillRequest) {
+    return new ResponseEntity<>(talentService.addTechnicalSkill(talentId, technicalSkillRequest), HttpStatus.OK);
+  }
+
+  @PostMapping("/add_soft_skill/{talentId}")
+  public ResponseEntity<Object> addSoftSkill(
+          @PathVariable Long talentId,
+          @RequestBody @Valid SoftSkillRequest softSkillRequest) {
+    return new ResponseEntity<>(talentService.addSoftSkill(talentId, softSkillRequest), HttpStatus.OK);
   }
 
 }

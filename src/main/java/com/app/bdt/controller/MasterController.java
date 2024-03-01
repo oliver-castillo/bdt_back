@@ -55,4 +55,9 @@ public class MasterController {
     return new ResponseEntity<>(masterService.getCitiesByCountry(id), HttpStatus.OK);
   }
 
+  @GetMapping("/all_technical_skills")
+  public ResponseEntity<Object> getAllTechnicalSkills() {
+    return new ResponseEntity<>(masterService.getAllTechnicalSkills(), HttpStatus.OK);
+  }
+
 }

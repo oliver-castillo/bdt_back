@@ -6,13 +6,16 @@ import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.entity.*;
 import com.app.bdt.model.mapper.IMasterMapper;
 import com.app.bdt.model.mapper.ITalentMapper;
+import com.app.bdt.model.request.SoftSkillRequest;
 import com.app.bdt.model.request.TalentRequest;
+import com.app.bdt.model.request.TechnicalSkillRequest;
 import com.app.bdt.model.response.ILanguagesTalent;
 import com.app.bdt.model.response.ITalentResponse;
 import com.app.bdt.model.response.Response;
 import com.app.bdt.repository.ITalentMasterRepository;
 import com.app.bdt.repository.ITalentRepository;
 import com.app.bdt.service.ITalentService;
+import com.app.bdt.util.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -44,7 +47,7 @@ public class TalentService implements ITalentService {
   }
 
   @Override
-  public Optional<TalentDto> getTalentById(Long talentId) {
+  public Optional<TalentDto> getTalentDtoById(Long talentId) {
     try {
       Optional<Talent> result = talentRepository.findTalentById(talentId);
       return result.map(this::getBuiltTalentDto);
@@ -52,6 +55,11 @@ public class TalentService implements ITalentService {
       throw new InternalServerError(e.getMessage());
     }
   }
+
+  private Optional<Talent> getTalentById(Long talentId) {
+    return talentRepository.findTalentById(talentId);
+  }
+
 
   @Override
   public TalentDto createTalent(TalentRequest talentRequest) {
@@ -161,6 +169,39 @@ public class TalentService implements ITalentService {
       }
     } else {
       throw new NotFoundException("No se encontró el registro");
+    }
+  }
+
+  @Override
+  public Response addTechnicalSkill(Long talentId, TechnicalSkillRequest technicalSkillRequest) {
+    Optional<Talent> talent = getTalentById(talentId);
+    if (talent.isPresent()) {
+      try {
+        String skill = technicalSkillRequest.getSkill();
+        Integer years = technicalSkillRequest.getYears();
+        talentRepository.addTechnicalSkill(talent.get().getId(), TechnicalSkill.builder().skill(skill).years(years).build());
+        return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
+      } catch (RuntimeException e) {
+        throw new InternalServerError(e.getMessage());
+      }
+    } else {
+      throw new NotFoundException(Messages.NOT_FOUND.getMessage());
+    }
+  }
+
+  @Override
+  public Response addSoftSkill(Long talentId, SoftSkillRequest softSkillRequest) {
+    Optional<Talent> talent = getTalentById(talentId);
+    if (talent.isPresent()) {
+      try {
+        String skill = softSkillRequest.getSkill();
+        talentRepository.addSoftSkill(talent.get().getId(), SoftSkill.builder().skill(skill).build());
+        return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
+      } catch (RuntimeException e) {
+        throw new InternalServerError(e.getMessage());
+      }
+    } else {
+      throw new NotFoundException(Messages.NOT_FOUND.getMessage());
     }
   }
 

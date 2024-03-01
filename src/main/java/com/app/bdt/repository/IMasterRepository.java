@@ -1,19 +1,12 @@
 package com.app.bdt.repository;
 
-import java.util.List;
-
+import com.app.bdt.model.entity.Master;
+import com.app.bdt.model.response.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.app.bdt.model.entity.Master;
-import com.app.bdt.model.response.ICityResponse;
-import com.app.bdt.model.response.ICountryResponse;
-import com.app.bdt.model.response.ICurrencyResponse;
-import com.app.bdt.model.response.ILanguageResponse;
-import com.app.bdt.model.response.ILevelResponse;
-import com.app.bdt.model.response.IProfileResponse;
-import com.app.bdt.model.response.IRoleResponse;
+import java.util.List;
 
 @Repository
 public interface IMasterRepository extends JpaRepository<Master, Long> {
@@ -38,5 +31,11 @@ public interface IMasterRepository extends JpaRepository<Master, Long> {
 
   @Query(value = "CALL SP_GET_CITIES", nativeQuery = true)
   List<ICityResponse> findAllCities();
+
+  /*@Query(value = "CALL SP_GET_ALL_TECHNICAL_SKILLS", nativeQuery = true)
+  List<Map<String, String>> findAllTechnicalSkills();*/
+
+  @Query(value = "CALL SP_GET_ALL_TECHNICAL_SKILLS", nativeQuery = true)
+  List<String> findAllTechnicalSkills();
 
 }

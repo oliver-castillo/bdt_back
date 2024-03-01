@@ -1,14 +1,8 @@
 package com.app.bdt.service;
 
-import java.util.List;
+import com.app.bdt.model.response.*;
 
-import com.app.bdt.model.response.ICityResponse;
-import com.app.bdt.model.response.ICountryResponse;
-import com.app.bdt.model.response.ICurrencyResponse;
-import com.app.bdt.model.response.ILanguageResponse;
-import com.app.bdt.model.response.ILevelResponse;
-import com.app.bdt.model.response.IProfileResponse;
-import com.app.bdt.model.response.IRoleResponse;
+import java.util.List;
 
 public interface IMasterService {
 
@@ -27,5 +21,7 @@ public interface IMasterService {
   List<ICityResponse> getCities();
 
   List<ICityResponse> getCitiesByCountry(int countryId);
+
+  List<String> getAllTechnicalSkills();
 
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ITalentRepository extends JpaRepository<Talent, Long> {
@@ -58,8 +59,8 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
   @Query(value = "CALL SP_GET_TALENTS", nativeQuery = true)
   List<Talent> findAllTalents();
 
-  @Query(value = "CALL SP_GET_TALENT_BY_ID", nativeQuery = true)
-  Talent findTalentById(@Param("talentId") Long talentId);
+  @Query(value = "CALL SP_GET_TALENT_BY_ID(:talentId)", nativeQuery = true)
+  Optional<Talent> findTalentById(@Param("talentId") Long talentId);
 
   @Query(value = "CALL SP_GET_TALENTS_BY_TECHNICAL_SKILLS(:technicalSkills)", nativeQuery = true)
   List<ITalentByTechnicalSkills> findTalentsByTechnicalSkills(@Param("technicalSkills") String technicalSkills);
@@ -75,5 +76,15 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
           @Param("languageId") Integer languageId,
           @Param("levelId") Integer levelId,
           @Param("technicalSkills") String technicalSkills);
+
+  @Transactional
+  @Modifying
+  @Query(value = "CALL SP_UPDATE_TALENT(:talentId, :#{#talent.name}, :#{#talent.paternalSurname}, :#{#talent.maternalSurname}, :#{#talent.image}, :#{#talent.description}, :#{#talent.initialAmount}, :#{#talent.finalAmount}, :#{#talent.cellPhoneNumber}, :#{#talent.linkedinLink}, :#{#talent.githubLink})", nativeQuery = true)
+  void updateTalent(@Param("talentId") Long talentId, @Param("talent") Talent talent);
+
+  @Transactional
+  @Modifying
+  @Query(value = "CALL SP_UPDATE_CURRENCY_TALENT(:talentId, :currencyId)", nativeQuery = true)
+  void updateCurrency(@Param("talentId") Long talentId, @Param("currencyId") Integer currencyId);
 
 }

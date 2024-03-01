@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/talent")
@@ -25,7 +26,17 @@ public class TalentController {
     return ResponseEntity.ok(talentService.getTalents());
   }
 
+  @GetMapping(value = "/{talentId}")
+  public ResponseEntity<Object> getTalentById(@PathVariable Long talentId) {
+    Optional<TalentDto> talentDto = talentService.getTalentById(talentId);
+    if (!talentDto.isPresent()) {
+      throw new NotFoundException("No se encontró el registro");
+    }
+    return new ResponseEntity<>(talentDto, HttpStatus.OK);
+  }
+
   @PostMapping
+  @ResponseBody
   public ResponseEntity<TalentDto> createTalent(@RequestBody @Valid TalentRequest talentRequest) {
     return new ResponseEntity<>(talentService.createTalent(talentRequest), HttpStatus.CREATED);
   }
@@ -37,6 +48,11 @@ public class TalentController {
       return new ResponseEntity<>(talentByTechnicalSkillsLanguageAndLevel, HttpStatus.OK);
     }
     throw new NotFoundException("No se encontraron registros");
+  }
+
+  @PutMapping("/update_salary_band/{talentId}")
+  public ResponseEntity<Object> updateTalentById(@PathVariable Long talentId, @RequestBody @Valid TalentRequest talentRequest) {
+    return new ResponseEntity<>(talentService.updateSalaryBandOfTalent(talentId, talentRequest), HttpStatus.OK);
   }
 
 }

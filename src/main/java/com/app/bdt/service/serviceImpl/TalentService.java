@@ -9,10 +9,12 @@ import com.app.bdt.model.mapper.ITalentMapper;
 import com.app.bdt.model.request.TalentRequest;
 import com.app.bdt.model.response.ILanguagesTalent;
 import com.app.bdt.model.response.ITalentResponse;
+import com.app.bdt.model.response.Response;
 import com.app.bdt.repository.ITalentMasterRepository;
 import com.app.bdt.repository.ITalentRepository;
 import com.app.bdt.service.ITalentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -36,6 +38,16 @@ public class TalentService implements ITalentService {
       return talentsList.stream()
               .map(this::getBuiltTalentDto)
               .collect(Collectors.toList());
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
+  public Optional<TalentDto> getTalentById(Long talentId) {
+    try {
+      Optional<Talent> result = talentRepository.findTalentById(talentId);
+      return result.map(this::getBuiltTalentDto);
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }
@@ -86,10 +98,12 @@ public class TalentService implements ITalentService {
     }
   }
 
+
   @Override
   public TalentDto updateTalent(Long talentId, TalentRequest talentRequest) {
     try {
-      Talent foundTalent = talentRepository.findTalentById(talentId);
+      //Talent foundTalent = talentRepository.findTalentById(talentId);
+      Talent foundTalent = null;
       if (talentRequest != null) {
         Talent talent = talentMapper.toTalent(talentRequest);
         Talent talentToUpdate = new Talent();
@@ -129,6 +143,24 @@ public class TalentService implements ITalentService {
       }
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
+  public Response updateSalaryBandOfTalent(Long talentId, TalentRequest talentRequest) {
+    Optional<Talent> talent = talentRepository.findTalentById(talentId);
+    if (talent.isPresent()) {
+      try {
+        talent.get().setInitialAmount(talentRequest.getInitialAmount());
+        talent.get().setFinalAmount(talentRequest.getFinalAmount());
+        talentRepository.updateTalent(talent.get().getId(), talent.get());
+        talentRepository.updateCurrency(talent.get().getId(), talentRequest.getCurrencyId());
+        return new Response(HttpStatus.OK.value(), "Se realizó la actualización");
+      } catch (RuntimeException e) {
+        throw new InternalServerError(e.getMessage());
+      }
+    } else {
+      throw new NotFoundException("No se encontró el registro");
     }
   }
 

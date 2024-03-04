@@ -1,6 +1,8 @@
 package com.app.bdt.repository;
 
 import com.app.bdt.model.entity.*;
+import com.app.bdt.model.request.EducationalExperienceRequest;
+import com.app.bdt.model.request.WorkExperienceRequest;
 import com.app.bdt.model.response.ITalentByLanguageAndLevel;
 import com.app.bdt.model.response.ITalentByTechnicalSkills;
 import com.app.bdt.model.response.ITalentResponse;
@@ -42,6 +44,26 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
   @Query(value = "CALL SP_INSERT_EDUCATIONAL_EXPERIENCE(:talentId, :#{#educationalExperience.educationalInstitute}, :#{#educationalExperience.career}, :#{#educationalExperience.degree}, :#{#educationalExperience.startDate}, :#{#educationalExperience.endDate})", nativeQuery = true)
   void addEducationalExperience(@Param("talentId") Long talentId,
                                 @Param("educationalExperience") EducationalExperience educationalExperience);
+
+  @Transactional
+  @Modifying
+  @Query(value = "CALL SP_UPDATE_WORK_EXPERIENCE(" +
+          ":talentId, :workExpId, :#{#workExp.company}," +
+          ":#{#workExp.position}, :#{#workExp.startDate}, :#{#workExp.endDate})", nativeQuery = true)
+  void updateWorkExperience(
+          @Param("talentId") Long talentId,
+          @Param("workExpId") Long workExperienceId,
+          @Param("workExp") WorkExperienceRequest workExperienceRequest);
+
+  @Transactional
+  @Modifying
+  @Query(value = "CALL SP_UPDATE_EDUCATIONAL_EXPERIENCE(" +
+          ":talentId, :eduExperienceId, :#{#eduExp.educationalInstitute}," +
+          ":#{#eduExp.career}, :#{#eduExp.degree}, :#{#eduExp.startDate}, :#{#eduExp.endDate})", nativeQuery = true)
+  void updateEducationalExperience(
+          @Param("talentId") Long talentId,
+          @Param("eduExperienceId") Long eduExperienceId,
+          @Param("eduExp") EducationalExperienceRequest educationalExperienceRequest);
 
   @Modifying
   @Transactional

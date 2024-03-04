@@ -2,9 +2,7 @@ package com.app.bdt.controller;
 
 import com.app.bdt.exceptions.NotFoundException;
 import com.app.bdt.model.dto.TalentDto;
-import com.app.bdt.model.request.SoftSkillRequest;
-import com.app.bdt.model.request.TalentRequest;
-import com.app.bdt.model.request.TechnicalSkillRequest;
+import com.app.bdt.model.request.*;
 import com.app.bdt.service.ITalentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,14 +36,13 @@ public class TalentController {
   }
 
   @PostMapping
-  @ResponseBody
   public ResponseEntity<TalentDto> createTalent(@RequestBody @Valid TalentRequest talentRequest) {
     return new ResponseEntity<>(talentService.createTalent(talentRequest), HttpStatus.CREATED);
   }
 
   @PostMapping("/filter_talents")
   public ResponseEntity<Object> getTalentsByTechnicalSkillsLanguageAndLevel(@RequestBody(required = false) Map<String, Object> params) {
-    List<Map<String, Object>> talentByTechnicalSkillsLanguageAndLevel = talentService.getTalentsByTechnicalSkillsLanguageAndLevel(params);
+    List<TalentDto> talentByTechnicalSkillsLanguageAndLevel = talentService.getTalentsByTechnicalSkillsLanguageAndLevel(params);
     if (!talentByTechnicalSkillsLanguageAndLevel.isEmpty()) {
       return new ResponseEntity<>(talentByTechnicalSkillsLanguageAndLevel, HttpStatus.OK);
     }
@@ -69,6 +66,36 @@ public class TalentController {
           @PathVariable Long talentId,
           @RequestBody @Valid SoftSkillRequest softSkillRequest) {
     return new ResponseEntity<>(talentService.addSoftSkill(talentId, softSkillRequest), HttpStatus.OK);
+  }
+
+  @PostMapping("/add_work_exp/{talentId}")
+  public ResponseEntity<Object> addWorkExperience(
+          @PathVariable("talentId") Long talentId,
+          @RequestBody @Valid WorkExperienceRequest workExperienceRequest) {
+    return new ResponseEntity<>(talentService.addWorkExperience(talentId, workExperienceRequest), HttpStatus.OK);
+  }
+
+  @PostMapping("/add_edu_exp/{talentId}")
+  public ResponseEntity<Object> addEducationalExperience(
+          @PathVariable("talentId") Long talentId,
+          @RequestBody @Valid EducationalExperienceRequest educationalExperienceRequest) {
+    return new ResponseEntity<>(talentService.addEducationalExperience(talentId, educationalExperienceRequest), HttpStatus.OK);
+  }
+
+  @PostMapping("/{talentId}/update_work_exp/{workExpId}")
+  public ResponseEntity<Object> updateWorkExperience(
+          @PathVariable("talentId") Long talentId,
+          @PathVariable("workExpId") Long workExpId,
+          @RequestBody @Valid WorkExperienceRequest workExperienceRequest) {
+    return new ResponseEntity<>(talentService.updateWorkExperience(talentId, workExpId, workExperienceRequest), HttpStatus.OK);
+  }
+
+  @PostMapping("/{talentId}/update_edu_exp/{eduExpId}")
+  public ResponseEntity<Object> updateEducationalExperience(
+          @PathVariable("talentId") Long talentId,
+          @PathVariable("eduExpId") Long eduExpId,
+          @RequestBody @Valid EducationalExperienceRequest educationalExperienceRequest) {
+    return new ResponseEntity<>(talentService.updateEducationalExperience(talentId, eduExpId, educationalExperienceRequest), HttpStatus.OK);
   }
 
 }

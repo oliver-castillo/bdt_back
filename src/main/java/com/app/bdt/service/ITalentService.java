@@ -1,9 +1,7 @@
 package com.app.bdt.service;
 
 import com.app.bdt.model.dto.TalentDto;
-import com.app.bdt.model.request.SoftSkillRequest;
-import com.app.bdt.model.request.TalentRequest;
-import com.app.bdt.model.request.TechnicalSkillRequest;
+import com.app.bdt.model.request.*;
 import com.app.bdt.model.response.Response;
 
 import java.util.List;
@@ -25,6 +23,14 @@ public interface ITalentService {
 
   Response addSoftSkill(Long talentId, SoftSkillRequest softSkillRequest);
 
-  List<Map<String, Object>> getTalentsByTechnicalSkillsLanguageAndLevel(Map<String, Object> params);
+  Response addWorkExperience(Long talentId, WorkExperienceRequest workExperienceRequest);
+
+  Response addEducationalExperience(Long talentId, EducationalExperienceRequest educationalExperienceRequest);
+
+  Response updateWorkExperience(Long talentId, Long workExperienceId, WorkExperienceRequest workExperienceRequest);
+
+  Response updateEducationalExperience(Long talentId, Long educationalExperienceId, EducationalExperienceRequest educationalExperienceRequest);
+
+  List<TalentDto> getTalentsByTechnicalSkillsLanguageAndLevel(Map<String, Object> params);
 
 }

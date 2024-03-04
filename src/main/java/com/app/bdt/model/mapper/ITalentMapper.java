@@ -1,19 +1,22 @@
 package com.app.bdt.model.mapper;
 
-import java.util.Base64;
-import java.util.List;
-
+import com.app.bdt.model.dto.FileDto;
+import com.app.bdt.model.dto.TalentDto;
+import com.app.bdt.model.entity.EducationalExperience;
+import com.app.bdt.model.entity.File;
+import com.app.bdt.model.entity.Talent;
+import com.app.bdt.model.entity.WorkExperience;
+import com.app.bdt.model.request.EducationalExperienceRequest;
+import com.app.bdt.model.request.FileRequest;
+import com.app.bdt.model.request.TalentRequest;
+import com.app.bdt.model.request.WorkExperienceRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-import com.app.bdt.model.dto.FileDto;
-import com.app.bdt.model.dto.TalentDto;
-import com.app.bdt.model.entity.File;
-import com.app.bdt.model.entity.Talent;
-import com.app.bdt.model.request.FileRequest;
-import com.app.bdt.model.request.TalentRequest;
+import java.util.Base64;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ITalentMapper {
@@ -27,6 +30,10 @@ public interface ITalentMapper {
   @Mapping(target = "image", source = "image", qualifiedByName = "byteArrayToString")
   @Mapping(target = "filesList", source = "filesList", qualifiedByName = "filesDtoList")
   TalentDto toTalentDto(Talent talent);
+
+  WorkExperience toWorkExperience(WorkExperienceRequest workExperienceRequest);
+
+  EducationalExperience toEducationalExperience(EducationalExperienceRequest educationalExperienceRequest);
 
   List<TalentDto> toTalentDtoList(List<Talent> talents);
 

@@ -1,15 +1,17 @@
 package com.app.bdt.model.dto;
 
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class EducationalExperienceDto {
+
+  private Long id;
 
   private String educationalInstitute;
 

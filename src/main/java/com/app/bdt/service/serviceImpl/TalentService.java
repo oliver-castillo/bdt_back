@@ -6,9 +6,7 @@ import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.entity.*;
 import com.app.bdt.model.mapper.IMasterMapper;
 import com.app.bdt.model.mapper.ITalentMapper;
-import com.app.bdt.model.request.SoftSkillRequest;
-import com.app.bdt.model.request.TalentRequest;
-import com.app.bdt.model.request.TechnicalSkillRequest;
+import com.app.bdt.model.request.*;
 import com.app.bdt.model.response.ILanguagesTalent;
 import com.app.bdt.model.response.ITalentResponse;
 import com.app.bdt.model.response.Response;
@@ -60,7 +58,6 @@ public class TalentService implements ITalentService {
     return talentRepository.findTalentById(talentId);
   }
 
-
   @Override
   public TalentDto createTalent(TalentRequest talentRequest) {
     try {
@@ -105,7 +102,6 @@ public class TalentService implements ITalentService {
       throw new InternalServerError(e.getMessage());
     }
   }
-
 
   @Override
   public TalentDto updateTalent(Long talentId, TalentRequest talentRequest) {
@@ -206,7 +202,63 @@ public class TalentService implements ITalentService {
   }
 
   @Override
-  public List<Map<String, Object>> getTalentsByTechnicalSkillsLanguageAndLevel(Map<String, Object> params) {
+  public Response addWorkExperience(Long talentId, WorkExperienceRequest workExperienceRequest) {
+    Talent talent = getTalentById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    try {
+      talentRepository.addWorkExperience(talent.getId(), talentMapper.toWorkExperience(workExperienceRequest));
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
+  public Response addEducationalExperience(Long talentId, EducationalExperienceRequest educationalExperienceRequest) {
+    Talent talent = getTalentById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    try {
+      talentRepository.addEducationalExperience(talent.getId(), talentMapper.toEducationalExperience(educationalExperienceRequest));
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
+  public Response updateWorkExperience(Long talentId, Long workExperienceId, WorkExperienceRequest workExperienceRequest) {
+    TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    boolean workExperienceExists = talentDto.getWorkExperiencesList().stream()
+            .anyMatch(workExperienceDto -> workExperienceDto.getId().equals(workExperienceId));
+    if (workExperienceExists) {
+      try {
+        talentRepository.updateWorkExperience(talentId, workExperienceId, workExperienceRequest);
+        return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_UPDATE.getMessage());
+      } catch (RuntimeException e) {
+        throw new InternalServerError(e.getMessage());
+      }
+    } else {
+      throw new NotFoundException(Messages.NOT_FOUND.getMessage());
+    }
+  }
+
+  @Override
+  public Response updateEducationalExperience(Long talentId, Long educationalExperienceId, EducationalExperienceRequest educationalExperienceRequest) {
+    TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    boolean educationalExperienceExists = talentDto.getEducationalExperiencesList().stream()
+            .anyMatch(educationalExperienceDto -> educationalExperienceDto.getId().equals(educationalExperienceId));
+    if (educationalExperienceExists) {
+      try {
+        talentRepository.updateEducationalExperience(talentId, educationalExperienceId, educationalExperienceRequest);
+        return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_UPDATE.getMessage());
+      } catch (RuntimeException e) {
+        throw new InternalServerError(e.getMessage());
+      }
+    } else {
+      throw new NotFoundException(Messages.NOT_FOUND.getMessage());
+    }
+  }
+
+  @Override
+  public List<TalentDto> getTalentsByTechnicalSkillsLanguageAndLevel(Map<String, Object> params) {
     try {
       Optional<Integer> languageId = Optional.ofNullable((Integer) params.get("languageId"));
       Optional<Integer> levelId = Optional.ofNullable((Integer) params.get("levelId"));
@@ -221,7 +273,7 @@ public class TalentService implements ITalentService {
       } else {
         result = talentRepository.findTalentsIdsByTechnicalSkillsLanguageIdAndLevelId(null, null, null);
       }
-      return result.stream()
+      /*List<Map<String, Object>> talentIdsFiltered = result.stream()
               .collect(Collectors.toMap(ITalentResponse::getTalentId, obj -> obj, (existing, replacement) -> existing))
               .values().stream()
               .map(object -> {
@@ -230,6 +282,19 @@ public class TalentService implements ITalentService {
                 return map;
               })
               .collect(Collectors.toList());
+      List<TalentDto> talentDtoList = getTalents();
+      List<TalentDto> filteredTalentDtoList = new ArrayList<>();
+      for (ITalentResponse talentResponse : result) {
+        for (TalentDto talentDto : talentDtoList) {
+          if (talentDto.getId() == talentResponse.getTalentId()) {
+            filteredTalentDtoList.add(talentDto);
+          }
+        }
+      }*/
+      Set<ITalentResponse> res = new HashSet<>(result);
+      return getTalents().stream().filter(
+              talent -> res.stream().anyMatch(
+                      obj -> obj.getTalentId().equals(talent.getId()))).collect(Collectors.toList());
     } catch (NumberFormatException e) {
       throw new InternalServerError("Error de conversión de tipo: " + e.getMessage());
     } catch (RuntimeException e) {

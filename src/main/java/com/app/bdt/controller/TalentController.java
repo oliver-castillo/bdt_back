@@ -3,6 +3,7 @@ package com.app.bdt.controller;
 import com.app.bdt.exceptions.NotFoundException;
 import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.request.*;
+import com.app.bdt.model.response.TalentCardResponse;
 import com.app.bdt.service.ITalentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class TalentController {
 
   @PostMapping("/filter_talents")
   public ResponseEntity<Object> getTalentsByTechnicalSkillsLanguageAndLevel(@RequestBody(required = false) Map<String, Object> params) {
-    List<TalentDto> talentByTechnicalSkillsLanguageAndLevel = talentService.getTalentsByTechnicalSkillsLanguageAndLevel(params);
+    List<TalentCardResponse> talentByTechnicalSkillsLanguageAndLevel = talentService.getTalentsByTechnicalSkillsLanguageAndLevel(params);
     if (!talentByTechnicalSkillsLanguageAndLevel.isEmpty()) {
       return new ResponseEntity<>(talentByTechnicalSkillsLanguageAndLevel, HttpStatus.OK);
     }

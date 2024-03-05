@@ -10,6 +10,7 @@ import com.app.bdt.model.request.EducationalExperienceRequest;
 import com.app.bdt.model.request.FileRequest;
 import com.app.bdt.model.request.TalentRequest;
 import com.app.bdt.model.request.WorkExperienceRequest;
+import com.app.bdt.model.response.TalentCardResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -36,6 +37,8 @@ public interface ITalentMapper {
   EducationalExperience toEducationalExperience(EducationalExperienceRequest educationalExperienceRequest);
 
   List<TalentDto> toTalentDtoList(List<Talent> talents);
+
+  List<TalentCardResponse> toTalentCardResponseList(List<TalentDto> talentDto);
 
   @Mapping(target = "fileInBytes", source = "file", qualifiedByName = "stringToByteArray")
   File toFile(FileRequest fileRequest);

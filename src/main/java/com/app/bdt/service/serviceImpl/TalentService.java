@@ -10,6 +10,7 @@ import com.app.bdt.model.request.*;
 import com.app.bdt.model.response.ILanguagesTalent;
 import com.app.bdt.model.response.ITalentResponse;
 import com.app.bdt.model.response.Response;
+import com.app.bdt.model.response.TalentCardResponse;
 import com.app.bdt.repository.ITalentMasterRepository;
 import com.app.bdt.repository.ITalentRepository;
 import com.app.bdt.service.ITalentService;
@@ -258,7 +259,7 @@ public class TalentService implements ITalentService {
   }
 
   @Override
-  public List<TalentDto> getTalentsByTechnicalSkillsLanguageAndLevel(Map<String, Object> params) {
+  public List<TalentCardResponse> getTalentsByTechnicalSkillsLanguageAndLevel(Map<String, Object> params) {
     try {
       Optional<Integer> languageId = Optional.ofNullable((Integer) params.get("languageId"));
       Optional<Integer> levelId = Optional.ofNullable((Integer) params.get("levelId"));
@@ -273,28 +274,11 @@ public class TalentService implements ITalentService {
       } else {
         result = talentRepository.findTalentsIdsByTechnicalSkillsLanguageIdAndLevelId(null, null, null);
       }
-      /*List<Map<String, Object>> talentIdsFiltered = result.stream()
-              .collect(Collectors.toMap(ITalentResponse::getTalentId, obj -> obj, (existing, replacement) -> existing))
-              .values().stream()
-              .map(object -> {
-                Map<String, Object> map = new HashMap<>();
-                map.put("talentId", object.getTalentId());
-                return map;
-              })
-              .collect(Collectors.toList());
-      List<TalentDto> talentDtoList = getTalents();
-      List<TalentDto> filteredTalentDtoList = new ArrayList<>();
-      for (ITalentResponse talentResponse : result) {
-        for (TalentDto talentDto : talentDtoList) {
-          if (talentDto.getId() == talentResponse.getTalentId()) {
-            filteredTalentDtoList.add(talentDto);
-          }
-        }
-      }*/
       Set<ITalentResponse> res = new HashSet<>(result);
-      return getTalents().stream().filter(
+      return talentMapper.toTalentCardResponseList(getTalents().stream().filter(
               talent -> res.stream().anyMatch(
-                      obj -> obj.getTalentId().equals(talent.getId()))).collect(Collectors.toList());
+                      obj -> obj.getTalentId().equals(talent.getId()))).collect(Collectors.toList()));
+
     } catch (NumberFormatException e) {
       throw new InternalServerError("Error de conversión de tipo: " + e.getMessage());
     } catch (RuntimeException e) {

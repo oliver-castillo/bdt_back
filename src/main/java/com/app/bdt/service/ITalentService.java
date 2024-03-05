@@ -3,6 +3,7 @@ package com.app.bdt.service;
 import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.request.*;
 import com.app.bdt.model.response.Response;
+import com.app.bdt.model.response.TalentCardResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,6 @@ public interface ITalentService {
 
   Response updateEducationalExperience(Long talentId, Long educationalExperienceId, EducationalExperienceRequest educationalExperienceRequest);
 
-  List<TalentDto> getTalentsByTechnicalSkillsLanguageAndLevel(Map<String, Object> params);
+  List<TalentCardResponse> getTalentsByTechnicalSkillsLanguageAndLevel(Map<String, Object> params);
 
 }

@@ -9,6 +9,9 @@ public interface ILanguagesTalent {
 
   String getLanguage();
 
+  @Value("#{target.LANGUAGE_ID}")
+  Integer getLanguageId();
+
   String getLevel();
 
   @Value("#{target.NUMBER_OF_STARS}")

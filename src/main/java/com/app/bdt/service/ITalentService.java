@@ -10,11 +10,13 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface ITalentService {
-  List<TalentDto> getTalents();
+  List<TalentDto> getAllTalents();
 
   Optional<TalentDto> getTalentDtoById(Long talentId);
 
-  TalentDto createTalent(TalentRequest talentRequest);
+  List<TalentCardResponse> getAllTalentsWithBasicData();
+
+  TalentDto create(TalentRequest talentRequest);
 
   TalentDto updateTalent(Long talentId, TalentRequest talentRequest);
 
@@ -30,10 +32,12 @@ public interface ITalentService {
 
   Response addEducationalExperience(Long talentId, EducationalExperienceRequest educationalExperienceRequest);
 
+  Response addLanguage(Long talentId, LanguageRequest languageRequest);
+
   Response updateWorkExperience(Long talentId, Long workExperienceId, WorkExperienceRequest workExperienceRequest);
 
   Response updateEducationalExperience(Long talentId, Long educationalExperienceId, EducationalExperienceRequest educationalExperienceRequest);
 
-  List<TalentCardResponse> getTalentsByTechnicalSkillsLanguageAndLevel(Map<String, Object> params);
+  List<TalentCardResponse> getByTechnicalSkillsLanguageAndLevel(Map<String, Object> params);
 
 }

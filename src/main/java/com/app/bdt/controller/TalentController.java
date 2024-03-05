@@ -24,7 +24,12 @@ public class TalentController {
 
   @GetMapping
   public ResponseEntity<List<TalentDto>> getTalents() {
-    return ResponseEntity.ok(talentService.getTalents());
+    return ResponseEntity.ok(talentService.getAllTalents());
+  }
+
+  @GetMapping("/cards_data")
+  public ResponseEntity<Object> getTalentsWithBasicData() {
+    return new ResponseEntity<>(talentService.getAllTalentsWithBasicData(), HttpStatus.OK);
   }
 
   @GetMapping(value = "/{talentId}")
@@ -38,12 +43,12 @@ public class TalentController {
 
   @PostMapping
   public ResponseEntity<TalentDto> createTalent(@RequestBody @Valid TalentRequest talentRequest) {
-    return new ResponseEntity<>(talentService.createTalent(talentRequest), HttpStatus.CREATED);
+    return new ResponseEntity<>(talentService.create(talentRequest), HttpStatus.CREATED);
   }
 
   @PostMapping("/filter_talents")
   public ResponseEntity<Object> getTalentsByTechnicalSkillsLanguageAndLevel(@RequestBody(required = false) Map<String, Object> params) {
-    List<TalentCardResponse> talentByTechnicalSkillsLanguageAndLevel = talentService.getTalentsByTechnicalSkillsLanguageAndLevel(params);
+    List<TalentCardResponse> talentByTechnicalSkillsLanguageAndLevel = talentService.getByTechnicalSkillsLanguageAndLevel(params);
     return new ResponseEntity<>(talentByTechnicalSkillsLanguageAndLevel, HttpStatus.OK);
 
   }

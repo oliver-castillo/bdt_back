@@ -1,7 +1,9 @@
 package com.app.bdt.service.serviceImpl;
 
+import com.app.bdt.exceptions.BadRequestException;
 import com.app.bdt.exceptions.InternalServerError;
 import com.app.bdt.exceptions.NotFoundException;
+import com.app.bdt.model.dto.LanguageDto;
 import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.entity.*;
 import com.app.bdt.model.mapper.IMasterMapper;
@@ -34,7 +36,7 @@ public class TalentService implements ITalentService {
   private final IMasterMapper masterMapper;
 
   @Override
-  public List<TalentDto> getTalents() {
+  public List<TalentDto> getAllTalents() {
     try {
       List<Talent> talentsList = talentRepository.findAllTalents();
       return talentsList.stream()
@@ -55,12 +57,21 @@ public class TalentService implements ITalentService {
     }
   }
 
+  @Override
+  public List<TalentCardResponse> getAllTalentsWithBasicData() {
+    try {
+      return talentMapper.toTalentCardResponseList(getAllTalents());
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
   private Optional<Talent> getTalentById(Long talentId) {
     return talentRepository.findTalentById(talentId);
   }
 
   @Override
-  public TalentDto createTalent(TalentRequest talentRequest) {
+  public TalentDto create(TalentRequest talentRequest) {
     try {
       Talent talent = talentMapper.toTalent(talentRequest);
       talentRepository.createTalent(talent);
@@ -237,6 +248,25 @@ public class TalentService implements ITalentService {
   }
 
   @Override
+  public Response addLanguage(Long talentId, LanguageRequest languageRequest) {
+    TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    try {
+      List<LanguageDto> languagesOfTalent = talentDto.getLanguagesList();
+      Response response = new Response();
+      for (LanguageDto language : languagesOfTalent) {
+        if (language.getLanguageId() == languageRequest.getLanguageId()) {
+          throw new BadRequestException("El idioma ya está registrado");
+        } else {
+          talentRepository.addLanguage(talentId, new Language(null, languageRequest.getLanguageId(), languageRequest.getLevelId(), languageRequest.getNumberOfStars()));
+        }
+      }
+    } catch (Exception e) {
+      throw new InternalServerError(e.getMessage());
+    }
+    return null;
+  }
+
+  @Override
   public Response updateWorkExperience(Long talentId, Long workExperienceId, WorkExperienceRequest workExperienceRequest) {
     TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
     boolean workExperienceExists = talentDto.getWorkExperiencesList().stream()
@@ -271,7 +301,7 @@ public class TalentService implements ITalentService {
   }
 
   @Override
-  public List<TalentCardResponse> getTalentsByTechnicalSkillsLanguageAndLevel(Map<String, Object> params) {
+  public List<TalentCardResponse> getByTechnicalSkillsLanguageAndLevel(Map<String, Object> params) {
     try {
       Optional<Integer> languageId = Optional.ofNullable((Integer) params.get("languageId"));
       Optional<Integer> levelId = Optional.ofNullable((Integer) params.get("levelId"));
@@ -287,7 +317,7 @@ public class TalentService implements ITalentService {
         result = talentRepository.findTalentsIdsByTechnicalSkillsLanguageIdAndLevelId(null, null, null);
       }
       Set<ITalentResponse> res = new HashSet<>(result);
-      return talentMapper.toTalentCardResponseList(getTalents().stream().filter(
+      return talentMapper.toTalentCardResponseList(getAllTalents().stream().filter(
               talent -> res.stream().anyMatch(
                       obj -> obj.getTalentId().equals(talent.getId()))).collect(Collectors.toList()));
     } catch (RuntimeException e) {

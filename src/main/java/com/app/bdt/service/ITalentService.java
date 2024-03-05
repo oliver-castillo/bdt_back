@@ -18,7 +18,9 @@ public interface ITalentService {
 
   TalentDto updateTalent(Long talentId, TalentRequest talentRequest);
 
-  Response updateSalaryBandOfTalent(Long talentId, TalentRequest talentRequest);
+  Response updateSalaryBand(Long talentId, TalentRequest talentRequest);
+
+  Response updateDescription(Long talentId, String description);
 
   Response addTechnicalSkill(Long talentId, TechnicalSkillRequest technicalSkillRequest);
 

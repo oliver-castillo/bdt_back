@@ -12,15 +12,10 @@ import java.time.LocalDate;
 public class EducationalExperienceDto {
 
   private Long id;
-
   private String educationalInstitute;
-
   private String career;
-
   private String degree;
-
   private LocalDate startDate;
-
   private LocalDate endDate;
 
 }

@@ -152,7 +152,7 @@ public class TalentService implements ITalentService {
   }
 
   @Override
-  public Response updateSalaryBandOfTalent(Long talentId, TalentRequest talentRequest) {
+  public Response updateSalaryBand(Long talentId, TalentRequest talentRequest) {
     Optional<Talent> talent = talentRepository.findTalentById(talentId);
     if (talent.isPresent()) {
       try {
@@ -167,6 +167,17 @@ public class TalentService implements ITalentService {
     } else {
       throw new NotFoundException("No se encontró el registro");
     }
+  }
+
+  @Override
+  public Response updateDescription(Long talentId, String description) {
+    Talent talent = getTalentById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    try {
+      talent.setDescription(description);
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+    return null;
   }
 
   @Override
@@ -278,9 +289,6 @@ public class TalentService implements ITalentService {
       return talentMapper.toTalentCardResponseList(getTalents().stream().filter(
               talent -> res.stream().anyMatch(
                       obj -> obj.getTalentId().equals(talent.getId()))).collect(Collectors.toList()));
-
-    } catch (NumberFormatException e) {
-      throw new InternalServerError("Error de conversión de tipo: " + e.getMessage());
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }
@@ -288,15 +296,12 @@ public class TalentService implements ITalentService {
 
   private TalentDto getBuiltTalentDto(Talent talent) {
     TalentDto talentDto = talentMapper.toTalentDto(talent);
-
     List<ILanguagesTalent> languagesTalent = talentMasterRepository.findAllLanguagesOfTalents().stream()
             .filter(languageTalent -> Objects.equals(languageTalent.getTalentId(), talent.getId()))
             .collect(Collectors.toList());
-
     talentDto.setLanguagesList(masterMapper.toLanguageDtoList(languagesTalent));
-
     talentMasterRepository.getMasterDataOfTalents().stream()
-            .filter(talentMasterDataResponse -> talent.getId() == talentMasterDataResponse.getTalentId())
+            .filter(talentMasterDataResponse -> Objects.equals(talent.getId(), talentMasterDataResponse.getTalentId()))
             .findFirst()
             .ifPresent(talentMasterDataResponse -> {
               talentDto.setCountry(talentMasterDataResponse.getCountry());
@@ -304,7 +309,6 @@ public class TalentService implements ITalentService {
               talentDto.setCurrency(talentMasterDataResponse.getCurrency());
               talentDto.setProfile(talentMasterDataResponse.getProfile());
             });
-
     return talentDto;
   }
 

@@ -44,15 +44,13 @@ public class TalentController {
   @PostMapping("/filter_talents")
   public ResponseEntity<Object> getTalentsByTechnicalSkillsLanguageAndLevel(@RequestBody(required = false) Map<String, Object> params) {
     List<TalentCardResponse> talentByTechnicalSkillsLanguageAndLevel = talentService.getTalentsByTechnicalSkillsLanguageAndLevel(params);
-    if (!talentByTechnicalSkillsLanguageAndLevel.isEmpty()) {
-      return new ResponseEntity<>(talentByTechnicalSkillsLanguageAndLevel, HttpStatus.OK);
-    }
-    throw new NotFoundException("No se encontraron registros");
+    return new ResponseEntity<>(talentByTechnicalSkillsLanguageAndLevel, HttpStatus.OK);
+
   }
 
   @PutMapping("/update_salary_band/{talentId}")
   public ResponseEntity<Object> updateTalentById(@PathVariable Long talentId, @RequestBody @Valid TalentRequest talentRequest) {
-    return new ResponseEntity<>(talentService.updateSalaryBandOfTalent(talentId, talentRequest), HttpStatus.OK);
+    return new ResponseEntity<>(talentService.updateSalaryBand(talentId, talentRequest), HttpStatus.OK);
   }
 
   @PostMapping("/add_technical_skill/{talentId}")

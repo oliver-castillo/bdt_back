@@ -174,10 +174,11 @@ public class TalentService implements ITalentService {
     Talent talent = getTalentById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
     try {
       talent.setDescription(description);
+      talentRepository.updateTalent(talent.getId(), talent);
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_UPDATE.getMessage());
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }
-    return null;
   }
 
   @Override

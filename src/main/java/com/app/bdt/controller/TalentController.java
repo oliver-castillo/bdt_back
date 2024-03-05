@@ -53,6 +53,11 @@ public class TalentController {
     return new ResponseEntity<>(talentService.updateSalaryBand(talentId, talentRequest), HttpStatus.OK);
   }
 
+  @PutMapping("/update_description/{talentId}")
+  public ResponseEntity<Object> updateDescription(@PathVariable Long talentId, @RequestBody @Valid Map<String, String> param) {
+    return new ResponseEntity<>(talentService.updateDescription(talentId, param.get("description")), HttpStatus.OK);
+  }
+
   @PostMapping("/add_technical_skill/{talentId}")
   public ResponseEntity<Object> addTechnicalSkill(
           @PathVariable Long talentId,

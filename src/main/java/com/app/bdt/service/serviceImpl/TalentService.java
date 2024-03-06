@@ -258,21 +258,20 @@ public class TalentService implements ITalentService {
 
   @Override
   public Response addLanguage(Long talentId, LanguageRequest languageRequest) {
-    TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
     try {
+      TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
       List<LanguageDto> languagesOfTalent = talentDto.getLanguagesList();
-      Response response = new Response();
-      for (LanguageDto language : languagesOfTalent) {
-        if (language.getLanguageId() == languageRequest.getLanguageId()) {
-          throw new BadRequestException("El idioma ya está registrado");
-        } else {
-          talentRepository.addLanguage(talentId, new Language(null, languageRequest.getLanguageId(), languageRequest.getLevelId(), languageRequest.getNumberOfStars()));
-        }
+      boolean hasLanguage = languagesOfTalent.stream().anyMatch(language -> language.getLanguageId().equals(languageRequest.getLanguageId()));
+      if (hasLanguage) {
+        throw new BadRequestException(Messages.ALREADY_REGISTERED.getMessage());
       }
-    } catch (Exception e) {
+      talentRepository.addLanguage(talentId, talentMapper.toLanguage(languageRequest));
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
+    } catch (BadRequestException e) {
+      throw e;
+    } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }
-    return null;
   }
 
   @Override

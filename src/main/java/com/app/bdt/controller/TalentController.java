@@ -95,7 +95,12 @@ public class TalentController {
     return new ResponseEntity<>(talentService.addEducationalExperience(talentId, educationalExperienceRequest), HttpStatus.OK);
   }
 
-  @PostMapping("/{talentId}/update_work_exp/{workExpId}")
+  @PostMapping("/add_language/{talentId}")
+  public ResponseEntity<Object> addLanguage(@PathVariable Long talentId, @RequestBody @Valid LanguageRequest languageRequest) {
+    return new ResponseEntity<>(talentService.addLanguage(talentId, languageRequest), HttpStatus.OK);
+  }
+
+  @PutMapping("/{talentId}/update_work_exp/{workExpId}")
   public ResponseEntity<Object> updateWorkExperience(
           @PathVariable("talentId") Long talentId,
           @PathVariable("workExpId") Long workExpId,
@@ -103,7 +108,7 @@ public class TalentController {
     return new ResponseEntity<>(talentService.updateWorkExperience(talentId, workExpId, workExperienceRequest), HttpStatus.OK);
   }
 
-  @PostMapping("/{talentId}/update_edu_exp/{eduExpId}")
+  @PutMapping("/{talentId}/update_edu_exp/{eduExpId}")
   public ResponseEntity<Object> updateEducationalExperience(
           @PathVariable("talentId") Long talentId,
           @PathVariable("eduExpId") Long eduExpId,

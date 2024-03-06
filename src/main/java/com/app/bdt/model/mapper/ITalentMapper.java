@@ -2,14 +2,8 @@ package com.app.bdt.model.mapper;
 
 import com.app.bdt.model.dto.FileDto;
 import com.app.bdt.model.dto.TalentDto;
-import com.app.bdt.model.entity.EducationalExperience;
-import com.app.bdt.model.entity.File;
-import com.app.bdt.model.entity.Talent;
-import com.app.bdt.model.entity.WorkExperience;
-import com.app.bdt.model.request.EducationalExperienceRequest;
-import com.app.bdt.model.request.FileRequest;
-import com.app.bdt.model.request.TalentRequest;
-import com.app.bdt.model.request.WorkExperienceRequest;
+import com.app.bdt.model.entity.*;
+import com.app.bdt.model.request.*;
 import com.app.bdt.model.response.TalentCardResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -39,6 +33,8 @@ public interface ITalentMapper {
   List<TalentDto> toTalentDtoList(List<Talent> talents);
 
   List<TalentCardResponse> toTalentCardResponseList(List<TalentDto> talentDto);
+
+  Language toLanguage(LanguageRequest languageRequest);
 
   @Mapping(target = "fileInBytes", source = "file", qualifiedByName = "stringToByteArray")
   File toFile(FileRequest fileRequest);

@@ -20,7 +20,9 @@ public interface ITalentService {
 
   TalentDto updateTalent(Long talentId, TalentRequest talentRequest);
 
-  Response updateSalaryBand(Long talentId, TalentRequest talentRequest);
+  Response updateSocials(Long talentId, SocialRequest socialRequest);
+
+  Response updateSalaryBand(Long talentId, SalaryBandRequest salaryBandRequest);
 
   Response updateDescription(Long talentId, String description);
 

@@ -50,12 +50,16 @@ public class TalentController {
   public ResponseEntity<Object> getTalentsByTechnicalSkillsLanguageAndLevel(@RequestBody(required = false) Map<String, Object> params) {
     List<TalentCardResponse> talentByTechnicalSkillsLanguageAndLevel = talentService.getByTechnicalSkillsLanguageAndLevel(params);
     return new ResponseEntity<>(talentByTechnicalSkillsLanguageAndLevel, HttpStatus.OK);
+  }
 
+  @PutMapping("/update_socials/{talentId}")
+  public ResponseEntity<Object> updateSocials(@PathVariable Long talentId, @RequestBody @Valid SocialRequest socialRequest) {
+    return new ResponseEntity<>(talentService.updateSocials(talentId, socialRequest), HttpStatus.OK);
   }
 
   @PutMapping("/update_salary_band/{talentId}")
-  public ResponseEntity<Object> updateTalentById(@PathVariable Long talentId, @RequestBody @Valid TalentRequest talentRequest) {
-    return new ResponseEntity<>(talentService.updateSalaryBand(talentId, talentRequest), HttpStatus.OK);
+  public ResponseEntity<Object> updateTalentById(@PathVariable Long talentId, @RequestBody @Valid SalaryBandRequest salaryBandRequest) {
+    return new ResponseEntity<>(talentService.updateSalaryBand(talentId, salaryBandRequest), HttpStatus.OK);
   }
 
   @PutMapping("/update_description/{talentId}")

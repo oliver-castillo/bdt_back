@@ -163,20 +163,29 @@ public class TalentService implements ITalentService {
   }
 
   @Override
-  public Response updateSalaryBand(Long talentId, TalentRequest talentRequest) {
-    Optional<Talent> talent = talentRepository.findTalentById(talentId);
-    if (talent.isPresent()) {
-      try {
-        talent.get().setInitialAmount(talentRequest.getInitialAmount());
-        talent.get().setFinalAmount(talentRequest.getFinalAmount());
-        talentRepository.updateTalent(talent.get().getId(), talent.get());
-        talentRepository.updateCurrency(talent.get().getId(), talentRequest.getCurrencyId());
-        return new Response(HttpStatus.OK.value(), "Se realizó la actualización");
-      } catch (RuntimeException e) {
-        throw new InternalServerError(e.getMessage());
-      }
-    } else {
-      throw new NotFoundException("No se encontró el registro");
+  public Response updateSocials(Long talentId, SocialRequest socialRequest) {
+    Talent talent = getTalentById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    try {
+      talent.setGithubLink(socialRequest.getGithubLink());
+      talent.setLinkedinLink(socialRequest.getLinkedinLink());
+      talentRepository.updateTalent(talent.getId(), talent);
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_UPDATE.getMessage());
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
+  public Response updateSalaryBand(Long talentId, SalaryBandRequest salaryBandRequest) {
+    Talent talent = getTalentById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    try {
+      talent.setInitialAmount(salaryBandRequest.getInitialAmount());
+      talent.setFinalAmount(salaryBandRequest.getFinalAmount());
+      talentRepository.updateTalent(talent.getId(), talent);
+      talentRepository.updateCurrency(talent.getId(), salaryBandRequest.getCurrencyId());
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_UPDATE.getMessage());
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
     }
   }
 

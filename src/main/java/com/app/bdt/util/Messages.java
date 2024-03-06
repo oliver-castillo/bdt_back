@@ -4,7 +4,9 @@ public enum Messages {
 
   NOT_FOUND("Registro no encontrado"),
   SUCCESSFUL_UPDATE("Actualización realizada correctamente"),
-  SUCCESSFUL_INSERT("Registro realizado correctamente");
+  SUCCESSFUL_INSERT("Registro realizado correctamente"),
+
+  INVALID_DATA("Ingrese datos válidos");
 
   private final String message;
 

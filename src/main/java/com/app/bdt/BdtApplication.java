@@ -22,7 +22,7 @@ public class BdtApplication {
                 .allowedOrigins("http://localhost:4200")
                 .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS", "HEAD")
                 .maxAge(3600)
-                .allowedHeaders("Requestor-Type")
+                .allowedHeaders("*")
                 .exposedHeaders("X-Get-Header");
       }
     };

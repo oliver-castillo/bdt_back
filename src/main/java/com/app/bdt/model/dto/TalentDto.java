@@ -15,6 +15,10 @@ public class TalentDto {
   private String name;
   private String paternalSurname;
   private String maternalSurname;
+  private Integer countryId;
+  private Integer cityId;
+  private Integer currencyId;
+  private Integer profileId;
   private String country;
   private String city;
   private String currency;
@@ -33,17 +37,4 @@ public class TalentDto {
   private String image;
   private List<FileDto> filesList;
 
-  public TalentDto(Long id, String name, String paternalSurname, String maternalSurname, String country, String city, String currency, String profile, Double initialAmount, Double finalAmount, String image) {
-    this.id = id;
-    this.name = name;
-    this.paternalSurname = paternalSurname;
-    this.maternalSurname = maternalSurname;
-    this.country = country;
-    this.city = city;
-    this.currency = currency;
-    this.profile = profile;
-    this.initialAmount = initialAmount;
-    this.finalAmount = finalAmount;
-    this.image = image;
-  }
 }

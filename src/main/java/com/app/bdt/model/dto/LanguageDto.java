@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LanguageDto {
 
+  private Long id;
+
   private Integer languageId;
 
   private String language;

@@ -7,6 +7,18 @@ public interface ITalentMasterDataResponse {
   @Value("#{target.TALENT_ID}")
   Long getTalentId();
 
+  @Value("#{target.COUNTRY_ID}")
+  Integer getCountryId();
+
+  @Value("#{target.CITY_ID}")
+  Integer getCityId();
+
+  @Value("#{target.CURRENCY_ID}")
+  Integer getCurrencyId();
+
+  @Value("#{target.PROFILE_ID}")
+  Integer getProfileId();
+
   String getCountry();
 
   String getCity();

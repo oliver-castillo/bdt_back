@@ -1,18 +1,16 @@
 package com.app.bdt.repository;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import com.app.bdt.model.entity.TalentMaster;
+import com.app.bdt.model.response.ILanguagesTalentResponse;
+import com.app.bdt.model.response.ITalentMasterDataResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.app.bdt.model.entity.TalentMaster;
-import com.app.bdt.model.response.ILanguagesTalent;
-import com.app.bdt.model.response.ITalentMasterDataResponse;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface ITalentMasterRepository extends JpaRepository<TalentMaster, Long> {
@@ -41,6 +39,6 @@ public interface ITalentMasterRepository extends JpaRepository<TalentMaster, Lon
   List<ITalentMasterDataResponse> getMasterDataOfTalents();
 
   @Query(value = "CALL SP_GET_LANGUAGES_TALENTS", nativeQuery = true)
-  List<ILanguagesTalent> findAllLanguagesOfTalents();
+  List<ILanguagesTalentResponse> findAllLanguagesOfTalents();
 
 }

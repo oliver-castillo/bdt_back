@@ -2,7 +2,9 @@ package com.app.bdt.model.response;
 
 import org.springframework.beans.factory.annotation.Value;
 
-public interface ILanguagesTalent {
+public interface ILanguagesTalentResponse {
+
+  Long getId();
 
   @Value("#{target.TALENT_ID}")
   Long getTalentId();

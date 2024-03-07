@@ -9,7 +9,7 @@ import com.app.bdt.model.entity.*;
 import com.app.bdt.model.mapper.IMasterMapper;
 import com.app.bdt.model.mapper.ITalentMapper;
 import com.app.bdt.model.request.*;
-import com.app.bdt.model.response.ILanguagesTalent;
+import com.app.bdt.model.response.ILanguagesTalentResponse;
 import com.app.bdt.model.response.ITalentResponse;
 import com.app.bdt.model.response.Response;
 import com.app.bdt.model.response.TalentCardResponse;
@@ -70,12 +70,23 @@ public class TalentService implements ITalentService {
     return talentRepository.findTalentById(talentId);
   }
 
+  private void validSkillsList(List<TechnicalSkill> technicalSkills, List<SoftSkill> softSkills) {
+    Set<String> uniqueTechnicalSkills = new HashSet<>();
+    Set<String> uniqueSoftSkills = new HashSet<>();
+    boolean distinctTechnicalSkills = technicalSkills.stream().allMatch(skill -> uniqueTechnicalSkills.add(skill.getSkill().toUpperCase()));
+    boolean distinctSoftSkills = softSkills.stream().allMatch(skill -> uniqueSoftSkills.add(skill.getSkill().toUpperCase()));
+    if (!distinctTechnicalSkills || !distinctSoftSkills) {
+      throw new BadRequestException(Messages.REPEATED_DATA.getMessage());
+    }
+  }
+
   @Override
   public TalentDto create(TalentRequest talentRequest) {
     try {
       Talent talent = talentMapper.toTalent(talentRequest);
       talentRepository.createTalent(talent);
       Talent createdTalent = talentRepository.getLastInsertedTalent();
+      validSkillsList(talent.getTechnicalSkillsList(), talent.getSoftSkillsList());
       /* Add technical skills */
       for (TechnicalSkill technicalSkill : talent.getTechnicalSkillsList()) {
         talentRepository.addTechnicalSkill(createdTalent.getId(), technicalSkill);
@@ -108,8 +119,9 @@ public class TalentService implements ITalentService {
       talentMasterRepository.addCurrency(createdTalent.getId(), talentRequest.getCurrencyId());
       /* Add profile */
       talentMasterRepository.addProfile(createdTalent.getId(), talentRequest.getProfileId());
-
       return getBuiltTalentDto(createdTalent);
+    } catch (BadRequestException e) {
+      throw e;
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }
@@ -274,6 +286,7 @@ public class TalentService implements ITalentService {
     }
   }
 
+
   @Override
   public Response updateWorkExperience(Long talentId, Long workExperienceId, WorkExperienceRequest workExperienceRequest) {
     TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
@@ -309,6 +322,25 @@ public class TalentService implements ITalentService {
   }
 
   @Override
+  public Response updateLanguage(Long talentId, LanguageRequest languageRequest) {
+    TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    try {
+      if (languageIsAlreadyRegistered(talentDto.getLanguagesList(), languageRequest.getLanguageId())) {
+
+      }
+    } catch (NotFoundException e) {
+      throw e;
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+    return null;
+  }
+
+  private boolean languageIsAlreadyRegistered(List<LanguageDto> languages, Integer languageId) {
+    return languages.stream().anyMatch(language -> language.getLanguageId().equals(languageId));
+  }
+
+  @Override
   public List<TalentCardResponse> getByTechnicalSkillsLanguageAndLevel(Map<String, Object> params) {
     try {
       Optional<Integer> languageId = Optional.ofNullable((Integer) params.get("languageId"));
@@ -335,7 +367,7 @@ public class TalentService implements ITalentService {
 
   private TalentDto getBuiltTalentDto(Talent talent) {
     TalentDto talentDto = talentMapper.toTalentDto(talent);
-    List<ILanguagesTalent> languagesTalent = talentMasterRepository.findAllLanguagesOfTalents().stream()
+    List<ILanguagesTalentResponse> languagesTalent = talentMasterRepository.findAllLanguagesOfTalents().stream()
             .filter(languageTalent -> Objects.equals(languageTalent.getTalentId(), talent.getId()))
             .collect(Collectors.toList());
     talentDto.setLanguagesList(masterMapper.toLanguageDtoList(languagesTalent));
@@ -343,6 +375,10 @@ public class TalentService implements ITalentService {
             .filter(talentMasterDataResponse -> Objects.equals(talent.getId(), talentMasterDataResponse.getTalentId()))
             .findFirst()
             .ifPresent(talentMasterDataResponse -> {
+              talentDto.setCountryId(talentMasterDataResponse.getCountryId());
+              talentDto.setCityId(talentMasterDataResponse.getCityId());
+              talentDto.setCurrencyId(talentMasterDataResponse.getCurrencyId());
+              talentDto.setProfileId(talentMasterDataResponse.getProfileId());
               talentDto.setCountry(talentMasterDataResponse.getCountry());
               talentDto.setCity(talentMasterDataResponse.getCity());
               talentDto.setCurrency(talentMasterDataResponse.getCurrency());

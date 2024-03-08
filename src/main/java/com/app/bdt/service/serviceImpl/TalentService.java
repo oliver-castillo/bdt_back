@@ -322,22 +322,35 @@ public class TalentService implements ITalentService {
   }
 
   @Override
-  public Response updateLanguage(Long talentId, LanguageRequest languageRequest) {
-    TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+  public Response updateLanguage(Long talentId, Long id, LanguageRequest languageRequest) {
     try {
-      if (languageIsAlreadyRegistered(talentDto.getLanguagesList(), languageRequest.getLanguageId())) {
-
+      TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+      boolean languageExists = talentDto.getLanguagesList().stream().anyMatch(language -> Objects.equals(language.getId(), id));
+      if (languageExists) {
+        talentRepository.updateLanguage(talentId, id, talentMapper.toLanguage(languageRequest));
+        return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_UPDATE.getMessage());
+      } else {
+        throw new NotFoundException(Messages.NOT_FOUND.getMessage());
       }
     } catch (NotFoundException e) {
       throw e;
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }
-    return null;
   }
 
-  private boolean languageIsAlreadyRegistered(List<LanguageDto> languages, Integer languageId) {
-    return languages.stream().anyMatch(language -> language.getLanguageId().equals(languageId));
+  @Override
+  public Response updateImage(Long talentId, ImageRequest imageRequest) {
+    try {
+      Talent talent = getTalentById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+      talent.setImage(talentMapper.stringToByteArray(imageRequest.getImage()));
+      talentRepository.updateTalent(talentId, talent);
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_UPDATE.getMessage());
+    } catch (NotFoundException e) {
+      throw e;
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
   }
 
   @Override

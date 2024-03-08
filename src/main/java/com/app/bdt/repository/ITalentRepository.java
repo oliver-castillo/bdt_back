@@ -65,10 +65,15 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
           @Param("eduExperienceId") Long eduExperienceId,
           @Param("eduExp") EducationalExperienceRequest educationalExperienceRequest);
 
-  /*@Modifying
+  @Modifying
   @Transactional
-  @Query(value = "CALL SP_UPDATE_LANGUAGE_BY_TALENT(:talentId, :id :#{#languageRequest.languageId}, :#{#languageRequest.levelId}, :#{#languageRequest.numberOfStars})")
-  void updateLanguage(@Param("talentId") Long talentId, Long id, @Param("languageRequest") Language languageRequest);*/
+  @Query(value = "CALL SP_UPDATE_LANGUAGE_BY_TALENT(" +
+          ":talentId, " +
+          ":id, " +
+          ":#{#language.languageId}, " +
+          ":#{#language.levelId}, " +
+          ":#{#language.numberOfStars})", nativeQuery = true)
+  void updateLanguage(@Param("talentId") Long talentId, Long id, @Param("language") Language language);
 
   @Modifying
   @Transactional

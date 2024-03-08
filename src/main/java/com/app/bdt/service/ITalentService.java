@@ -40,7 +40,9 @@ public interface ITalentService {
 
   Response updateEducationalExperience(Long talentId, Long educationalExperienceId, EducationalExperienceRequest educationalExperienceRequest);
 
-  Response updateLanguage(Long talentId, LanguageRequest languageRequest);
+  Response updateLanguage(Long talentId, Long id, LanguageRequest languageRequest);
+
+  Response updateImage(Long talentId, ImageRequest imageRequest);
 
   List<TalentCardResponse> getByTechnicalSkillsLanguageAndLevel(Map<String, Object> params);
 

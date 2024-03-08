@@ -71,33 +71,33 @@ public class TalentController {
   public ResponseEntity<Object> addTechnicalSkill(
           @PathVariable Long talentId,
           @RequestBody @Valid TechnicalSkillRequest technicalSkillRequest) {
-    return new ResponseEntity<>(talentService.addTechnicalSkill(talentId, technicalSkillRequest), HttpStatus.OK);
+    return new ResponseEntity<>(talentService.addTechnicalSkill(talentId, technicalSkillRequest), HttpStatus.CREATED);
   }
 
   @PostMapping("/add_soft_skill/{talentId}")
   public ResponseEntity<Object> addSoftSkill(
           @PathVariable Long talentId,
           @RequestBody @Valid SoftSkillRequest softSkillRequest) {
-    return new ResponseEntity<>(talentService.addSoftSkill(talentId, softSkillRequest), HttpStatus.OK);
+    return new ResponseEntity<>(talentService.addSoftSkill(talentId, softSkillRequest), HttpStatus.CREATED);
   }
 
   @PostMapping("/add_work_exp/{talentId}")
   public ResponseEntity<Object> addWorkExperience(
           @PathVariable("talentId") Long talentId,
           @RequestBody @Valid WorkExperienceRequest workExperienceRequest) {
-    return new ResponseEntity<>(talentService.addWorkExperience(talentId, workExperienceRequest), HttpStatus.OK);
+    return new ResponseEntity<>(talentService.addWorkExperience(talentId, workExperienceRequest), HttpStatus.CREATED);
   }
 
   @PostMapping("/add_edu_exp/{talentId}")
   public ResponseEntity<Object> addEducationalExperience(
           @PathVariable("talentId") Long talentId,
           @RequestBody @Valid EducationalExperienceRequest educationalExperienceRequest) {
-    return new ResponseEntity<>(talentService.addEducationalExperience(talentId, educationalExperienceRequest), HttpStatus.OK);
+    return new ResponseEntity<>(talentService.addEducationalExperience(talentId, educationalExperienceRequest), HttpStatus.CREATED);
   }
 
   @PostMapping("/add_language/{talentId}")
   public ResponseEntity<Object> addLanguage(@PathVariable Long talentId, @RequestBody @Valid LanguageRequest languageRequest) {
-    return new ResponseEntity<>(talentService.addLanguage(talentId, languageRequest), HttpStatus.OK);
+    return new ResponseEntity<>(talentService.addLanguage(talentId, languageRequest), HttpStatus.CREATED);
   }
 
   @PutMapping("/{talentId}/update_work_exp/{workExpId}")
@@ -116,4 +116,17 @@ public class TalentController {
     return new ResponseEntity<>(talentService.updateEducationalExperience(talentId, eduExpId, educationalExperienceRequest), HttpStatus.OK);
   }
 
+  @PutMapping("/update_language/{talentId}/{registerId}")
+  public ResponseEntity<Object> updateLanguage(
+          @PathVariable("talentId") Long talentId,
+          @PathVariable("registerId") Long registerId,
+          @RequestBody @Valid LanguageRequest languageRequest
+  ) {
+    return new ResponseEntity<>(talentService.updateLanguage(talentId, registerId, languageRequest), HttpStatus.OK);
+  }
+
+  @PutMapping("/update_image/{talentId}")
+  public ResponseEntity<Object> updateImage(@PathVariable Long talentId, @RequestBody ImageRequest imageRequest) {
+    return new ResponseEntity<>(talentService.updateImage(talentId, imageRequest), HttpStatus.OK);
+  }
 }

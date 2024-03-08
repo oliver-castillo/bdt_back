@@ -5,7 +5,7 @@ spring:
     #    password: admin1234
     url: jdbc:mysql://localhost:3306/bt_local
     username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:brandtVeloz123!}
+    password: ${DB_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:

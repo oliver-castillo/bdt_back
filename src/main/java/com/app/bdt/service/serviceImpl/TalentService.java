@@ -370,9 +370,17 @@ public class TalentService implements ITalentService {
         result = talentRepository.findTalentsIdsByTechnicalSkillsLanguageIdAndLevelId(null, null, null);
       }
       Set<ITalentResponse> res = new HashSet<>(result);
-      return talentMapper.toTalentCardResponseList(getAllTalents().stream().filter(
+      List<TalentCardResponse> filteredList = talentMapper.toTalentCardResponseList(getAllTalents().stream().filter(
               talent -> res.stream().anyMatch(
                       obj -> obj.getTalentId().equals(talent.getId()))).collect(Collectors.toList()));
+      if (params.get("data") != null) {
+        return filteredList.stream().filter(obj ->
+                obj.getName().toLowerCase().contains(params.get("data").toString().toLowerCase()) ||
+                        obj.getPaternalSurname().toLowerCase().contains(params.get("data").toString().toLowerCase()) ||
+                        obj.getMaternalSurname().toLowerCase().contains(params.get("data").toString().toLowerCase()) ||
+                        obj.getProfile().toLowerCase().contains(params.get("data").toString().toLowerCase())).collect(Collectors.toList());
+      }
+      return filteredList;
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }

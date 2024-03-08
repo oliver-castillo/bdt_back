@@ -14,6 +14,9 @@ public interface ILanguagesTalentResponse {
   @Value("#{target.LANGUAGE_ID}")
   Integer getLanguageId();
 
+  @Value("#{target.LEVEL_ID}")
+  Integer getLevelId();
+
   String getLevel();
 
   @Value("#{target.NUMBER_OF_STARS}")

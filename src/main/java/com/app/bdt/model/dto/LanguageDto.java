@@ -15,6 +15,8 @@ public class LanguageDto {
 
   private String language;
 
+  private Integer levelId;
+
   private String level;
 
   private int numberOfStars;

@@ -214,35 +214,52 @@ public class TalentService implements ITalentService {
   }
 
   @Override
+  public Response addFile(Long talentId, FileRequest fileRequest) {
+    Talent talent = getTalentById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    try {
+      talentRepository.addFile(talent.getId(), talentMapper.toFile(fileRequest));
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
+    } catch (NotFoundException e) {
+      throw e;
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
   public Response addTechnicalSkill(Long talentId, TechnicalSkillRequest technicalSkillRequest) {
-    Optional<Talent> talent = getTalentById(talentId);
-    if (talent.isPresent()) {
-      try {
-        String skill = technicalSkillRequest.getSkill();
-        Integer years = technicalSkillRequest.getYears();
-        talentRepository.addTechnicalSkill(talent.get().getId(), TechnicalSkill.builder().skill(skill).years(years).build());
-        return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
-      } catch (RuntimeException e) {
-        throw new InternalServerError(e.getMessage());
+    TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    try {
+      String skill = technicalSkillRequest.getSkill();
+      Integer years = technicalSkillRequest.getYears();
+      boolean skillExists = talentDto.getTechnicalSkillsList().stream().anyMatch(obj -> obj.getSkill().equals(skill));
+      if (skillExists) {
+        throw new BadRequestException(Messages.ALREADY_REGISTERED.getMessage());
       }
-    } else {
-      throw new NotFoundException(Messages.NOT_FOUND.getMessage());
+      talentRepository.addTechnicalSkill(talentDto.getId(), TechnicalSkill.builder().skill(skill).years(years).build());
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
+    } catch (NotFoundException | BadRequestException e) {
+      throw e;
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
     }
   }
 
   @Override
   public Response addSoftSkill(Long talentId, SoftSkillRequest softSkillRequest) {
-    Optional<Talent> talent = getTalentById(talentId);
-    if (talent.isPresent()) {
-      try {
-        String skill = softSkillRequest.getSkill();
-        talentRepository.addSoftSkill(talent.get().getId(), SoftSkill.builder().skill(skill).build());
-        return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
-      } catch (RuntimeException e) {
-        throw new InternalServerError(e.getMessage());
+    TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+    try {
+      String skill = softSkillRequest.getSkill();
+      boolean skillExists = talentDto.getSoftSkillsList().stream().anyMatch(obj -> obj.getSkill().equalsIgnoreCase(skill));
+      if (skillExists) {
+        throw new BadRequestException(Messages.ALREADY_REGISTERED.getMessage());
       }
-    } else {
-      throw new NotFoundException(Messages.NOT_FOUND.getMessage());
+      talentRepository.addSoftSkill(talentDto.getId(), SoftSkill.builder().skill(skill).build());
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
+    } catch (NotFoundException | BadRequestException e) {
+      throw e;
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
     }
   }
 

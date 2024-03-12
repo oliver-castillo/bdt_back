@@ -95,6 +95,11 @@ public class TalentController {
     return new ResponseEntity<>(talentService.addEducationalExperience(talentId, educationalExperienceRequest), HttpStatus.CREATED);
   }
 
+  @PostMapping("/{talentId}/add_file")
+  public ResponseEntity<Object> addFile(@PathVariable Long talentId, @RequestBody @Valid FileRequest fileRequest) {
+    return new ResponseEntity<>(talentService.addFile(talentId, fileRequest), HttpStatus.CREATED);
+  }
+
   @PostMapping("/add_language/{talentId}")
   public ResponseEntity<Object> addLanguage(@PathVariable Long talentId, @RequestBody @Valid LanguageRequest languageRequest) {
     return new ResponseEntity<>(talentService.addLanguage(talentId, languageRequest), HttpStatus.CREATED);

@@ -1,13 +1,12 @@
 package com.app.bdt.exceptions;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -18,13 +17,13 @@ public class ExceptionInfo {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
   private LocalDateTime timestamp;
 
-  @JsonProperty("status")
+  @JsonProperty("code")
   private Integer statusCode;
 
-  @JsonProperty("title")
+  @JsonProperty("status")
   private String statusName;
 
-  @JsonProperty("detail")
+  @JsonProperty("message")
   private String message;
 
   @JsonProperty("path")

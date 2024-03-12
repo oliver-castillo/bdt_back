@@ -26,6 +26,8 @@ public interface ITalentService {
 
   Response updateDescription(Long talentId, String description);
 
+  Response addFile(Long talentId, FileRequest file);
+
   Response addTechnicalSkill(Long talentId, TechnicalSkillRequest technicalSkillRequest);
 
   Response addSoftSkill(Long talentId, SoftSkillRequest softSkillRequest);

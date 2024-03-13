@@ -232,7 +232,7 @@ public class TalentService implements ITalentService {
     try {
       String skill = technicalSkillRequest.getSkill();
       Integer years = technicalSkillRequest.getYears();
-      boolean skillExists = talentDto.getTechnicalSkillsList().stream().anyMatch(obj -> obj.getSkill().equals(skill));
+      boolean skillExists = talentDto.getTechnicalSkillsList().stream().anyMatch(obj -> obj.getSkill().equalsIgnoreCase(skill));
       if (skillExists) {
         throw new BadRequestException(Messages.ALREADY_REGISTERED.getMessage());
       }

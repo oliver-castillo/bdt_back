@@ -5,15 +5,12 @@ import com.app.bdt.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -24,4 +21,15 @@ public class UserController {
     userService.createUser(userRequest);
     return new ResponseEntity<>(HttpStatus.OK);
   }
+
+  @GetMapping("/{username}")
+  public ResponseEntity<Object> getUserByUsername(@PathVariable String username) {
+    return new ResponseEntity<>(userService.getUserByUsername(username), HttpStatus.OK);
+  }
+
+  @GetMapping("/t")
+  public ResponseEntity<Object> t() {
+    return new ResponseEntity<>(userService.T(), HttpStatus.OK);
+  }
+
 }

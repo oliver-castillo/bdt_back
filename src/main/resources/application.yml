@@ -1,16 +1,7 @@
-spring:
+common-property:
   datasource:
-    #    url: jdbc:mysql://bt.clweios6cmmg.us-east-2.rds.amazonaws.com:3306/bt
-    #    username: admin
-    #    password: admin1234
-    url: jdbc:mysql://localhost:3306/bt_local
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  jpa:
-    hibernate:
-      #ddl-auto: create-drop
-      ddl-auto: none
-    #generate-ddl: true
-    show-sql: true
+spring:
+  profiles:
+    active: dev_local

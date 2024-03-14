@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
@@ -15,14 +14,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EducationalExperienceRequest {
 
-  @NotBlank(message = "El nombre de la institución es requerido")
-  @Length(min = 3, message = "El nombre debe contener más de 3 caracteres")
+  @NotNull(message = "El nombre de la institución es requerido")
+  @Length(min = 3)
   private String educationalInstitute;
 
   @NotNull(message = "El nombre de la carrera es requerida")
+  @Length(min = 3)
   private String career;
 
   @NotNull(message = "El tipo de grado es requerida")
+  @Length(min = 3)
   private String degree;
 
   @NotNull(message = "La fecha de inicio es requerida")

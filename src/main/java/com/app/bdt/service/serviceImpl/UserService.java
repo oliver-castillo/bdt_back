@@ -27,10 +27,12 @@ public class UserService implements IUserService {
 
   private final IUserRepository userRepository;
   private final IUserMapper userMapper;
+  //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
   @Override
   public void createUser(UserRequest userRequest) {
     try {
+      //userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
       userRepository.createUser(userMapper.toUser(userRequest));
     } catch (RuntimeException e) {
       System.out.println(e.getMessage());

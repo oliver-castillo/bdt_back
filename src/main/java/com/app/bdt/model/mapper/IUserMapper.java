@@ -15,6 +15,7 @@ public interface IUserMapper {
   IUserMapper INSTANCE = Mappers.getMapper(IUserMapper.class);
 
   @Mapping(target = "image", source = "image", qualifiedByName = "byteArrayToString")
+  //@Mapping(target = "roles", source = "roles", qualifiedByName = "stringListToRoleDtoList")
   UserDto toUserDto(User user);
 
   @Mapping(target = "image", source = "image", qualifiedByName = "stringToByteArray")
@@ -29,4 +30,14 @@ public interface IUserMapper {
   default byte[] stringToByteArray(String string) {
     return string != null ? string.getBytes() : null;
   }
+
+  /*@Named("stringListToRoleDtoList")
+  default List<RoleDto> stringListToRoleDtoList(List<String> roles) {
+    // Aquí debes implementar la lógica para convertir una lista de cadenas a una lista de RoleDto.
+    // Esto dependerá de cómo esté definida tu clase RoleDto.
+    // Este es solo un ejemplo y necesitarás adaptarlo a tus necesidades.
+    return roles.stream()
+            .map(role -> new RoleDto(role)) // Asume que RoleDto tiene un constructor que acepta una cadena.
+            .collect(Collectors.toList());
+  }*/
 }

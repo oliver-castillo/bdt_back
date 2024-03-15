@@ -27,9 +27,4 @@ public class UserController {
     return new ResponseEntity<>(userService.getUserByUsername(username), HttpStatus.OK);
   }
 
-  @GetMapping("/t")
-  public ResponseEntity<Object> t() {
-    return new ResponseEntity<>(userService.T(), HttpStatus.OK);
-  }
-
 }

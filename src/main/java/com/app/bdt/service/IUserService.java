@@ -1,10 +1,9 @@
 package com.app.bdt.service;
 
 import com.app.bdt.model.dto.UserDto;
+import com.app.bdt.model.request.LoginRequest;
 import com.app.bdt.model.request.UserRequest;
-import com.app.bdt.model.response.IUserAndRole;
-
-import java.util.List;
+import com.app.bdt.model.response.LoginResponse;
 
 public interface IUserService {
 
@@ -12,6 +11,5 @@ public interface IUserService {
 
   UserDto getUserByUsername(String username);
 
-  List<IUserAndRole> T();
-
+  LoginResponse validateLogin(LoginRequest loginRequest);
 }

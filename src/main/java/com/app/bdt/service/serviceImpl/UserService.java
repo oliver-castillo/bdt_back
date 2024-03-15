@@ -1,17 +1,22 @@
 package com.app.bdt.service.serviceImpl;
 
+import com.app.bdt.exceptions.BadRequestException;
 import com.app.bdt.exceptions.InternalServerError;
 import com.app.bdt.exceptions.NotFoundException;
 import com.app.bdt.model.dto.RoleDto;
 import com.app.bdt.model.dto.UserDto;
 import com.app.bdt.model.entity.User;
 import com.app.bdt.model.mapper.IUserMapper;
+import com.app.bdt.model.request.LoginRequest;
 import com.app.bdt.model.request.UserRequest;
 import com.app.bdt.model.response.IUserAndRole;
+import com.app.bdt.model.response.LoginResponse;
 import com.app.bdt.repository.IUserRepository;
 import com.app.bdt.service.IUserService;
+import com.app.bdt.util.JWTUtil;
 import com.app.bdt.util.Messages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,12 +32,12 @@ public class UserService implements IUserService {
 
   private final IUserRepository userRepository;
   private final IUserMapper userMapper;
-  //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+  private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
   @Override
   public void createUser(UserRequest userRequest) {
     try {
-      //userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+      userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
       userRepository.createUser(userMapper.toUser(userRequest));
     } catch (RuntimeException e) {
       System.out.println(e.getMessage());
@@ -62,9 +67,26 @@ public class UserService implements IUserService {
     }
   }
 
-
   @Override
-  public List<IUserAndRole> T() {
-    return userRepository.findUsersWithRole().stream().filter(t -> t.getUserId() == 4).collect(Collectors.toList());
+  public LoginResponse validateLogin(LoginRequest loginRequest) {
+    try {
+      UserDto userDto = getUserByUsername(loginRequest.getUsername());
+      LoginResponse loginResponse = new LoginResponse();
+      if (userDto != null) {
+        if (passwordEncoder.matches(loginRequest.getPassword(), userDto.getPassword())) {
+          loginResponse.setUserDto(userDto);
+          loginResponse.setToken(JWTUtil.generateToken(userDto.getUsername()));
+        } else {
+          throw new BadRequestException("El nombre de usuario y/o la contraseña no son válidos");
+        }
+      }
+      return loginResponse;
+    } catch (BadRequestException e) {
+      throw e;
+    } catch (InternalServerError e) {
+      throw new InternalServerError(e.getMessage());
+    }
   }
+
+
 }

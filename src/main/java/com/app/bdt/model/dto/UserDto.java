@@ -1,5 +1,6 @@
 package com.app.bdt.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class UserDto {
   private String paternalSurname;
   private String maternalSurname;
   private String username;
+  @JsonIgnore
   private String password;
   private List<RoleDto> roles;
   private String image;
@@ -25,4 +27,12 @@ public class UserDto {
     this.password = password;
   }
 
+  /*@Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    Set<GrantedAuthority> authorities = new HashSet<>();
+    for (RoleDto roleDto : roles) {
+      authorities.add(new SimpleGrantedAuthority(roleDto.getRole()));
+    }
+    return authorities;
+  }*/
 }

@@ -1,4 +1,4 @@
-package com.app.bdt.util;
+package com.app.bdt.config.security.jwt;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -2,9 +2,6 @@ package com.app.bdt;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class BdtApplication {
@@ -13,7 +10,7 @@ public class BdtApplication {
     SpringApplication.run(BdtApplication.class, args);
   }
 
-  @Bean
+  /*@Bean
   public WebMvcConfigurer corsMappingConfigurer() {
     return new WebMvcConfigurer() {
       @Override
@@ -26,6 +23,6 @@ public class BdtApplication {
                 .exposedHeaders("X-Get-Header");
       }
     };
-  }
+  }*/
 
 }

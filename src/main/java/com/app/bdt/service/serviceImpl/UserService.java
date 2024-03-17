@@ -1,5 +1,6 @@
 package com.app.bdt.service.serviceImpl;
 
+import com.app.bdt.config.security.jwt.JWTUtil;
 import com.app.bdt.exceptions.BadRequestException;
 import com.app.bdt.exceptions.InternalServerError;
 import com.app.bdt.exceptions.NotFoundException;
@@ -13,7 +14,6 @@ import com.app.bdt.model.response.IUserAndRole;
 import com.app.bdt.model.response.LoginResponse;
 import com.app.bdt.repository.IUserRepository;
 import com.app.bdt.service.IUserService;
-import com.app.bdt.util.JWTUtil;
 import com.app.bdt.util.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

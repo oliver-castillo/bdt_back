@@ -27,12 +27,4 @@ public class UserDto {
     this.password = password;
   }
 
-  /*@Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    Set<GrantedAuthority> authorities = new HashSet<>();
-    for (RoleDto roleDto : roles) {
-      authorities.add(new SimpleGrantedAuthority(roleDto.getRole()));
-    }
-    return authorities;
-  }*/
 }

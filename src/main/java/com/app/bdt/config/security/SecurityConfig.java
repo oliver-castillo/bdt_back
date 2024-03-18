@@ -23,39 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  /*private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
-  private final CustomUserDetailsService customUserDetailsService;
-
-  @Override
-  @Bean
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }*/
-
-  /* Autenticación */
-  /*@Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
-  }
-
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }*/
-
-  /* Autorización */
-  /*@Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-            .antMatchers("/cities")
-            .hasRole("VISITANTE")
-            .antMatchers("/")
-            .hasAnyRole("RECLUTADOR", "VISITANTE")
-            .and()
-            .formLogin()
-            .loginProcessingUrl("/login");
-  }*/
-
   private final CustomUserDetailsService customUserDetailsService;
 
   private final JWTEntryPoint jwtEntryPoint;
@@ -90,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
             .authorizeRequests()
-            .antMatchers("/auth/**").permitAll()
+            .antMatchers("/auth/**", "/swagger-ui.html", "/v2/api-docs").permitAll()
             .anyRequest().authenticated()
             .and()
             .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)

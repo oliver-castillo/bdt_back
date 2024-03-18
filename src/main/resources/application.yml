@@ -5,6 +5,9 @@ common-property:
 spring:
   profiles:
     active: dev_local
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
 
 jwt:
   secret: secret

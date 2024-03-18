@@ -22,7 +22,6 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-@CrossOrigin
 public class AuthController {
 
   private final IUserService userService;
@@ -35,7 +34,7 @@ public class AuthController {
   }*/
 
   @GetMapping
-  @ResponseStatus(HttpStatus.CREATED)
+  @ResponseStatus(HttpStatus.OK)
   public UserPrincipal getUser() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth != null && auth.getPrincipal() instanceof UserPrincipal) {

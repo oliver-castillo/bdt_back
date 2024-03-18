@@ -50,7 +50,6 @@ public class UserService implements IUserService {
     try {
       Optional<User> optionalUser = userRepository.findUserByUsername(username);
       User user = optionalUser.orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
-      user.setImage(null);
       List<IUserAndRole> userAndRoles = userRepository.findUsersWithRole().stream()
               .filter(obj -> Objects.equals(obj.getUserId(), user.getId()))
               .collect(Collectors.toList());

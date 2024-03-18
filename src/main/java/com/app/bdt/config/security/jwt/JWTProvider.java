@@ -12,20 +12,19 @@ import java.util.Date;
 
 @Component
 public class JWTProvider {
-
   private final static Logger logger = LoggerFactory.getLogger(JWTProvider.class);
 
   @Value("${jwt.secret}")
   private String secret;
 
   @Value("${jwt.expiration}")
-  private Integer expiration;
+  private int expiration;
 
   public String generateToken(Authentication authentication) {
     UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
     return Jwts.builder().setSubject(userPrincipal.getUsername())
             .setIssuedAt(new Date())
-            .setExpiration(new Date(new Date().getTime() + expiration * 1000))
+            .setExpiration(new Date(new Date().getTime() + expiration * 1000L))
             .signWith(SignatureAlgorithm.HS512, secret)
             .compact();
   }

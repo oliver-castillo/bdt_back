@@ -1,5 +1,6 @@
 package com.app.bdt.config.security.controller;
 
+import com.app.bdt.config.security.dto.UserPrincipal;
 import com.app.bdt.config.security.jwt.JWTUtil;
 import com.app.bdt.model.request.LoginRequest;
 import com.app.bdt.service.IUserService;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,21 +27,29 @@ public class AuthController {
   private final IUserService userService;
   private final AuthenticationManager authenticationManager;
 
-  @GetMapping()
+  /*@GetMapping()
   ResponseEntity<Object> data(@AuthenticationPrincipal User user) {
     return new ResponseEntity<>(user, HttpStatus.OK);
+  }*/
+
+  @GetMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public UserPrincipal getUser() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth != null && auth.getPrincipal() instanceof UserPrincipal) {
+      return (UserPrincipal) auth.getPrincipal();
+    }
+    return null;
   }
 
   @PostMapping("/login")
   ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest, @AuthenticationPrincipal User user) {
-
     try {
       Authentication auth = authenticationManager.authenticate(
               new UsernamePasswordAuthenticationToken(
                       loginRequest.getUsername(),
                       loginRequest.getPassword())
       );
-
       String token = JWTUtil.generateToken(auth.getName());
       Map<String, Object> response = new HashMap<>();
       response.put("user", user);

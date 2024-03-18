@@ -5,3 +5,7 @@ common-property:
 spring:
   profiles:
     active: dev_local
+
+jwt:
+  secret: secret
+  expiration: 36000

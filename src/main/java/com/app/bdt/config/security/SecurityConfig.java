@@ -1,6 +1,6 @@
 package com.app.bdt.config.security;
 
-import com.app.bdt.config.security.dto.CustomUserDetailsService;
+import com.app.bdt.config.security.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-            .antMatchers("/**")
+            .antMatchers("/cities")
             .hasRole("VISITANTE")
             .antMatchers("/")
             .hasAnyRole("RECLUTADOR", "VISITANTE")

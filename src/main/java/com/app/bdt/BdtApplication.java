@@ -10,19 +10,4 @@ public class BdtApplication {
     SpringApplication.run(BdtApplication.class, args);
   }
 
-  /*@Bean
-  public WebMvcConfigurer corsMappingConfigurer() {
-    return new WebMvcConfigurer() {
-      @Override
-      public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200")
-                .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS", "HEAD")
-                .maxAge(3600)
-                .allowedHeaders("*")
-                .exposedHeaders("X-Get-Header");
-      }
-    };
-  }*/
-
 }

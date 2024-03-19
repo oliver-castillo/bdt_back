@@ -303,6 +303,16 @@ public class TalentService implements ITalentService {
     }
   }
 
+  @Override
+  public Response addFeedback(FeedbackRequest feedbackRequest) {
+    try {
+      talentRepository.addFeedback(feedbackRequest);
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
 
   @Override
   public Response updateWorkExperience(Long talentId, Long workExperienceId, WorkExperienceRequest workExperienceRequest) {

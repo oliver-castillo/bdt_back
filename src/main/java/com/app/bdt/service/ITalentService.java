@@ -38,6 +38,8 @@ public interface ITalentService {
 
   Response addLanguage(Long talentId, LanguageRequest languageRequest);
 
+  Response addFeedback(FeedbackRequest feedbackRequest);
+
   Response updateWorkExperience(Long talentId, Long workExperienceId, WorkExperienceRequest workExperienceRequest);
 
   Response updateEducationalExperience(Long talentId, Long educationalExperienceId, EducationalExperienceRequest educationalExperienceRequest);

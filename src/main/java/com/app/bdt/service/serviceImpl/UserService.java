@@ -1,21 +1,21 @@
 package com.app.bdt.service.serviceImpl;
 
-import com.app.bdt.config.security.jwt.JWTUtil;
-import com.app.bdt.exceptions.BadRequestException;
 import com.app.bdt.exceptions.InternalServerError;
 import com.app.bdt.exceptions.NotFoundException;
 import com.app.bdt.model.dto.RoleDto;
 import com.app.bdt.model.dto.UserDto;
 import com.app.bdt.model.entity.User;
 import com.app.bdt.model.mapper.IUserMapper;
-import com.app.bdt.model.request.LoginRequest;
+import com.app.bdt.model.request.UserListRequest;
 import com.app.bdt.model.request.UserRequest;
+import com.app.bdt.model.request.UserTalentListRequest;
 import com.app.bdt.model.response.IUserAndRole;
-import com.app.bdt.model.response.LoginResponse;
+import com.app.bdt.model.response.Response;
 import com.app.bdt.repository.IUserRepository;
 import com.app.bdt.service.IUserService;
 import com.app.bdt.util.Messages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -67,25 +67,28 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public LoginResponse validateLogin(LoginRequest loginRequest) {
+  public Response addList(UserListRequest userListRequest) {
     try {
-      UserDto userDto = getUserByUsername(loginRequest.getUsername());
-      LoginResponse loginResponse = new LoginResponse();
-      if (userDto != null) {
-        if (passwordEncoder.matches(loginRequest.getPassword(), userDto.getPassword())) {
-          loginResponse.setUserDto(userDto);
-          loginResponse.setToken(JWTUtil.generateToken(userDto.getUsername()));
-        } else {
-          throw new BadRequestException("El nombre de usuario y/o la contraseña no son válidos");
-        }
-      }
-      return loginResponse;
-    } catch (BadRequestException e) {
-      throw e;
-    } catch (InternalServerError e) {
+      userRepository.addListOfUser(userListRequest);
+      return new Response(HttpStatus.CREATED.value(), Messages.SUCCESSFUL_INSERT.getMessage());
+    } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }
   }
 
+  @Override
+  public Response addListTalent(UserTalentListRequest userTalentListRequest) {
+    try {
+      userRepository.addListUserTalent(userTalentListRequest);
+      return new Response(HttpStatus.CREATED.value(), Messages.SUCCESSFUL_INSERT.getMessage());
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
+  public Optional<User> getUser(Long userId) {
+    return userRepository.findById(userId);
+  }
 
 }

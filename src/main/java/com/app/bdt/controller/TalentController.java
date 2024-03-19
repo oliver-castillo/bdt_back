@@ -3,6 +3,7 @@ package com.app.bdt.controller;
 import com.app.bdt.exceptions.NotFoundException;
 import com.app.bdt.model.dto.TalentDto;
 import com.app.bdt.model.request.*;
+import com.app.bdt.model.response.Response;
 import com.app.bdt.model.response.TalentCardResponse;
 import com.app.bdt.service.ITalentService;
 import lombok.RequiredArgsConstructor;
@@ -105,6 +106,12 @@ public class TalentController {
     return new ResponseEntity<>(talentService.addLanguage(talentId, languageRequest), HttpStatus.CREATED);
   }
 
+  @PostMapping("/add_feedback")
+  @ResponseStatus(HttpStatus.OK)
+  Response addFeedback(@RequestBody @Valid FeedbackRequest feedbackRequest) {
+    return talentService.addFeedback(feedbackRequest);
+  }
+
   @PutMapping("/{talentId}/update_work_exp/{workExpId}")
   public ResponseEntity<Object> updateWorkExperience(
           @PathVariable("talentId") Long talentId,
@@ -134,4 +141,6 @@ public class TalentController {
   public ResponseEntity<Object> updateImage(@PathVariable Long talentId, @RequestBody ImageRequest imageRequest) {
     return new ResponseEntity<>(talentService.updateImage(talentId, imageRequest), HttpStatus.OK);
   }
+
+
 }

@@ -2,6 +2,7 @@ package com.app.bdt.repository;
 
 import com.app.bdt.model.entity.*;
 import com.app.bdt.model.request.EducationalExperienceRequest;
+import com.app.bdt.model.request.FeedbackRequest;
 import com.app.bdt.model.request.WorkExperienceRequest;
 import com.app.bdt.model.response.ITalentByLanguageAndLevel;
 import com.app.bdt.model.response.ITalentByTechnicalSkills;
@@ -44,6 +45,11 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
   @Query(value = "CALL SP_INSERT_EDUCATIONAL_EXPERIENCE(:talentId, :#{#educationalExperience.educationalInstitute}, :#{#educationalExperience.career}, :#{#educationalExperience.degree}, :#{#educationalExperience.startDate}, :#{#educationalExperience.endDate})", nativeQuery = true)
   void addEducationalExperience(@Param("talentId") Long talentId,
                                 @Param("educationalExperience") EducationalExperience educationalExperience);
+
+  @Transactional
+  @Modifying
+  @Query(value = "CALL SP_INSERT_FEEDBACK(:#{#feedback.talentId}, :#{#feedback.starsRating}, :#{#feedback.description}, :#{#feedback.userId})", nativeQuery = true)
+  void addFeedback(@Param("feedback") FeedbackRequest feedbackRequest);
 
   @Transactional
   @Modifying

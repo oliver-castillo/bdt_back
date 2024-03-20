@@ -2,6 +2,7 @@ package com.app.bdt.model.mapper;
 
 import com.app.bdt.model.dto.FileDto;
 import com.app.bdt.model.dto.TalentDto;
+import com.app.bdt.model.dto.UserBasicDto;
 import com.app.bdt.model.entity.*;
 import com.app.bdt.model.request.*;
 import com.app.bdt.model.response.TalentCardResponse;
@@ -25,6 +26,9 @@ public interface ITalentMapper {
   @Mapping(target = "image", source = "image", qualifiedByName = "byteArrayToString")
   @Mapping(target = "filesList", source = "filesList", qualifiedByName = "filesDtoList")
   TalentDto toTalentDto(Talent talent);
+
+  @Mapping(target = "image", source = "image", qualifiedByName = "byteArrayToString")
+  UserBasicDto userToUserBasicDto(User user);
 
   WorkExperience toWorkExperience(WorkExperienceRequest workExperienceRequest);
 

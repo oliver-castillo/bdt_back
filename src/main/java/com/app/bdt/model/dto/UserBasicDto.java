@@ -13,6 +13,5 @@ public class UserBasicDto {
   private String name;
   private String paternalSurname;
   private String maternalSurname;
-  private byte[] image;
-
+  private String image;
 }

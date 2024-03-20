@@ -1,19 +1,10 @@
 package com.app.bdt.model.entity;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -46,5 +37,10 @@ public class User implements Serializable {
 
   @Column(name = "PW_PASSWORD")
   private String password;
+
+  @OneToMany
+  @JoinColumn(name = "ID_USUARIO")
+  @ToString.Exclude
+  private List<Feedback> feedbacksList;
 
 }

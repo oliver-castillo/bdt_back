@@ -2,6 +2,8 @@ package com.app.bdt.service.serviceImpl;
 
 import com.app.bdt.exceptions.InternalServerError;
 import com.app.bdt.exceptions.NotFoundException;
+import com.app.bdt.model.dto.ListUserDto;
+import com.app.bdt.model.dto.ListUserTalentDto;
 import com.app.bdt.model.dto.RoleDto;
 import com.app.bdt.model.dto.UserDto;
 import com.app.bdt.model.entity.User;
@@ -9,6 +11,7 @@ import com.app.bdt.model.mapper.IUserMapper;
 import com.app.bdt.model.request.UserListRequest;
 import com.app.bdt.model.request.UserRequest;
 import com.app.bdt.model.request.UserTalentListRequest;
+import com.app.bdt.model.response.IListUserTalentResponse;
 import com.app.bdt.model.response.IUserAndRole;
 import com.app.bdt.model.response.Response;
 import com.app.bdt.repository.IUserRepository;
@@ -20,9 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,8 +88,22 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public Optional<User> getUser(Long userId) {
-    return userRepository.findById(userId);
+  public Set<Long> getListsByUserId(Long userId) {
+    try {
+      ListUserDto listUserDto = new ListUserDto();
+      List<ListUserTalentDto> talentsList = new ArrayList<>();
+      listUserDto.setUserId(userId);
+      List<IListUserTalentResponse> listsByUserId = userRepository.findListsByUserId(userId);
+
+      Set<Long> listsIds = new HashSet<>();
+      listsByUserId.stream().map(a -> listsIds.add(a.getListId())).collect(Collectors.toList());
+
+      listsIds.stream().map(id -> talentsList.add(new ListUserTalentDto(id, null, null))).collect(Collectors.toList());
+
+      return listsIds;
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
   }
 
 }

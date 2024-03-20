@@ -34,7 +34,20 @@ public class TalentDto {
   private List<WorkExperienceDto> workExperiencesList;
   private List<EducationalExperienceDto> educationalExperiencesList;
   private List<LanguageDto> languagesList;
-  private String image;
-  private List<FileDto> filesList;
+  private List<FeedbackDto> feedbacksList;
+  private int averageRating;
+  private String image = null;
+  private List<FileDto> filesList = null;
+
+  public int getAverageRating() {
+    if (feedbacksList == null || feedbacksList.isEmpty()) {
+      return 0;
+    }
+    int sum = feedbacksList.stream()
+            .mapToInt(FeedbackDto::getStarsNumber)
+            .sum();
+    averageRating = sum / feedbacksList.size();
+    return averageRating;
+  }
 
 }

@@ -12,16 +12,16 @@ import java.io.Serializable;
 @ToString
 @Entity
 @Table(name = "BT_TD_FEEDBACK_TALENTO")
-public class TalentFeedback implements Serializable {
+public class Feedback implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID_FEEDBACK")
   private Long id;
 
-  @ManyToOne
+  /*@ManyToOne
   @JoinColumn(name = "ID_TALENTO")
-  private Talent talent;
+  private Talent talent;*/
 
   @Column(name = "NU_ESTRELLAS")
   private Integer starsNumber;
@@ -29,8 +29,8 @@ public class TalentFeedback implements Serializable {
   @Column(name = "DE_DESCRIPCION")
   private String description;
 
-  @ManyToOne
+  /*@ManyToOne
   @JoinColumn(name = "ID_USUARIO")
-  private User user;
+  private User user;*/
 
 }

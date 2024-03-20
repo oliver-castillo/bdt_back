@@ -3,6 +3,7 @@ package com.app.bdt.repository;
 import com.app.bdt.model.entity.User;
 import com.app.bdt.model.request.UserListRequest;
 import com.app.bdt.model.request.UserTalentListRequest;
+import com.app.bdt.model.response.IListUserTalentResponse;
 import com.app.bdt.model.response.IUserAndRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -37,5 +38,8 @@ public interface IUserRepository extends JpaRepository<User, Long> {
   @Modifying
   @Query(value = "CALL SP_INSERT_LIST_OF_USER_TALENT(:#{#obj.listId}, :#{#obj.talentId})", nativeQuery = true)
   void addListUserTalent(@Param("obj") UserTalentListRequest userTalentListRequest);
+
+  @Query(value = "CALL SP_GET_LISTS_FOR_USER_BY_ID(:userId)", nativeQuery = true)
+  List<IListUserTalentResponse> findListsByUserId(@Param("userId") Long userId);
 
 }

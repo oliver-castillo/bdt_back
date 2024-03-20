@@ -1,8 +1,11 @@
 package com.app.bdt.model.response;
 
+import com.app.bdt.model.dto.FeedbackDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +21,7 @@ public class TalentCardResponse {
   private String profile;
   private Double initialAmount;
   private Double finalAmount;
+  private List<FeedbackDto> feedbacksList;
+  private int averageRating;
   private String image;
 }

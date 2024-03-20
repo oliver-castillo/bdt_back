@@ -12,5 +12,6 @@ public class FeedbackDto {
   private Long id;
   private Integer starsNumber;
   private String description;
+  private UserBasicDto user;
 
 }

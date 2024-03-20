@@ -42,4 +42,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
   @Query(value = "CALL SP_GET_LISTS_FOR_USER_BY_ID(:userId)", nativeQuery = true)
   List<IListUserTalentResponse> findListsByUserId(@Param("userId") Long userId);
 
+  @Query(value = "CALL SP_GET_USER_BY_ID(:userId)", nativeQuery = true)
+  Optional<User> findUserById(@Param("userId") Long userId);
+
 }

@@ -29,8 +29,8 @@ public class Feedback implements Serializable {
   @Column(name = "DE_DESCRIPCION")
   private String description;
 
-  /*@ManyToOne
+  @ManyToOne
   @JoinColumn(name = "ID_USUARIO")
-  private User user;*/
+  private User user;
 
 }

@@ -47,6 +47,18 @@ public class UserService implements IUserService {
   }
 
   @Override
+  public UserDto getUserByUserId(Long userId) {
+    try {
+      return userMapper.toUserDto(userRepository.findById(userId)
+              .orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage())));
+    } catch (NotFoundException e) {
+      throw e;
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
   public UserDto getUserByUsername(String username) {
     try {
       Optional<User> optionalUser = userRepository.findUserByUsername(username);

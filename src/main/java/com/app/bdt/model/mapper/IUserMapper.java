@@ -1,13 +1,12 @@
 package com.app.bdt.model.mapper;
 
+import com.app.bdt.model.dto.UserDto;
+import com.app.bdt.model.entity.User;
+import com.app.bdt.model.request.UserRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-
-import com.app.bdt.model.dto.UserDto;
-import com.app.bdt.model.entity.User;
-import com.app.bdt.model.request.UserRequest;
 
 @Mapper(componentModel = "spring")
 public interface IUserMapper {

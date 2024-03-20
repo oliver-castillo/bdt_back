@@ -16,6 +16,7 @@ import com.app.bdt.model.response.TalentCardResponse;
 import com.app.bdt.repository.ITalentMasterRepository;
 import com.app.bdt.repository.ITalentRepository;
 import com.app.bdt.service.ITalentService;
+import com.app.bdt.service.IUserService;
 import com.app.bdt.util.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ public class TalentService implements ITalentService {
   private final ITalentMasterRepository talentMasterRepository;
   private final ITalentMapper talentMapper;
   private final IMasterMapper masterMapper;
+  private final IUserService userService;
 
   @Override
   public List<TalentDto> getAllTalents() {
@@ -313,7 +315,6 @@ public class TalentService implements ITalentService {
     }
   }
 
-
   @Override
   public Response updateWorkExperience(Long talentId, Long workExperienceId, WorkExperienceRequest workExperienceRequest) {
     TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
@@ -432,6 +433,7 @@ public class TalentService implements ITalentService {
               talentDto.setCurrency(talentMasterDataResponse.getCurrency());
               talentDto.setProfile(talentMasterDataResponse.getProfile());
             });
+    
     return talentDto;
   }
 

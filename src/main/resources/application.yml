@@ -11,4 +11,4 @@ spring:
 
 jwt:
   secret: JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gR54548521698JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gR54548521698
-  expiration: 3600 # 1 hour
+  expiration: 36000 # 1 hour

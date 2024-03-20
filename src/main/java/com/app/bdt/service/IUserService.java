@@ -12,6 +12,8 @@ public interface IUserService {
 
   void createUser(UserRequest userRequest);
 
+  UserDto getUserByUserId(Long userId);
+
   UserDto getUserByUsername(String username);
 
   Response addList(UserListRequest userListRequest);
@@ -19,4 +21,5 @@ public interface IUserService {
   Response addListTalent(UserTalentListRequest userTalentListRequest);
 
   Set<Long> getListsByUserId(Long userId);
+
 }

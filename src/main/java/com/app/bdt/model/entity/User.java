@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,9 +37,9 @@ public class User implements Serializable {
   @Column(name = "PW_PASSWORD")
   private String password;
 
-  @OneToMany
+  /*@OneToMany
   @JoinColumn(name = "ID_USUARIO")
   @ToString.Exclude
-  private List<Feedback> feedbacksList;
+  private List<Feedback> feedbacksList;*/
 
 }

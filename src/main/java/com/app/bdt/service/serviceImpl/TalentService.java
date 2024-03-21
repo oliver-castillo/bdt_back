@@ -433,7 +433,6 @@ public class TalentService implements ITalentService {
               talentDto.setCurrency(talentMasterDataResponse.getCurrency());
               talentDto.setProfile(talentMasterDataResponse.getProfile());
             });
-    
     return talentDto;
   }
 

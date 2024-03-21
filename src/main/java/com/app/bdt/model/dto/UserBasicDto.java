@@ -14,6 +14,7 @@ public class UserBasicDto {
   private String name;
   private String paternalSurname;
   private String maternalSurname;
+
   @JsonIgnore
   private byte[] image;
 

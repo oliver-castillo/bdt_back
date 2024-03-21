@@ -100,19 +100,37 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public Set<Long> getListsByUserId(Long userId) {
+  public ListUserDto getListsByUserId(Long userId) {
     try {
       ListUserDto listUserDto = new ListUserDto();
       List<ListUserTalentDto> talentsList = new ArrayList<>();
+
       listUserDto.setUserId(userId);
+
       List<IListUserTalentResponse> listsByUserId = userRepository.findListsByUserId(userId);
 
-      Set<Long> listsIds = new HashSet<>();
-      listsByUserId.stream().map(a -> listsIds.add(a.getListId())).collect(Collectors.toList());
+      Set<Long> talentsIds = listsByUserId.stream().map(IListUserTalentResponse::getTalentId).collect(Collectors.toSet());
 
-      listsIds.stream().map(id -> talentsList.add(new ListUserTalentDto(id, null, null))).collect(Collectors.toList());
 
-      return listsIds;
+      for (IListUserTalentResponse listUserDtoResponse : listsByUserId) {
+        ListUserTalentDto listUserTalentDto = new ListUserTalentDto();
+        listUserTalentDto.setId(listUserDtoResponse.getListId());
+        listUserTalentDto.setName(listUserDtoResponse.getListName());
+        listUserTalentDto.setTalentIds(talentsIds);
+        talentsList.add(listUserTalentDto);
+      }
+
+      listUserDto.setLists(talentsList);
+
+      //Set<Map<String, Object>> listsIds = new HashSet<>();
+
+
+
+      /*listsByUserId.stream().map(a -> listsIds.add(a.getListId())).collect(Collectors.toList());
+
+      listsIds.stream().map(id -> talentsList.add(new ListUserTalentDto(id, null, null))).collect(Collectors.toList());*/
+
+      return listUserDto;
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }

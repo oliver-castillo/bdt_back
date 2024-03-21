@@ -102,34 +102,32 @@ public class UserService implements IUserService {
   @Override
   public ListUserDto getListsByUserId(Long userId) {
     try {
+      List<IListUserTalentResponse> listUserTalentResponses = userRepository.findListsByUserId(userId);
       ListUserDto listUserDto = new ListUserDto();
-      List<ListUserTalentDto> talentsList = new ArrayList<>();
-
       listUserDto.setUserId(userId);
+      List<ListUserTalentDto> listUserTalentDtos = new ArrayList<>();
 
-      List<IListUserTalentResponse> listsByUserId = userRepository.findListsByUserId(userId);
+      Map<Long, ListUserTalentDto> listMap = new HashMap<>();
+      for (IListUserTalentResponse response : listUserTalentResponses) {
+        Long listId = response.getListId();
+        String listName = response.getListName();
+        Long talentId = response.getTalentId();
 
-      Set<Long> talentsIds = listsByUserId.stream().map(IListUserTalentResponse::getTalentId).collect(Collectors.toSet());
+        ListUserTalentDto talentDto = listMap.getOrDefault(listId, new ListUserTalentDto());
+        talentDto.setId(listId);
+        talentDto.setName(listName);
 
+        Set<Long> talentIds = talentDto.getTalentIds();
+        if (talentIds == null) {
+          talentIds = new HashSet<>();
+        }
+        talentIds.add(talentId);
+        talentDto.setTalentIds(talentIds);
 
-      for (IListUserTalentResponse listUserDtoResponse : listsByUserId) {
-        ListUserTalentDto listUserTalentDto = new ListUserTalentDto();
-        listUserTalentDto.setId(listUserDtoResponse.getListId());
-        listUserTalentDto.setName(listUserDtoResponse.getListName());
-        listUserTalentDto.setTalentIds(talentsIds);
-        talentsList.add(listUserTalentDto);
+        listMap.put(listId, talentDto);
       }
-
-      listUserDto.setLists(talentsList);
-
-      //Set<Map<String, Object>> listsIds = new HashSet<>();
-
-
-
-      /*listsByUserId.stream().map(a -> listsIds.add(a.getListId())).collect(Collectors.toList());
-
-      listsIds.stream().map(id -> talentsList.add(new ListUserTalentDto(id, null, null))).collect(Collectors.toList());*/
-
+      listUserTalentDtos.addAll(listMap.values());
+      listUserDto.setLists(listUserTalentDtos);
       return listUserDto;
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());

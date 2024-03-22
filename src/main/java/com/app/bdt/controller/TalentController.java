@@ -148,7 +148,7 @@ public class TalentController {
     return new ResponseEntity<>(talentService.updateCV(talentId, fileId, fileRequest), HttpStatus.OK);
   }
 
-  @PostMapping("/get_by_ids")
+  @PostMapping("/cards_data/get_by_ids")
   public ResponseEntity<Object> getByIds(@RequestBody Set<Long> ids) {
     return new ResponseEntity<>(talentService.getByIds(ids), HttpStatus.OK);
   }

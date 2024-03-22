@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/talent")
@@ -140,6 +141,16 @@ public class TalentController {
   @PutMapping("/update_image/{talentId}")
   public ResponseEntity<Object> updateImage(@PathVariable Long talentId, @RequestBody ImageRequest imageRequest) {
     return new ResponseEntity<>(talentService.updateImage(talentId, imageRequest), HttpStatus.OK);
+  }
+
+  @PutMapping("/update_file/{talentId}/{fileId}")
+  public ResponseEntity<Object> updateCV(@PathVariable Long talentId, @PathVariable Long fileId, @RequestBody FileRequest fileRequest) {
+    return new ResponseEntity<>(talentService.updateCV(talentId, fileId, fileRequest), HttpStatus.OK);
+  }
+
+  @PostMapping("/get_by_ids")
+  public ResponseEntity<Object> getByIds(@RequestBody Set<Long> ids) {
+    return new ResponseEntity<>(talentService.getByIds(ids), HttpStatus.OK);
   }
 
 

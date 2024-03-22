@@ -125,4 +125,10 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
   @Query(value = "CALL SP_UPDATE_CURRENCY_TALENT(:talentId, :currencyId)", nativeQuery = true)
   void updateCurrency(@Param("talentId") Long talentId, @Param("currencyId") Integer currencyId);
 
+
+  @Modifying
+  @Transactional
+  @Query(value = "CALL SP_UPDATE_FILE(:#{#file.id}, :#{#file.fileName}, :#{#file.fileType}, :#{#file.fileInBytes}, :talentId)", nativeQuery = true)
+  void updateFile(@Param("talentId") Long talentId, @Param("file") File file);
+
 }

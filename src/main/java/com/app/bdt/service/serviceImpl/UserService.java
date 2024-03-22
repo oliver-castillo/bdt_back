@@ -106,24 +106,20 @@ public class UserService implements IUserService {
       ListUserDto listUserDto = new ListUserDto();
       listUserDto.setUserId(userId);
       List<ListUserTalentDto> listUserTalentDtos = new ArrayList<>();
-
       Map<Long, ListUserTalentDto> listMap = new HashMap<>();
       for (IListUserTalentResponse response : listUserTalentResponses) {
         Long listId = response.getListId();
         String listName = response.getListName();
         Long talentId = response.getTalentId();
-
         ListUserTalentDto talentDto = listMap.getOrDefault(listId, new ListUserTalentDto());
         talentDto.setId(listId);
         talentDto.setName(listName);
-
         Set<Long> talentIds = talentDto.getTalentIds();
         if (talentIds == null) {
           talentIds = new HashSet<>();
         }
         talentIds.add(talentId);
         talentDto.setTalentIds(talentIds);
-
         listMap.put(listId, talentDto);
       }
       listUserTalentDtos.addAll(listMap.values());

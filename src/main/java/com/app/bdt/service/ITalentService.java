@@ -8,6 +8,7 @@ import com.app.bdt.model.response.TalentCardResponse;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public interface ITalentService {
   List<TalentDto> getAllTalents();
@@ -48,6 +49,10 @@ public interface ITalentService {
 
   Response updateImage(Long talentId, ImageRequest imageRequest);
 
+  Response updateCV(Long talentId, Long fileId, FileRequest fileRequest);
+
   List<TalentCardResponse> getByTechnicalSkillsLanguageAndLevel(Map<String, Object> params);
+
+  List<TalentCardResponse> getByIds(Set<Long> ids);
 
 }

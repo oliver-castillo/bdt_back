@@ -111,6 +111,7 @@ public class TalentService implements ITalentService {
       }
       /* Add files */
       for (File file : talent.getFilesList()) {
+        file.setFileName("CV");
         talentRepository.addFile(createdTalent.getId(), file);
       }
       /* Add country */
@@ -219,6 +220,7 @@ public class TalentService implements ITalentService {
   public Response addFile(Long talentId, FileRequest fileRequest) {
     Talent talent = getTalentById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
     try {
+      fileRequest.setFileName("FILE_" + fileRequest.getFileName());
       talentRepository.addFile(talent.getId(), talentMapper.toFile(fileRequest));
       return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
     } catch (NotFoundException e) {
@@ -382,6 +384,29 @@ public class TalentService implements ITalentService {
   }
 
   @Override
+  public Response updateCV(Long talentId, Long fileId, FileRequest fileRequest) {
+    try {
+      Talent talent = getTalentById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
+      File cvFile = talent.getFilesList().stream().filter(
+                      file -> file.getId().equals(fileId) && file.getFileName().equalsIgnoreCase("CV"))
+              .findFirst().get();
+
+      File newFile = talentMapper.toFile(fileRequest);
+
+      cvFile.setFileName("CV");
+      cvFile.setFileType(newFile.getFileType());
+      cvFile.setFileInBytes(newFile.getFileInBytes());
+
+      talentRepository.updateFile(talentId, cvFile);
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_UPDATE.getMessage());
+    } catch (BadRequestException e) {
+      throw e;
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
   public List<TalentCardResponse> getByTechnicalSkillsLanguageAndLevel(Map<String, Object> params) {
     try {
       Optional<Integer> languageId = Optional.ofNullable((Integer) params.get("languageId"));
@@ -409,6 +434,16 @@ public class TalentService implements ITalentService {
                         obj.getProfile().toLowerCase().contains(params.get("data").toString().toLowerCase())).collect(Collectors.toList());
       }
       return filteredList;
+    } catch (RuntimeException e) {
+      throw new InternalServerError(e.getMessage());
+    }
+  }
+
+  @Override
+  public List<TalentCardResponse> getByIds(Set<Long> ids) {
+    try {
+      return getAllTalentsWithBasicData().stream()
+              .filter(obj -> ids.contains(obj.getId())).collect(Collectors.toList());
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }

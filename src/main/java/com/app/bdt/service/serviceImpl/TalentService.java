@@ -111,7 +111,7 @@ public class TalentService implements ITalentService {
       }
       /* Add files */
       for (File file : talent.getFilesList()) {
-        file.setFileName("CV");
+        file.setFileName("CV_" + file.getFileName());
         talentRepository.addFile(createdTalent.getId(), file);
       }
       /* Add country */
@@ -387,17 +387,16 @@ public class TalentService implements ITalentService {
   public Response updateCV(Long talentId, Long fileId, FileRequest fileRequest) {
     try {
       Talent talent = getTalentById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
-      File cvFile = talent.getFilesList().stream().filter(
-                      file -> file.getId().equals(fileId) && file.getFileName().equalsIgnoreCase("CV"))
-              .findFirst().get();
-
+      Optional<File> cvFile = talent.getFilesList().stream().filter(
+                      file -> file.getId().equals(fileId) && file.getFileName().contains("CV"))
+              .findFirst();
       File newFile = talentMapper.toFile(fileRequest);
-
-      cvFile.setFileName("CV");
-      cvFile.setFileType(newFile.getFileType());
-      cvFile.setFileInBytes(newFile.getFileInBytes());
-
-      talentRepository.updateFile(talentId, cvFile);
+      if (cvFile.isPresent()) {
+        cvFile.get().setFileName("CV_" + newFile.getFileName());
+        cvFile.get().setFileType(newFile.getFileType());
+        cvFile.get().setFileInBytes(newFile.getFileInBytes());
+        talentRepository.updateFile(talentId, cvFile.get());
+      }
       return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_UPDATE.getMessage());
     } catch (BadRequestException e) {
       throw e;

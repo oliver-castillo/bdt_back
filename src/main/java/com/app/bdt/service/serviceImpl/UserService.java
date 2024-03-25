@@ -13,6 +13,7 @@ import com.app.bdt.model.request.UserRequest;
 import com.app.bdt.model.request.UserTalentListRequest;
 import com.app.bdt.model.response.IListUserTalentResponse;
 import com.app.bdt.model.response.IUserAndRole;
+import com.app.bdt.model.response.IUserTalentList;
 import com.app.bdt.model.response.Response;
 import com.app.bdt.repository.IUserRepository;
 import com.app.bdt.service.IUserService;
@@ -82,7 +83,7 @@ public class UserService implements IUserService {
   @Override
   public Response addList(UserListRequest userListRequest) {
     try {
-      userRepository.addListOfUser(userListRequest);
+      userRepository.addList(userListRequest);
       return new Response(HttpStatus.CREATED.value(), Messages.SUCCESSFUL_INSERT.getMessage());
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
@@ -90,20 +91,16 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public Response addListTalent(Long userId, UserTalentListRequest userTalentListRequest) {
+  public Response saveTalentToList(UserTalentListRequest userTalentListRequest) {
     try {
-      ListUserDto listUserDto = getListsByUserId(userId);
-      Long registeredListId = 0L;
-      Long registeredTalentId = userTalentListRequest.getTalentId();
-      for (ListUserTalentDto listUserTalentDto : listUserDto.getLists()) {
-        if (listUserTalentDto.getTalentIds().contains(registeredTalentId)) {
-          registeredListId = listUserTalentDto.getId();
-        }
+      Optional<IUserTalentList> userTalentList = userRepository.getUserTalentListById(userTalentListRequest.getId());
+      if (userTalentList.isPresent()) {
+        userRepository.updateUserTalentList(userTalentListRequest);
+        return new Response(HttpStatus.CREATED.value(), Messages.SUCCESSFUL_UPDATE.getMessage());
+      } else {
+        userRepository.addTalentToList(userTalentListRequest);
+        return new Response(HttpStatus.CREATED.value(), Messages.SUCCESSFUL_INSERT.getMessage());
       }
-      System.out.println(registeredListId + "" + registeredTalentId);
-      /*userRepository.deleteTalentFromList(registeredListId, registeredTalentId);
-      userRepository.addListUserTalent(userTalentListRequest);*/
-      return new Response(HttpStatus.CREATED.value(), Messages.SUCCESSFUL_INSERT.getMessage());
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());
     }
@@ -139,5 +136,6 @@ public class UserService implements IUserService {
       throw new InternalServerError(e.getMessage());
     }
   }
+
 
 }

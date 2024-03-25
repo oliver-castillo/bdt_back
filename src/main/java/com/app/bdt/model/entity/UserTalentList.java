@@ -19,9 +19,9 @@ public class UserTalentList implements Serializable {
   @Column(name = "ID_LISTA_USUARIO_DETALLE")
   private Long id;
 
-  @ManyToOne
+  /*@ManyToOne
   @JoinColumn(name = "ID_LISTA_USUARIO")
-  private UserList usersUserList;
+  private UserList usersUserList;*/
 
   @ManyToOne
   @JoinColumn(name = "ID_TALENTO")

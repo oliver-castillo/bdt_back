@@ -17,7 +17,7 @@ public interface IUserService {
 
   Response addList(UserListRequest userListRequest);
 
-  Response addListTalent(Long userId, UserTalentListRequest userTalentListRequest);
+  Response saveTalentToList(UserTalentListRequest userTalentListRequest);
 
   ListUserDto getListsByUserId(Long userId);
 

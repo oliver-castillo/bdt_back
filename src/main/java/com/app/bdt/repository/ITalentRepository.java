@@ -106,7 +106,7 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
   @Query(value = "CALL SP_GET_TALENTS_BY_LANGUAGE_AND_LEVEL(:languageId, :levelId)", nativeQuery = true)
   List<ITalentByLanguageAndLevel> findTalentsByLanguageAndLevel(@Param("languageId") int languageId, @Param("levelId") int levelId);
 
-  @Query(value = "CALL SP_FILTER_TALENTS_IDS_BY_TECHNICAL_SKILLS_LANGUAGE_AND_LEVEL(" +
+  @Query(value = "CALL SP_FILTER_TALENTS(" +
           ":languageId, " +
           ":levelId, " +
           ":technicalSkills)", nativeQuery = true)

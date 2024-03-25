@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,6 +26,10 @@ public class UserList implements Serializable {
   /*@ManyToOne
   @JoinColumn(name = "ID_USUARIO")
   private User user;*/
+  @OneToMany
+  @JoinColumn(name = "ID_LISTA_USUARIO")
+  @ToString.Exclude
+  private List<UserTalentList> talentsList;
 
   @Column(name = "NO_LISTA_USUARIO")
   private String listName;

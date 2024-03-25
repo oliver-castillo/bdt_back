@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserTalentListRequest {
+  private Long id;
   @NotNull
   private Long listId;
   @NotNull

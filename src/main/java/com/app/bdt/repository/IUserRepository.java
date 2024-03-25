@@ -5,6 +5,7 @@ import com.app.bdt.model.request.UserListRequest;
 import com.app.bdt.model.request.UserTalentListRequest;
 import com.app.bdt.model.response.IListUserTalentResponse;
 import com.app.bdt.model.response.IUserAndRole;
+import com.app.bdt.model.response.IUserTalentList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,13 +32,21 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
   @Transactional
   @Modifying
-  @Query(value = "CALL SP_INSERT_LIST_OF_USER(:#{#userList.userId}, :#{#userList.listName})", nativeQuery = true)
-  void addListOfUser(@Param("userList") UserListRequest userListRequest);
+  @Query(value = "CALL SP_INSERT_LIST(:#{#userList.userId}, :#{#userList.listName})", nativeQuery = true)
+  void addList(@Param("userList") UserListRequest userListRequest);
 
   @Transactional
   @Modifying
-  @Query(value = "CALL SP_INSERT_LIST_OF_USER_TALENT(:#{#obj.listId}, :#{#obj.talentId})", nativeQuery = true)
-  void addListUserTalent(@Param("obj") UserTalentListRequest userTalentListRequest);
+  @Query(value = "CALL SP_INSERT_TALENT_TO_LIST(:#{#obj.listId}, :#{#obj.talentId})", nativeQuery = true)
+  void addTalentToList(@Param("obj") UserTalentListRequest userTalentListRequest);
+
+  @Transactional
+  @Modifying
+  @Query(value = "CALL SP_UPDATE_USER_TALENT_LIST(:#{#obj.id}, :#{#obj.listId}, :#{#obj.talentId})", nativeQuery = true)
+  void updateUserTalentList(@Param("obj") UserTalentListRequest userTalentListRequest);
+
+  @Query(value = "CALL SP_GET_LIST_USER_TALENT_BY_ID(:id)", nativeQuery = true)
+  Optional<IUserTalentList> getUserTalentListById(@Param("id") Long id);
 
   @Query(value = "CALL SP_GET_LISTS_BY_USER_ID(:userId)", nativeQuery = true)
   List<IListUserTalentResponse> findListsByUserId(@Param("userId") Long userId);

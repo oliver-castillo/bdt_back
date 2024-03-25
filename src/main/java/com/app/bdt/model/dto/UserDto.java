@@ -20,7 +20,8 @@ public class UserDto {
   @JsonIgnore
   private String password;
   private List<RoleDto> roles;
+  private List<UserListDto> lists;
   private String image;
-  private List<FeedbackDto> feedbacksList;
+  //private List<FeedbackDto> feedbacksList;
 
 }

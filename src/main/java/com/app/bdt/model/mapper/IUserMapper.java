@@ -19,8 +19,6 @@ public interface IUserMapper {
   @Mapping(target = "image", source = "image", qualifiedByName = "stringToByteArray")
   User toUser(UserRequest userRequest);
 
-  //UserListDto userListToUserListDto(UserList user);
-
   @Named("byteArrayToString")
   default String byteArrayToString(byte[] byteArray) {
     return byteArray != null ? new String(byteArray) : null;

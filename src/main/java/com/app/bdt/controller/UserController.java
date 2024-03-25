@@ -34,9 +34,9 @@ public class UserController {
     return new ResponseEntity<>(userService.addList(userListRequest), HttpStatus.CREATED);
   }
 
-  @PostMapping("/add_talent_to_list/{listId}/{talentId}")
-  public ResponseEntity<Object> addListTalent(@PathVariable Long userId, @RequestBody @Valid UserTalentListRequest userTalentListRequest) {
-    return new ResponseEntity<>(userService.addListTalent(userId, userTalentListRequest), HttpStatus.CREATED);
+  @PostMapping("/add_talent_to_list")
+  public ResponseEntity<Object> saveTalentToList(@RequestBody @Valid UserTalentListRequest userTalentListRequest) {
+    return new ResponseEntity<>(userService.saveTalentToList(userTalentListRequest), HttpStatus.OK);
   }
 
   @GetMapping("/lists/{userId}")

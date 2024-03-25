@@ -33,7 +33,7 @@ public interface IMasterRepository extends JpaRepository<Master, Long> {
   List<ICityResponse> findAllCities();
 
   /*@Query(value = "CALL SP_GET_ALL_TECHNICAL_SKILLS", nativeQuery = true)
-  List<Map<String, String>> findAllTechnicalSkills();*/
+  UserList<Map<String, String>> findAllTechnicalSkills();*/
 
   @Query(value = "CALL SP_GET_ALL_TECHNICAL_SKILLS", nativeQuery = true)
   List<String> findAllTechnicalSkills();

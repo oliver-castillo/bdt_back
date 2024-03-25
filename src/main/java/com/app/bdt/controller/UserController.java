@@ -34,15 +34,14 @@ public class UserController {
     return new ResponseEntity<>(userService.addList(userListRequest), HttpStatus.CREATED);
   }
 
-  @PostMapping("/add_list_talent")
-  public ResponseEntity<Object> addListTalent(@RequestBody @Valid UserTalentListRequest userTalentListRequest) {
-    return new ResponseEntity<>(userService.addListTalent(userTalentListRequest), HttpStatus.CREATED);
+  @PostMapping("/add_talent_to_list/{listId}/{talentId}")
+  public ResponseEntity<Object> addListTalent(@PathVariable Long userId, @RequestBody @Valid UserTalentListRequest userTalentListRequest) {
+    return new ResponseEntity<>(userService.addListTalent(userId, userTalentListRequest), HttpStatus.CREATED);
   }
 
   @GetMapping("/lists/{userId}")
   public ResponseEntity<Object> getListsByUserId(@PathVariable Long userId) {
     return new ResponseEntity<>(userService.getListsByUserId(userId), HttpStatus.OK);
   }
-
 
 }

@@ -39,10 +39,15 @@ public interface IUserRepository extends JpaRepository<User, Long> {
   @Query(value = "CALL SP_INSERT_LIST_OF_USER_TALENT(:#{#obj.listId}, :#{#obj.talentId})", nativeQuery = true)
   void addListUserTalent(@Param("obj") UserTalentListRequest userTalentListRequest);
 
-  @Query(value = "CALL SP_GET_LISTS_FOR_USER_BY_ID(:userId)", nativeQuery = true)
+  @Query(value = "CALL SP_GET_LISTS_BY_USER_ID(:userId)", nativeQuery = true)
   List<IListUserTalentResponse> findListsByUserId(@Param("userId") Long userId);
 
   @Query(value = "CALL SP_GET_USER_BY_ID(:userId)", nativeQuery = true)
   Optional<User> findUserById(@Param("userId") Long userId);
+
+  @Transactional
+  @Modifying
+  @Query(value = "CALL SP_DELETE_TALENT_OF_LIST(:listId, :talentId)", nativeQuery = true)
+  void deleteTalentFromList(@Param("listId") Long listId, @Param("talentId") Long talentId);
 
 }

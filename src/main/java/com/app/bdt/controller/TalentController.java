@@ -49,9 +49,9 @@ public class TalentController {
   }
 
   @PostMapping("/filter_talents")
-  public ResponseEntity<Object> getTalentsByTechnicalSkillsLanguageAndLevel(@RequestBody(required = false) Map<String, Object> params) {
-    List<TalentCardResponse> talentByTechnicalSkillsLanguageAndLevel = talentService.getByTechnicalSkillsLanguageAndLevel(params);
-    return new ResponseEntity<>(talentByTechnicalSkillsLanguageAndLevel, HttpStatus.OK);
+  public ResponseEntity<Object> filterByParams(@RequestBody(required = false) FilterParamsRequest filterParamsRequest) {
+    List<TalentCardResponse> filteredTalents = talentService.filterByParams(filterParamsRequest);
+    return new ResponseEntity<>(filteredTalents, HttpStatus.OK);
   }
 
   @PutMapping("/update_socials/{talentId}")

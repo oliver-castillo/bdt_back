@@ -407,11 +407,12 @@ public class TalentService implements ITalentService {
   }
 
   @Override
-  public List<TalentCardResponse> getByTechnicalSkillsLanguageAndLevel(Map<String, Object> params) {
+  public List<TalentCardResponse> filterByParams(FilterParamsRequest filterParamsRequest) {
     try {
-      Optional<Integer> languageId = Optional.ofNullable((Integer) params.get("languageId"));
-      Optional<Integer> levelId = Optional.ofNullable((Integer) params.get("levelId"));
-      Optional<List<String>> technicalSkills = Optional.ofNullable((List<String>) params.get("technicalSkills"));
+      Optional<Integer> languageId = Optional.ofNullable(filterParamsRequest.getLanguageId());
+      Optional<Integer> levelId = Optional.ofNullable(filterParamsRequest.getLevelId());
+      Optional<List<String>> technicalSkills = Optional.ofNullable(filterParamsRequest.getTechnicalSkills());
+
       List<ITalentResponse> result;
       if (languageId.isPresent() || levelId.isPresent() || technicalSkills.isPresent()) {
         result = talentRepository.findTalentsIdsByTechnicalSkillsLanguageIdAndLevelId(
@@ -426,12 +427,17 @@ public class TalentService implements ITalentService {
       List<TalentCardResponse> filteredList = talentMapper.toTalentCardResponseList(getAllTalents().stream().filter(
               talent -> res.stream().anyMatch(
                       obj -> obj.getTalentId().equals(talent.getId()))).collect(Collectors.toList()));
-      if (params.get("data") != null) {
-        return filteredList.stream().filter(obj ->
-                obj.getName().toLowerCase().contains(params.get("data").toString().toLowerCase()) ||
-                        obj.getPaternalSurname().toLowerCase().contains(params.get("data").toString().toLowerCase()) ||
-                        obj.getMaternalSurname().toLowerCase().contains(params.get("data").toString().toLowerCase()) ||
-                        obj.getProfile().toLowerCase().contains(params.get("data").toString().toLowerCase())).collect(Collectors.toList());
+
+      String data = filterParamsRequest.getData();
+      if (data != null) {
+        filteredList = filteredList.stream().filter(obj ->
+                obj.getName().toLowerCase().contains(data.toLowerCase()) ||
+                        obj.getPaternalSurname().toLowerCase().contains(data.toLowerCase()) ||
+                        obj.getMaternalSurname().toLowerCase().contains(data.toLowerCase()) ||
+                        obj.getProfile().toLowerCase().contains(data.toLowerCase())).collect(Collectors.toList());
+      }
+      if (!filterParamsRequest.getTalentsId().isEmpty()) {
+        filteredList = filteredList.stream().filter(obj -> filterParamsRequest.getTalentsId().contains(obj.getId())).collect(Collectors.toList());
       }
       return filteredList;
     } catch (RuntimeException e) {

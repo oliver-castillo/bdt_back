@@ -27,7 +27,7 @@ public interface ITalentMapper {
   TalentDto toTalentDto(Talent talent);
 
   /*@Mapping(target = "user.image", source = "user.image", qualifiedByName = "byteArrayToString")
-  List<FeedbackDto> feedbackListToFeedbackDtoList(List<Feedback> feedback);
+  UserList<FeedbackDto> feedbackListToFeedbackDtoList(UserList<Feedback> feedback);
 
   @Mapping(target = "image64", source = "image", qualifiedByName = "byteArrayToString")
   UserBasicDto userToUserBasicDto(User user);*/
@@ -36,9 +36,9 @@ public interface ITalentMapper {
 
   EducationalExperience toEducationalExperience(EducationalExperienceRequest educationalExperienceRequest);
 
-  List<TalentDto> toTalentDtoList(List<Talent> talents);
+  List<TalentDto> toTalentDtoList(java.util.List<Talent> talents);
 
-  List<TalentCardResponse> toTalentCardResponseList(List<TalentDto> talentDto);
+  java.util.List<TalentCardResponse> toTalentCardResponseList(java.util.List<TalentDto> talentDto);
 
   Language toLanguage(LanguageRequest languageRequest);
 
@@ -49,10 +49,10 @@ public interface ITalentMapper {
   FileDto toFileDto(File file);
 
   @Named("filesList")
-  List<File> toFilesList(List<FileRequest> filesRequest);
+  java.util.List<File> toFilesList(java.util.List<FileRequest> filesRequest);
 
   @Named("filesDtoList")
-  List<FileDto> toFilesDtoList(List<File> files);
+  java.util.List<FileDto> toFilesDtoList(java.util.List<File> files);
 
   @Named("byteArrayToString")
   default String byteArrayToString(byte[] byteArray) {

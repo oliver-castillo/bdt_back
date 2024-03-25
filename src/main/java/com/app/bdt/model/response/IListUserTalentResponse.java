@@ -16,4 +16,7 @@ public interface IListUserTalentResponse {
   @Value("#{target.TALENT_ID}")
   Long getTalentId();
 
+  @Value("#{target.LIST_USER_TALENT_ID}")
+  Long getListUserTalentId();
+
 }

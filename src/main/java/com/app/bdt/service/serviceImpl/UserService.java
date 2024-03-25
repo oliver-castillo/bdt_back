@@ -90,9 +90,19 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public Response addListTalent(UserTalentListRequest userTalentListRequest) {
+  public Response addListTalent(Long userId, UserTalentListRequest userTalentListRequest) {
     try {
-      userRepository.addListUserTalent(userTalentListRequest);
+      ListUserDto listUserDto = getListsByUserId(userId);
+      Long registeredListId = 0L;
+      Long registeredTalentId = userTalentListRequest.getTalentId();
+      for (ListUserTalentDto listUserTalentDto : listUserDto.getLists()) {
+        if (listUserTalentDto.getTalentIds().contains(registeredTalentId)) {
+          registeredListId = listUserTalentDto.getId();
+        }
+      }
+      System.out.println(registeredListId + "" + registeredTalentId);
+      /*userRepository.deleteTalentFromList(registeredListId, registeredTalentId);
+      userRepository.addListUserTalent(userTalentListRequest);*/
       return new Response(HttpStatus.CREATED.value(), Messages.SUCCESSFUL_INSERT.getMessage());
     } catch (RuntimeException e) {
       throw new InternalServerError(e.getMessage());

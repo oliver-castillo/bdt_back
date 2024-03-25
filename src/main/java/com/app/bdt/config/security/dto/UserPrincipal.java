@@ -2,6 +2,7 @@ package com.app.bdt.config.security.dto;
 
 import com.app.bdt.model.dto.RoleDto;
 import com.app.bdt.model.dto.UserDto;
+import com.app.bdt.model.dto.UserListDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class UserPrincipal implements UserDetails {
   private String maternalSurname;
   private String image;
   private List<String> roles;
+  private transient List<UserListDto> lists;
 
   private String username;
   @JsonIgnore
@@ -43,6 +45,7 @@ public class UserPrincipal implements UserDetails {
             userDto.getMaternalSurname(),
             userDto.getImage(),
             roles,
+            userDto.getLists(),
             userDto.getUsername(),
             userDto.getPassword(),
             authorities,

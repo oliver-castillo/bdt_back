@@ -38,7 +38,9 @@ public class User implements Serializable {
   @Column(name = "PW_PASSWORD")
   private String password;
 
-  private List<UserList> abc;
+  @OneToMany
+  @JoinColumn(name = "ID_USUARIO")
+  private List<UserList> lists;
 
   /*@OneToMany
   @JoinColumn(name = "ID_USUARIO")

@@ -23,9 +23,10 @@ public class UserList implements Serializable {
   @Column(name = "ID_LISTA_USUARIO")
   private Long id;
 
-  /*@ManyToOne
+  @ManyToOne
   @JoinColumn(name = "ID_USUARIO")
-  private User user;*/
+  private User user;
+
   @OneToMany
   @JoinColumn(name = "ID_LISTA_USUARIO")
   @ToString.Exclude

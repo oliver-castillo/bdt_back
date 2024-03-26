@@ -19,12 +19,12 @@ public class UserTalentList implements Serializable {
   @Column(name = "ID_LISTA_USUARIO_DETALLE")
   private Long id;
 
-  /*@ManyToOne
-  @JoinColumn(name = "ID_LISTA_USUARIO")
-  private UserList usersUserList;*/
-
   @ManyToOne
+  @JoinColumn(name = "ID_LISTA_USUARIO")
+  private UserList userList;
+
+  /*@ManyToOne
   @JoinColumn(name = "ID_TALENTO")
-  private Talent talent;
+  private Talent talent;*/
 
 }

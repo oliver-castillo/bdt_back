@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserListDto {
-  @JsonProperty("listId")
+public class UserIdDto {
+  @JsonProperty("userId")
   private Long id;
-  private String listName;
-  private UserIdDto user;
 }

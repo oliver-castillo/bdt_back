@@ -41,7 +41,7 @@ public class UserController {
 
   @GetMapping("/lists/{userId}")
   public ResponseEntity<Object> getListsByUserId(@PathVariable Long userId) {
-    return new ResponseEntity<>(userService.getUserByUserId(userId).getLists(), HttpStatus.OK);
+    return new ResponseEntity<>(userService.getListsByUserId(userId), HttpStatus.OK);
   }
 
 }

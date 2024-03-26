@@ -86,4 +86,8 @@ public class Talent implements Serializable {
   @OneToMany
   @JoinColumn(name = "ID_TALENTO")
   private List<Feedback> feedbacksList;
+
+  @OneToMany
+  @JoinColumn(name = "ID_TALENTO")
+  private List<UserTalentList> lists;
 }

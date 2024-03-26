@@ -35,6 +35,7 @@ public class TalentDto {
   private List<EducationalExperienceDto> educationalExperiencesList;
   private List<LanguageDto> languagesList;
   private List<FeedbackDto> feedbacksList;
+  private List<UserTalentListDto> lists;
   private int averageRating;
   private String image = null;
   private List<FileDto> filesList = null;

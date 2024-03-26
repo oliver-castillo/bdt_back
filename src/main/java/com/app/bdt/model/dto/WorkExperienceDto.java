@@ -1,5 +1,6 @@
 package com.app.bdt.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class WorkExperienceDto {
   private String position;
   private LocalDate startDate;
   private LocalDate endDate;
+  @JsonProperty("isCurrent")
   private boolean isCurrent;
 
 }

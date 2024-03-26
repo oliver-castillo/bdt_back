@@ -13,6 +13,6 @@ public class TechnicallSkillDto {
 
   private String skill;
 
-  private Integer years;
+  private Double years;
 
 }

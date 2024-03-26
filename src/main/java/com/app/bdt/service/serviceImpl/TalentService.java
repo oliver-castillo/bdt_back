@@ -240,7 +240,7 @@ public class TalentService implements ITalentService {
     TalentDto talentDto = getTalentDtoById(talentId).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND.getMessage()));
     try {
       String skill = technicalSkillRequest.getSkill();
-      Integer years = technicalSkillRequest.getYears();
+      Double years = technicalSkillRequest.getYears();
       boolean skillExists = talentDto.getTechnicalSkillsList().stream().anyMatch(obj -> obj.getSkill().equalsIgnoreCase(skill));
       if (skillExists) {
         throw new BadRequestException(Messages.ALREADY_REGISTERED.getMessage());

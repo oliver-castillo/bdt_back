@@ -24,6 +24,6 @@ public class TechnicalSkill implements Serializable {
   private String skill;
 
   @Column(name = "NU_ANIOS")
-  private Integer years;
+  private Double years;
 
 }

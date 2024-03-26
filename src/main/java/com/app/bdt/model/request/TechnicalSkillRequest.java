@@ -23,6 +23,6 @@ public class TechnicalSkillRequest {
   @Min(value = 1)
   @Max(value = 50)
   @Digits(integer = 2, fraction = 0)
-  private Integer years;
+  private Double years;
 
 }

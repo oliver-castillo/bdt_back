@@ -36,6 +36,7 @@ public class UserController {
 
   @PostMapping("/add_talent_to_list")
   public ResponseEntity<Object> saveTalentToList(@RequestBody @Valid UserTalentListRequest userTalentListRequest) {
+
     return new ResponseEntity<>(userService.saveTalentToList(userTalentListRequest), HttpStatus.OK);
   }
 

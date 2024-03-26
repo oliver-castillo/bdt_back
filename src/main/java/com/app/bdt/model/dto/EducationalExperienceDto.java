@@ -17,5 +17,5 @@ public class EducationalExperienceDto {
   private String degree;
   private LocalDate startDate;
   private LocalDate endDate;
-
+  private boolean isCurrent;
 }

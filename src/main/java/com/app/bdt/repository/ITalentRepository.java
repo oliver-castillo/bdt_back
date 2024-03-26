@@ -37,12 +37,12 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
 
   @Transactional
   @Modifying
-  @Query(value = "CALL SP_INSERT_WORK_EXPERIENCE(:talentId, :#{#workExperience.company}, :#{#workExperience.position}, :#{#workExperience.startDate}, :#{#workExperience.endDate})", nativeQuery = true)
+  @Query(value = "CALL SP_INSERT_WORK_EXPERIENCE(:talentId, :#{#workExperience.company}, :#{#workExperience.position}, :#{#workExperience.startDate}, :#{#workExperience.endDate}, :#{#workExperience.current})", nativeQuery = true)
   void addWorkExperience(@Param("talentId") Long talentId, @Param("workExperience") WorkExperience workExperience);
 
   @Transactional
   @Modifying
-  @Query(value = "CALL SP_INSERT_EDUCATIONAL_EXPERIENCE(:talentId, :#{#educationalExperience.educationalInstitute}, :#{#educationalExperience.career}, :#{#educationalExperience.degree}, :#{#educationalExperience.startDate}, :#{#educationalExperience.endDate})", nativeQuery = true)
+  @Query(value = "CALL SP_INSERT_EDUCATIONAL_EXPERIENCE(:talentId, :#{#educationalExperience.educationalInstitute}, :#{#educationalExperience.career}, :#{#educationalExperience.degree}, :#{#educationalExperience.startDate}, :#{#educationalExperience.endDate}, :#{#educationalExperience.current})", nativeQuery = true)
   void addEducationalExperience(@Param("talentId") Long talentId,
                                 @Param("educationalExperience") EducationalExperience educationalExperience);
 
@@ -55,7 +55,7 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
   @Modifying
   @Query(value = "CALL SP_UPDATE_WORK_EXPERIENCE(" +
           ":talentId, :workExpId, :#{#workExp.company}," +
-          ":#{#workExp.position}, :#{#workExp.startDate}, :#{#workExp.endDate})", nativeQuery = true)
+          ":#{#workExp.position}, :#{#workExp.startDate}, :#{#workExp.endDate}, :#{#workExp.current})", nativeQuery = true)
   void updateWorkExperience(
           @Param("talentId") Long talentId,
           @Param("workExpId") Long workExperienceId,
@@ -65,7 +65,7 @@ public interface ITalentRepository extends JpaRepository<Talent, Long> {
   @Modifying
   @Query(value = "CALL SP_UPDATE_EDUCATIONAL_EXPERIENCE(" +
           ":talentId, :eduExperienceId, :#{#eduExp.educationalInstitute}," +
-          ":#{#eduExp.career}, :#{#eduExp.degree}, :#{#eduExp.startDate}, :#{#eduExp.endDate})", nativeQuery = true)
+          ":#{#eduExp.career}, :#{#eduExp.degree}, :#{#eduExp.startDate}, :#{#eduExp.endDate}, :#{#eduExp.current})", nativeQuery = true)
   void updateEducationalExperience(
           @Param("talentId") Long talentId,
           @Param("eduExperienceId") Long eduExperienceId,

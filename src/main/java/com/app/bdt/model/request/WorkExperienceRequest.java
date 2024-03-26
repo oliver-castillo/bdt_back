@@ -1,5 +1,6 @@
 package com.app.bdt.model.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,5 +30,9 @@ public class WorkExperienceRequest {
   @NotNull(message = "La fecha de fin es requerida")
   @PastOrPresent
   private LocalDate endDate;
+
+  @NotNull
+  @JsonProperty("isCurrent")
+  private boolean isCurrent;
 
 }

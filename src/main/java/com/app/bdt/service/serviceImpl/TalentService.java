@@ -1,5 +1,6 @@
 package com.app.bdt.service.serviceImpl;
 
+import com.app.bdt.config.security.dto.UserPrincipal;
 import com.app.bdt.exceptions.BadRequestException;
 import com.app.bdt.exceptions.InternalServerError;
 import com.app.bdt.exceptions.NotFoundException;
@@ -20,6 +21,8 @@ import com.app.bdt.service.IUserService;
 import com.app.bdt.util.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -473,7 +476,16 @@ public class TalentService implements ITalentService {
               talentDto.setCurrency(talentMasterDataResponse.getCurrency());
               talentDto.setProfile(talentMasterDataResponse.getProfile());
             });
+    talentDto.setLists(talentDto.getLists().stream().filter(list -> list.getUserList().getUser().getId().equals(Objects.requireNonNull(getUser()).getId())).collect(Collectors.toList()));
     return talentDto;
+  }
+
+  private UserPrincipal getUser() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth != null && auth.getPrincipal() instanceof UserPrincipal) {
+      return (UserPrincipal) auth.getPrincipal();
+    }
+    return null;
   }
 
 }

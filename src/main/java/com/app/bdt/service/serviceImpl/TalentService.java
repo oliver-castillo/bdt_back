@@ -86,7 +86,7 @@ public class TalentService implements ITalentService {
   }
 
   @Override
-  public TalentDto create(TalentRequest talentRequest) {
+  public Response create(TalentRequest talentRequest) {
     try {
       Talent talent = talentMapper.toTalent(talentRequest);
       talentRepository.createTalent(talent);
@@ -125,7 +125,8 @@ public class TalentService implements ITalentService {
       talentMasterRepository.addCurrency(createdTalent.getId(), talentRequest.getCurrencyId());
       /* Add profile */
       talentMasterRepository.addProfile(createdTalent.getId(), talentRequest.getProfileId());
-      return getBuiltTalentDto(createdTalent);
+      //return getBuiltTalentDto(createdTalent);
+      return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_INSERT.getMessage());
     } catch (BadRequestException e) {
       throw e;
     } catch (RuntimeException e) {
@@ -134,7 +135,7 @@ public class TalentService implements ITalentService {
   }
 
   @Override
-  public TalentDto updateTalent(Long talentId, TalentRequest talentRequest) {
+  public Response updateTalent(Long talentId, TalentRequest talentRequest) {
     try {
       //Talent foundTalent = talentRepository.findTalentById(talentId);
       Talent foundTalent = null;
@@ -171,7 +172,8 @@ public class TalentService implements ITalentService {
         talentToUpdate.setGithubLink(
                 (talent.getGithubLink() != null && !talent.getGithubLink().isEmpty())
                         ? talent.getGithubLink() : foundTalent.getGithubLink());
-        return getBuiltTalentDto(talentToUpdate);
+        //return getBuiltTalentDto(talentToUpdate);
+        return new Response(HttpStatus.OK.value(), Messages.SUCCESSFUL_UPDATE.getMessage());
       } else {
         throw new NotFoundException("No se encontró el registro");
       }

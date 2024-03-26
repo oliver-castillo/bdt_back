@@ -44,7 +44,7 @@ public class TalentController {
   }
 
   @PostMapping
-  public ResponseEntity<TalentDto> createTalent(@RequestBody @Valid TalentRequest talentRequest) {
+  public ResponseEntity<Response> createTalent(@RequestBody @Valid TalentRequest talentRequest) {
     return new ResponseEntity<>(talentService.create(talentRequest), HttpStatus.CREATED);
   }
 

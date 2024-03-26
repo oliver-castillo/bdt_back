@@ -16,9 +16,9 @@ public interface ITalentService {
 
   List<TalentCardResponse> getAllTalentsWithBasicData();
 
-  TalentDto create(TalentRequest talentRequest);
+  Response create(TalentRequest talentRequest);
 
-  TalentDto updateTalent(Long talentId, TalentRequest talentRequest);
+  Response updateTalent(Long talentId, TalentRequest talentRequest);
 
   Response updateSocials(Long talentId, SocialRequest socialRequest);
 

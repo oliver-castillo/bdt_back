@@ -4,8 +4,8 @@ import com.app.bdt.service.IMasterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +19,7 @@ public class MasterController {
 
   private final IMasterService masterService;
 
-  @GetMapping("/{description}")
+  @PostMapping("/{description}")
   public ResponseEntity<Object> showData(@PathVariable(name = "description") String description) {
     List<?> result = new ArrayList<>();
     switch (description) {
@@ -50,12 +50,12 @@ public class MasterController {
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
-  @GetMapping("/country/{id}/cities")
+  @PostMapping("/country/{id}/cities")
   public ResponseEntity<Object> getCitiesByCountry(@PathVariable int id) {
     return new ResponseEntity<>(masterService.getCitiesByCountry(id), HttpStatus.OK);
   }
 
-  @GetMapping("/all_technical_skills")
+  @PostMapping("/all_technical_skills")
   public ResponseEntity<Object> getAllTechnicalSkills() {
     return new ResponseEntity<>(masterService.getAllTechnicalSkills(), HttpStatus.OK);
   }

@@ -24,7 +24,7 @@ public class UserController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  @GetMapping("/{username}")
+  @PostMapping("/{username}")
   public ResponseEntity<Object> getUserByUsername(@PathVariable String username) {
     return new ResponseEntity<>(userService.getUserByUsername(username), HttpStatus.OK);
   }
@@ -40,7 +40,7 @@ public class UserController {
     return new ResponseEntity<>(userService.saveTalentToList(userTalentListRequest), HttpStatus.OK);
   }
 
-  @GetMapping("/lists/{userId}")
+  @PostMapping("/lists/{userId}")
   public ResponseEntity<Object> getListsByUserId(@PathVariable Long userId) {
     return new ResponseEntity<>(userService.getListsByUserId(userId), HttpStatus.OK);
   }
